@@ -1,0 +1,16 @@
+  .title-bar{
+	      background-color: #2e95ff;
+  }
+  
+  body {
+    background-color: #ffffff;
+    color: #000;
+    font-family: Arial;
+}
+
+	.sitename{
+    text-align: center;
+    font-size: 35px;
+    color: #fff;
+    padding-bottom: 5px;
+}

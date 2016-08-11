@@ -1,0 +1,30 @@
+html, body {
+	height: 100%;
+	width: 100%;
+	font-family: Arial;
+}
+
+#wrapper, #header {
+	border: 0px !important;
+}
+
+#searchbar, #menu, .commentinvite, #postcomment, #commentwarning {
+	display: none !important;
+}
+
+.contentdate, .commentname, .contentpost, .commentdate, .commentcontent2, .commentnumber {
+	color: #000; !important;
+}
+
+.postcomment {
+float: none !important;
+color: #000;
+}
+
+a, h1, h2, h3, h4, h5, h6, p, .contenttitle {
+	color :#000 !important;
+}
+
+#at-share-dock {
+	display:none !important;
+}

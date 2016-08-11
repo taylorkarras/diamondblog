@@ -1,0 +1,49 @@
+#wrapper, #header, #footer {
+    width: 514px !important;
+}
+.at-share-dock-outer, #at-expanded-menu-host{
+    width: 514px !important;
+}
+
+#at-share-dock{
+	max-width: 514px !important;
+}
+
+#searchbar, .searchhint {
+	    max-width: 514px !important;
+}
+
+.logo {
+	height: 165px;
+}
+
+.logo img {
+	height: 90px !important;
+}
+
+#menu ul {
+    font-size: 14px !important;
+}
+
+#searchbar {
+    font-size: 45px !important;
+    height: 60px !important;
+}
+
+#menu li a {
+    margin-left: 33px !important;
+}
+
+.searchhint{
+	font-size: 25px !important;
+		top: 60px !important;
+}
+
+.contentpostscroll, ins{
+    width: 495px !important;
+}
+
+#blog {
+	    padding: 15px 0px 15px 15px !important;
+    width: 475px;
+}

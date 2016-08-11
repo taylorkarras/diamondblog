@@ -1,0 +1,87 @@
+
+#wrapper, #header, #footer {
+    width: 316px !important;
+}
+
+#searchbar, .searchhint {
+	    max-width: 316px !important;
+}
+
+#at-share-dock{
+	max-width: 316px !important;
+}
+
+.at-share-dock-outer, #at-expanded-menu-host{
+    width: 316px !important;
+}
+
+.logo {
+	height: 120px !important;
+}
+
+#header {
+	height: 155px !important;
+}
+
+.logo img {
+	height: 55px !important;
+}
+
+#menu ul {
+    font-size: 14px !important;
+}
+
+#searchbar {
+    font-size: 25px !important;
+    height: 40px !important;
+}
+
+#menu {
+}
+
+#menu li a {
+		overflow-y: scroll;
+    margin-left: 0 !important;
+}
+
+.searchhint{
+	font-size: 15px !important;
+}
+
+.contentpostscroll, ins{
+    width: 280px !important;
+}
+
+#blog {
+	    padding: 15px 0px 15px 15px !important;
+    width: 318px;
+}
+
+iframe {
+	width: 250px !important;
+	display: table !important;
+}
+
+img {
+	width: 250px !important
+}
+
+.contenttitle {
+    font-size: 35px !important;
+}
+
+.contentcomment {
+	font-size: 20px !important;
+}
+
+.contentdate {
+    font-size: 15px !important;
+}
+
+.contentpost {
+    font-size: 20px !important;
+}
+
+.contentpost {
+    font-size: 18px !important;
+}

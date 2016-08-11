@@ -1,0 +1,264 @@
+body {
+	font-family: "Arial";
+	margin: auto;
+}
+
+.autocomplete-suggestion {
+    background-color: #f3f3f3;
+    border: 1px solid #909090;
+    padding: 5px;
+}
+
+.autocomplete-selected {
+	background-color: #fffa55 !important;
+}
+
+.htmlcode {
+resize:vertical;
+    height: 262px;
+    width: 100%;
+}
+
+#welcome {
+	text-align: center;
+}
+
+#login {
+    text-align: center;
+    font-size: 35px;
+    line-height: 55px;
+    border: 2px solid black;
+    display: table;
+    margin: auto;
+    padding: 20px;
+}
+#login input {
+	font-size:30px;
+}
+
+.error {
+	background-color: #ffb8b8;
+    padding: 5px;
+    font-size: 25px;
+    border: 1px solid;
+	clear: both;
+    display: table;
+	margin: auto;
+    margin-top: 15px;
+}
+
+#menu {
+	height: 42px;
+    background-color: #000000;
+	font-size: 25px;
+	width: 100%;
+	position: fixed;
+    white-space: nowrap;
+}
+
+.menu2 {
+	margin-bottom: 15px;
+    position: relative;
+    top: 1px;
+}
+
+.menu2 ul{
+	text-align:center;
+	list-style: none outside none;
+    text-transform: uppercase;
+    line-height: 0px !important;
+    margin: auto;
+    overflow: hidden;
+    padding-top: 20px;
+    padding-bottom: 21px;
+}
+.menu2 ul a{
+	text-decoration: none;
+	color: #fff;
+	font-weight: bold;
+	border: 7px solid transparent;
+}
+
+.menu2 ul a:hover{
+	background-color: #696969;
+	    border: 7px solid #696969;
+}
+
+.menu2 li {
+	    display: inline-block;
+		    margin-right: 20px;
+}
+
+#page {
+    padding: 20px;
+    font-size: 35px;
+    width: 728px;
+    margin: auto;
+    padding-top: 60px;
+}
+
+.center {
+	text-align: center;
+}
+
+.createnewpost {
+    background-color: #c7c7c7;
+    color: #000;
+    border: 1px solid;
+    display: table;
+    margin: auto;
+    padding: 10px;
+    margin-top: 25px;
+	margin-bottom: 25px;
+}
+
+.nounderline{
+text-decoration: none;
+}
+
+.postbox {
+	margin-top: 15px;
+    background-color: #efeeea;
+    padding: 10px;
+}
+
+.postnumber {
+    float: left;
+    padding-right: 15px;
+}
+
+.postinfobox {
+	    margin-left: 30px;
+}
+
+.posttitle{
+	    font-size: 25px;
+    font-weight: bold;
+}
+
+.postdate{
+	    font-size: 15px;
+}
+
+.postcategory, .posttags {
+    font-size: 17px;
+    margin: 5px;
+}
+
+.postoptions {
+    float: right;
+    font-size: 18px;
+}
+
+#post, #banadd, #editcomment, #edituser, #createuser, #sitesettings, #themeselection, #storagesettings, #page{
+	font-size: 25px;
+    text-align: left;
+}
+
+#post input, #banadd input, #editcomment input, #edituser input, #createuser input ,#sitesettings input ,#storagesettings input, #categoryedit1 input, #categoryedit2 input, #page input{
+    font-size: 20px;
+    width: 100%;
+}
+
+#post select, #banadd select, #editcomment select, #edituser select, #createuser select, #sitesettings select, #storagesettings select, #categoryedit1 select, #categoryedit2 select, #page select{
+    width: 25%;
+    font-size: 20px;
+}
+
+#categoryedit1, #categoryedit2{
+	text-align: center;
+}
+
+#themeselection select
+{
+    width: 100%;
+    font-size: 20px;
+}
+
+.smalltext {
+    font-size: 17px;
+    margin-top: 10px;
+}
+
+.postsubmit
+	{
+    width: 475px !important;
+    margin: auto;
+    display: table;
+    height: 45px;
+	}
+	
+.sitescrolling {
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.sitescrolling input{
+	width: 15px !important;
+}
+
+.pagination {
+	margin: 15px auto;
+    display: table;
+}
+
+.pagination span, .pagination a{
+    margin: 3px;
+    border: 2px solid black;
+    padding: 5px;
+}
+
+#searchbar {
+	width: 100%;
+    height: 40px;
+    border: 1px solid #cecece;
+    font-size: 30px;
+    padding-left: 5px;
+}
+
+.searchhint {
+	display:none;
+	background-color: #e2e2e2;
+    margin: 0px;
+    padding: 10px;
+    border: 1px solid #afa8a8;
+    width: 776px;
+}
+
+#searchbar:focus + .searchhint {
+	display:block;
+	position:fixed;
+}
+
+.successmessage {
+    position: fixed;
+    left: 48%;
+    right: 54%;
+    text-align: center;
+    top: 50px;
+    background-color: rgb(74, 253, 0);
+    display: table;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: 1px solid black;
+}
+
+#logo, #icon {
+	    display: inline-block;
+width: 49.5%;
+    float: left;
+}
+
+#logo img, #icon img {
+    height: 60px;
+    margin: auto;
+    display: table;
+    margin-top: 10px;
+}
+
+.cssedit {
+    margin: 0px;
+    height: 430px;
+    width: 95%;
+	resize:vertical;
+}
