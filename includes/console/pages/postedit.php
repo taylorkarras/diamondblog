@@ -89,10 +89,9 @@ if (!empty($_GET["draftid"])){
 	echo '<input type="hidden" name="draftidtoedit" value="'.$_GET["draftid"].'"';
 }
 echo '<br /><br /><input class="postsubmit" name="postsubmit" type="submit" value="Submit"></form>';
-	if (empty($_GET["draftid"])){
+	if (empty($_GET["postid"]) or !empty($_GET["draftid"])){
 echo '<br /><button class="postsubmit" onClick="savedraft()">Save Draft</button>';
 	}
-echo '</form><br /><button class="postsubmit" onClick="savedraft()">Save Draft</button>';
 echo '</div>';
 echo '<script>
     $("#posttags").autocomplete({
