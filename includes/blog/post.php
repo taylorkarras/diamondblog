@@ -132,9 +132,7 @@ $userinfo4 = $userinfo3->fetch_assoc();
 ]
 });
 </script>";
-	echo '<input name="commentip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">
-	<div class="g-recaptcha" data-sitekey="6LeNpiYTAAAAAMyOT392U3pm6utDTUWvsYaUIV2E"></div>
-	<br /><br /><input name="commentsubmit" type="submit" value="Post comment"/>
+	<input name="commentsubmit" type="submit" value="Post comment"/>
 	</form>';
 	echo '<div id="commentwarning">'.$template['comment_notification_message'].'</div>';
 	}
