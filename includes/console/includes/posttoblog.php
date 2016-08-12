@@ -106,7 +106,7 @@ unset($_SESSION["errors"]);
 			$GLOBALS['category'] = $_POST['category'];
 			$shortlink = $global->generate_code(10);
 			$GLOBALS['shortlink'] = $shortlink;
-			$global->sqlquery("INSERT INTO `dd_content` (`content_id`, `content_link`, `content_embedcode`, `content_description`, `content_summary`, `content_title`, `content_category`, `content_tags`, `content_permalink`, `content_shortlink`, `content_date`, `content_author`) VALUES (NULL, '".$postmedialink."', '".$embedlink."', '".$postcontent."', '".$postsummary."', '".$posttitle."', '".$_POST['category']."', '".$posttags."', '".$permalink2."', '".$shortlink."', NOW(), '".$_COOKIE['userID']."')");
+			$global->sqlquery("INSERT INTO `dd_content` (`content_id`, `content_link`, `content_embedcode`, `content_description`, `content_summary`, `content_title`, `content_category`, `content_tags`, `content_permalink`, `content_shortlink`, `content_date`, `content_author`) VALUES (NULL, '".$postmedialink."', '".$embedlink."', '".$postcontent."', '".$postsummary."', '".$posttitle."', '".$_POST['category']."', '".$_POST['tags']."', '".$permalink2."', '".$shortlink."', NOW(), '".$_COOKIE['userID']."')");
 			
 		if (str_word_count($_POST['tags']) == '1'){
 		$global->sqlquery("INSERT INTO `dd_tags` (`tag_number`, `tag_name`) VALUES (NULL, '".$_POST['tags']."')");
