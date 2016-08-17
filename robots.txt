@@ -1,4 +1,2 @@
 User-agent: *
 Disallow: /console/
-
-Sitemap: http://vapourban.com/sitemap
