@@ -34,7 +34,11 @@ if ($result->num_rows > 0) {
 		// Post
 		echo '<div class="contentpost">'; echo $row['content_embedcode'];
 		echo '<br />';
-		echo $row['content_summary']; echo '</div>';
+		echo $row['content_summary'];
+                if (strpos($row['content_summary'], "...")){
+                echo '<p><a class="readmore" href="'.$row['content_permalink'].'" title="';echo $row['content_title']; echo '" alt="';echo $row['content_title']; echo '">(read more)</a></p>';
+                }
+                echo '</div>';
 		echo '<div class="contentcategory"></div>';
 		echo '<div style="margin-bottom: 25px;"></div>';
     }
