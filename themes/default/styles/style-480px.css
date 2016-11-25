@@ -85,3 +85,7 @@ img {
 .contentpost {
     font-size: 18px !important;
 }
+
+#commentreplies {
+margin-right: -5px !important;
+}
