@@ -6,14 +6,13 @@ $retrive = new DB_retrival;
 $url = urldecode($_GET['query']);
 $urlstripped1 = preg_replace('/[^ ]*:"[^"]+"/', '', $url);
 $urlstripped2 = preg_replace('/[^ ]*:\S+/im', '', $urlstripped1);
-$urlstripped3 = 
 $urlexploded = str_getcsv($urlstripped2, ", ", '"');
   if(empty($url)){
 echo consolemenu();
 echo "<div id='page'>";
 echo "<div class='center'>There are "; echo $retrive->numberofusers(); echo " users on this blog including admins, contributors and mods.</div>
 <a class='nounderline' href='/console/users/new' alt='Create New User' title='Create New User'><div class='createnewpost'>Create New User</div></a>";
-echo dbsearchbar();
+echo dbsearchbar('shdisabled');
 echo '<h1 style="display:table; margin:0;">No search terms entered, please enter search terms above.</h1>';
 $haserror = true;
   }
@@ -25,7 +24,7 @@ echo consolemenu();
 echo "<div id='page'>";
 echo "<div class='center'>There are "; echo $retrive->numberofusers(); echo " users on this blog including admins, contributors and mods.</div>
 <a class='nounderline' href='/console/users/new' alt='Create New User' title='Create New User'><div class='createnewpost'>Create New User</div></a>";
-echo dbsearchbar();
+echo dbsearchbar('shdisabled');
 	echo '<h1 style="display:table; margin:0;">No search terms entered, please enter search terms above.</h1>';
 	$haserror = true;
   } else {
@@ -43,29 +42,37 @@ $status = " AND user_ismod = '1' ";
   
   //Date
 if (preg_match('/^date:.*/', $url) or preg_match('/, date:.*/', $url)){
-preg_match_all ('/date:\S+/', $url, $date2);
+preg_match_all ('/date:.+/', $url, $date2);
 if(empty($date2[0])){
 echo consolemenu();
 echo "<div id='page'>";
 echo "<div class='center'>There are "; echo $retrive->numberofusers(); echo " users on this blog including admins, contributors and mods.</div>
 <a class='nounderline' href='/console/users/new' alt='Create New User' title='Create New User'><div class='createnewpost'>Create New User</div></a>";
-echo dbsearchbar();
+echo dbsearchbar('shdisabled');
 	echo '<h1 style="display:table; margin:0;">No search terms entered, please enter search terms above.</h1>';
 	$haserror = true;
   } else {
 $date3 = implode(':',$date2[0]);
 $replace = array('date:', ',');
 $date4 = str_replace($replace, '', $date3);
-if (!preg_match("/^(\d{2})\/(\d{2})\/(\d{4})$/", $date4)){
+if (preg_match("/^\d{4}$/", $date4)){
+        $date = " AND user_datejoined BETWEEN '".$date4."-01-01' AND '".$date4."-12-31'";
+} else if (preg_match('/^"[a-zA-Z0-9 ]+\d{4}"$/im', $date4)){
+	$date5 = str_replace('"', "", $date4);
+	$date6 = date('m/Y', strtotime($date5));
+	$date7 = explode('/', $date6);
+	$date = " AND user_datejoined BETWEEN '".$date7[1]."-".$date7[0]."-01' AND '".$date7[1]."-".$date7[0]."-31'";
+} else if (!preg_match("/^(\d{2})\/(\d{2})\/(\d{4})$/", $date4)){
 echo consolemenu();
 echo "<div id='page'>";
 echo "<div class='center'>There are "; echo $retrive->numberofusers(); echo " users on this blog including admins, contributors and mods.</div>
 <a class='nounderline' href='/console/users/new' alt='Create New User' title='Create New User'><div class='createnewpost'>Create New User</div></a>";
+echo dbsearchbar('shdisabled');
 	echo '<h1 style="display:table; margin:0;">Please enter the date in the MM/DD/YYYY format.</h1>';
 	$haserror = true;
 } else {
 	$date5 = explode('/', $date4);
-	$date = " AND user_datejoined = '".$date5[2].'/'.$date5[1].'/'.$date5[0]."%' ";
+	$date = " AND user_datejoined LIKE '%".$date5[2].'-'.$date5[0].'-'.$date5[1]."%' ";
 }
   }
 }
@@ -100,9 +107,6 @@ $postsperpage = $postsperpageinit->fetch_assoc();
 $ppp = $postsperpage['postsperpage'];
 
 $result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_users");
-$row2 = $result2->fetch_row(); 
-$total_records = $row2[0];
-$total_pages = ceil($total_records / $ppp);
 	if ($page == '1'){
 	$count = $page;
 	}
@@ -129,18 +133,20 @@ else {
 $results = $global->sqlquery($query);
 }
 $searchresultnumbers = $results->num_rows;
+$total_records = $searchresultnumbers[0];
+$total_pages = ceil($total_records / $ppp);
+if ($results->num_rows > 0) {
 echo consolemenu();
 echo "<div id='page'>";
 echo "<div class='center'>There are "; echo $retrive->numberofusers(); echo " users on this blog including admins, contributors and mods.</div>
 <a class='nounderline' href='/console/users/new' alt='Create New User' title='Create New User'><div class='createnewpost'>Create New User</div></a>";
-
 	if ($page == '1'){
 	$count = $page;
 	}
 	else {
 	$count = $page + $ppp - '1';
 	}
-echo dbsearchbar();
+echo dbsearchbar('shdisabled');
 echo '<div class="contentpostscroll">';
 if ($results->num_rows > 0) {
     // output data of each row
@@ -167,4 +173,12 @@ if ($results->num_rows > 0) {
 echo pagebar($page, $total_pages, $ppp, '5');
 		echo '</div>';
 echo "</div>";
-}
+} else {
+	echo consolemenu();
+echo "<div id='page'>";
+echo "<div class='center'>There are "; echo $retrive->numberofusers(); echo " users on this blog including admins, contributors and mods.</div>
+<a class='nounderline' href='/console/users/new' alt='Create New User' title='Create New User'><div class='createnewpost'>Create New User</div></a>";
+echo dbsearchbar('shdisabled');
+	echo '<h1>No search results found.</h1>';
+echo $newstring;
+} }
