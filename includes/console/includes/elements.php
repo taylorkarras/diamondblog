@@ -209,7 +209,7 @@ function dbsearchbar($searchhint = "shenabled")
 	$global = new DB_global;
 	
 	echo '<form method="get" id="search">';
-	echo '<input type="search" name="dbsearchbar" id="searchbar" placeholder="Search" value="'.$_GET['query'].'">';
+	echo "<input type='search' name='dbsearchbar' id='searchbar' placeholder='Search' value='".$_GET['query']."'>";
 	if ($searchhint == 'shenabled'){
 	echo "<div class='searchhint'>This searchbar can also search for specific describers as well as words... Here's a couple you can try.
 	<br />
