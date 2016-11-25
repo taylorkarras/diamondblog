@@ -1,24 +1,30 @@
-#wrapper, #header, #footer {
-    width: 514px !important;
-}
-.at-share-dock-outer, #at-expanded-menu-host{
-    width: 514px !important;
-}
 
-#at-share-dock{
-	max-width: 514px !important;
+#wrapper, #header, #footer {
+    width: 316px !important;
 }
 
 #searchbar, .searchhint {
-	    max-width: 514px !important;
+	    max-width: 316px !important;
+}
+
+#at-share-dock{
+	max-width: 316px !important;
+}
+
+.at-share-dock-outer, #at-expanded-menu-host{
+    width: 316px !important;
 }
 
 .logo {
-	height: 165px;
+	height: 120px !important;
+}
+
+#header {
+	height: 155px !important;
 }
 
 .logo img {
-	height: 90px !important;
+	height: 55px !important;
 }
 
 #menu ul {
@@ -26,28 +32,60 @@
 }
 
 #searchbar {
-    font-size: 45px !important;
-    height: 60px !important;
+    font-size: 25px !important;
+    height: 40px !important;
+}
+
+#menu {
 }
 
 #menu li a {
-    margin-left: 33px !important;
+		overflow-y: scroll;
+    margin-left: 0 !important;
 }
 
 .searchhint{
-	font-size: 25px !important;
-		top: 60px !important;
+	font-size: 15px !important;
 }
 
 .contentpostscroll, ins{
-    width: 495px !important;
+    width: 280px !important;
 }
 
 #blog {
 	    padding: 15px 0px 15px 15px !important;
-    width: 475px;
+    width: 318px;
+}
+
+iframe {
+	width: 250px !important;
+	display: table !important;
+}
+
+img {
+	width: 250px !important
+}
+
+.contenttitle {
+    font-size: 35px !important;
+}
+
+.contentcomment {
+	font-size: 20px !important;
+}
+
+.contentdate {
+    font-size: 15px !important;
+}
+
+.contentpost {
+    font-size: 20px !important;
+}
+
+.contentpost {
+    font-size: 18px !important;
 }
 
 #commentreplies {
-    margin-right: 12px !important;
+margin-right: -5px !important;
 }
