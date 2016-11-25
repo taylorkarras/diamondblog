@@ -19,7 +19,8 @@ $ppp = $ss2['postsperpage'];
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
 $start_from = ($page-1) * $ppp; 
 
-$result = $global->sqlquery("SELECT * FROM dd_content ORDER BY content_id DESC LIMIT $start_from, $ppp;;");
+$result = $global->sqlquery("SELECT * FROM dd_content WHERE content_pinned = '0' ORDER BY content_id DESC LIMIT $start_from, $ppp;");
+$resultpinned = $global->sqlquery("SELECT * FROM dd_content WHERE content_pinned = '1' OR content_pinned = '2' ORDER BY content_pinned ASC;");
 $result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_content");
 $row2 = $result2->fetch_row(); 
 $total_records = $row2[0];
@@ -31,6 +32,43 @@ $total_pages = ceil($total_records / $ppp);
 	$count = $page + $ppp - '1';
 	}
 echo dbsearchbar();
+if ($result->num_rows > 0) {
+    // output data of each row
+echo '<div id="pinned">';
+echo '<h2>Pinned</h2>';
+$countpinned = '1';
+    while($row = $resultpinned->fetch_assoc()) {
+        echo '<div class="postbox">';
+        echo '<div class="postoptions">';
+if ($retrive->restrictpermissionlevel('2')){
+} else {
+$pin1 = $global->sqlquery("SELECT content_pinned FROM dd_content WHERE content_id = '".$row['content_id']."'");
+$pin2 = $pin1->fetch_assoc();
+if ($pin2['content_pinned'] == '0') {
+$pin3 = '<a href="/console/posts/pin?postid='.$row['content_id'].'" title="Pin" alt="Pin">Pin</a> | ';
+} else {
+$pin3 = '<a href="/console/posts/unpin?postid='.$row['content_id'].'" title="Unpin" alt="Unpin">Unpin</a> | ';
+}
+echo '<a href="/console/posts/delete?postid='.$row['content_id'].'" title="Delete" alt="Delete">Delete</a> | <a href="/console/posts/edit?postid='.$row['content_id'].'" title="Edit" alt="Edit">Edit</a> | '.$pin3;}
+echo '<a href="/console/posts/comments?postid='.$row['content_id'].'"  title="Comments" alt="Comments">Comments (';echo retrieve_comment_count($row['content_id']); echo')'; echo'</a>';
+        echo '</div>';
+        echo '<div class="postnumber">';
+        echo $countpinned;
+        echo '</div>';
+        echo '<div class="postinfobox">';
+        echo '<div class="posttitle">';
+        echo '<a href="/'.$row['content_permalink'].'" alt="View post '.$countpinned.'", title="View post '.$count.'">'.$row['content_title'].'</a>';
+        echo '</div>';
+        echo '<div class="postdate">Posted on '.$row['content_date'].' by '.$retrive->realname($row['content_author']).'</div>';
+        echo '<div class="postcategory">Category: '.$row['content_category'].'</div>';
+        echo '<div class="posttags">Tags: '.$row['content_tags'].'</div>';
+        echo '</div>';
+        echo '</div>';
+        $countpinned++;
+        }
+}
+echo '</div>';
+
 echo '<div class="contentpostscroll">';
 if ($result->num_rows > 0) {
     // output data of each row
@@ -39,7 +77,14 @@ if ($result->num_rows > 0) {
 	echo '<div class="postoptions">';
 if ($retrive->restrictpermissionlevel('2')){
 } else {
-echo '<a href="/console/posts/delete?postid='.$row['content_id'].'" title="Delete" alt="Delete">Delete</a> | <a href="/console/posts/edit?postid='.$row['content_id'].'" title="Edit" alt="Edit">Edit</a> | ';}
+$pin1 = $global->sqlquery("SELECT content_pinned FROM dd_content WHERE content_id = '".$row['content_id']."'");
+$pin2 = $pin1->fetch_assoc(); 
+if ($pin2['content_pinned'] == '0') {
+$pin3 = '<a href="/console/posts/pin?postid='.$row['content_id'].'" title="Pin" alt="Pin">Pin</a> | ';
+} else {
+$pin3 = '<a href="/console/posts/unpin?postid='.$row['content_id'].'" title="Unpin" alt="Unpin">Unpin</a> | ';
+}
+echo '<a href="/console/posts/delete?postid='.$row['content_id'].'" title="Delete" alt="Delete">Delete</a> | <a href="/console/posts/edit?postid='.$row['content_id'].'" title="Edit" alt="Edit">Edit</a> | '.$pin3;}
 echo '<a href="/console/posts/comments?postid='.$row['content_id'].'"  title="Comments" alt="Comments">Comments (';echo retrieve_comment_count($row['content_id']); echo')'; echo'</a>';
 	echo '</div>';
 	echo '<div class="postnumber">';
@@ -49,7 +94,7 @@ echo '<a href="/console/posts/comments?postid='.$row['content_id'].'"  title="Co
 	echo '<div class="posttitle">';
 	echo '<a href="/'.$row['content_permalink'].'" alt="View post '.$count.'", title="View post '.$count.'">'.$row['content_title'].'</a>';
 	echo '</div>';
-	echo '<div class="postdate">Posted on '.$row['content_date'].'.</div>';
+	echo '<div class="postdate">Posted on '.$row['content_date'].' by '.$retrive->realname($row['content_author']).'</div>';
 	echo '<div class="postcategory">Category: '.$row['content_category'].'</div>';
 	echo '<div class="posttags">Tags: '.$row['content_tags'].'</div>';
 	echo '</div>';
