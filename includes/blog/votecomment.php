@@ -23,7 +23,7 @@ if ($_GET["vote"] == "positive" && $positivevoteinit['cvote_positive'] == '0' &&
 
 else if ($_GET["vote"] == "positive" && $positivevoteinit['cvote_positive'] == '1' && $positivevoteinit['cvote_negative'] == '0' && $voteip > 0) {
 	
-	$global->sqlquery("UPDATE `dd_votes` SET `cvote_voted` = '1', `cvote_positive` = '0', `cvote_negative` = '1' WHERE `cvote_ip` = '".$IP."' AND `cvote_commentid` = '".$totalvotesinit['comment_id']."';");
+	$global->sqlquery("DELETE FROM `dd_votes` WHERE `cvote_ip` = '".$IP."' AND `cvote_commentid` = '".$totalvotesinit['comment_id']."';");
 	
 }
 		
@@ -38,9 +38,9 @@ if ($_GET["vote"] == "negative" && $positivevoteinit['cvote_positive'] == '1' &&
 	
 }
 
-else if ($_GET["vote"] == "positive" && $positivevoteinit['cvote_positive'] == '0' && $positivevoteinit['cvote_negative'] == '1' && $voteip > 0) {
+else if ($_GET["vote"] == "negative" && $positivevoteinit['cvote_positive'] == '0' && $positivevoteinit['cvote_negative'] == '1' && $voteip > 0) {
 	
-	$global->sqlquery("UPDATE `dd_votes` SET `cvote_voted` = '1', `cvote_positive` = '1', `cvote_negative` = '0' WHERE `cvote_ip` = '".$IP."' AND `cvote_commentid` = '".$totalvotesinit['comment_id']."';");
+	$global->sqlquery("DELETE FROM `dd_votes` WHERE `cvote_ip` = '".$IP."' AND `cvote_commentid` = '".$totalvotesinit['comment_id']."';");
 
 }
 		
