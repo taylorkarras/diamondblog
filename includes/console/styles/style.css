@@ -54,6 +54,7 @@ resize:vertical;
 	width: 100%;
 	position: fixed;
     white-space: nowrap;
+	z-index: 2;
 }
 
 .menu2 {
@@ -214,6 +215,9 @@ text-decoration: none;
     border: 1px solid #cecece;
     font-size: 30px;
     padding-left: 5px;
+        appearance:none;
+-moz-appearance:none; /* Firefox */
+-webkit-appearance:none; /* Safari and Chrome */
 }
 
 .searchhint {
@@ -222,12 +226,12 @@ text-decoration: none;
     margin: 0px;
     padding: 10px;
     border: 1px solid #afa8a8;
-    width: 776px;
+    max-width: 706px;
 }
 
 #searchbar:focus + .searchhint {
 	display:block;
-	position:fixed;
+	position:absolute;
 }
 
 .successmessage {
@@ -262,3 +266,29 @@ width: 49.5%;
     width: 95%;
 	resize:vertical;
 }
+
+#postcommentreplies {
+    float: right;
+    width: 94%;
+}
+
+#postcommentreplies h2 {
+	font-size: 25px;
+}
+
+#pinned {
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #cacaca;
+}
+
+#pinned h2 {
+    margin: auto;
+    text-align: center;
+    font-size: 30px;
+}
+
+#pinned .postbox {
+background-color: #e6e6e6;
+} 
