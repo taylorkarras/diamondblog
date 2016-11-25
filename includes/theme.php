@@ -38,13 +38,11 @@ echo '<meta name="viewport" content="width=device-width, initial-scale=1.0, maxi
 echo'<script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/jquery-2.2.3.min.js"></script>
 <script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/ckeditor/ckeditor.js"></script>
 <script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/ckeditor/adapters/jquery.js"></script>
-<script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/jquery.history.js"></script>
 <script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/jquery.jscroll.min.js"></script>
 <script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/jquery.mousewheel.min.js"></script>
 <script>
     var CKEDITOR_BASEPATH = "/scripts/ckeditor/";
 </script>';
-navigation();
 echo '
 <link rel="apple-touch-icon" sizes="57x57" href="images/favicon-57px.png">
 <link rel="apple-touch-icon" sizes="76x76" href="images/favicon-76px.png">
@@ -83,10 +81,12 @@ $global = new DB_global;
 $navigationinit = $global->sqlquery("SELECT navigation_select FROM dd_settings LIMIT 1;");
 $navigation = $navigationinit->fetch_assoc();
 if ($navigation['navigation_select']){
-echo "<script>$('#blog').jscroll({
+echo "<script>
+$('#blog').jscroll({
     nextSelector: 'a.dbnext:last',
     contentSelector: '.contentpostscroll'
-})</script>";
+})
+</script>";
 }
 }
 
@@ -125,8 +125,8 @@ function dbsearchbar()
 $titleinit = $global->sqlquery("SELECT site_name FROM dd_settings LIMIT 1;");
 $title = $titleinit->fetch_assoc();
 	
-	echo '<form method="get" id="search">';
-	echo '<input type="search" name="dbsearchbar" id="searchbar" placeholder="Search '.$title['site_name'].'" value="'.$_GET['query'].'">';
+	echo '<form method="post" id="search">';
+	echo "<input type='search' name='dbsearchbar' id='searchbar' placeholder='Search ".$title['site_name']."' value='".$_GET['query']."'>";
 	echo "<div class='searchhint'>This searchbar can also search for specific describers as well as words... Here's a couple you can try.
 	<br />
 	<br />
@@ -188,11 +188,11 @@ $ifnavenabled = $ifnavenabled2->fetch_assoc();
 	*/
 	$pagination = "";
 	if ($ifnavenabled['navigation_select'] == '1'){
-		$display = 'style="display:none;"';
+		$display = 'style="display:none"';
 	}
 	if($lastpage > 1)
 	{	
-		$pagination .= "<div style=".$display." class=\"pagination\"";
+		$pagination .= "<div $display class=\"pagination\"";
 		if($margin || $padding)
 		{
 			$pagination .= " style=\"";
