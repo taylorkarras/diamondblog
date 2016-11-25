@@ -1,30 +1,24 @@
-
 #wrapper, #header, #footer {
-    width: 316px !important;
+    width: 514px !important;
 }
-
-#searchbar, .searchhint {
-	    max-width: 316px !important;
+.at-share-dock-outer, #at-expanded-menu-host{
+    width: 514px !important;
 }
 
 #at-share-dock{
-	max-width: 316px !important;
+	max-width: 514px !important;
 }
 
-.at-share-dock-outer, #at-expanded-menu-host{
-    width: 316px !important;
+#searchbar, .searchhint {
+	    max-width: 514px !important;
 }
 
 .logo {
-	height: 120px !important;
-}
-
-#header {
-	height: 155px !important;
+	height: 165px;
 }
 
 .logo img {
-	height: 55px !important;
+	height: 90px !important;
 }
 
 #menu ul {
@@ -32,60 +26,28 @@
 }
 
 #searchbar {
-    font-size: 25px !important;
-    height: 40px !important;
-}
-
-#menu {
+    font-size: 45px !important;
+    height: 60px !important;
 }
 
 #menu li a {
-		overflow-y: scroll;
-    margin-left: 0 !important;
+    margin-left: 33px !important;
 }
 
 .searchhint{
-	font-size: 15px !important;
+	font-size: 25px !important;
+		top: 60px !important;
 }
 
 .contentpostscroll, ins{
-    width: 280px !important;
+    width: 495px !important;
 }
 
 #blog {
 	    padding: 15px 0px 15px 15px !important;
-    width: 318px;
-}
-
-iframe {
-	width: 250px !important;
-	display: table !important;
-}
-
-img {
-	width: 250px !important
-}
-
-.contenttitle {
-    font-size: 35px !important;
-}
-
-.contentcomment {
-	font-size: 20px !important;
-}
-
-.contentdate {
-    font-size: 15px !important;
-}
-
-.contentpost {
-    font-size: 20px !important;
-}
-
-.contentpost {
-    font-size: 18px !important;
+    width: 475px;
 }
 
 #commentreplies {
-margin-right: -5px !important;
+    margin-right: 12px !important;
 }
