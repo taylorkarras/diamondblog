@@ -13,7 +13,7 @@ Thank you for chosing DiamondBlog, off all the blog CMSes you could chose, we ar
 <br \\><li><b>No clutter.</b> Do not clutter up your website with a sidebar, get your content from one single page without all the clutter.</li>
 <li><b>Ultimate design.</b> Design the blog the way you want it to be with extensive theming endpoints and extensive design language.</li>
 <li><b>Ultimate speed.</b> Don\'t be bound by something that pretends to be a CMS or does too much for what you need, get the speed you need; even on a 96MB RAM server.</li>
-<li><b>Future-proof.</b> RSS 2.0, Accelerated Mobile Project, Auto Scrolling, HTML5 History API; whatever you need, it\'s all here.</li>
+<li><b>Future-proof.</b> RSS 2.0, Accelerated Mobile Project, Auto Scrolling; whatever you need, it\'s all here.</li>
 <li><b>Need we say more?</b></li>
 
 <br \\>Finish this quick instalation process to get started.
