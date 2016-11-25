@@ -35,8 +35,6 @@ $ppp = $postsperpage['postsperpage'];
 
 $result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_banlist");
 $row2 = $result2->fetch_row(); 
-$total_records = $row2[0];
-$total_pages = ceil($total_records / $ppp);
 	if ($page == '1'){
 	$count = $page;
 	}
@@ -48,9 +46,14 @@ $total_pages = ceil($total_records / $ppp);
 $start_from = ($page-1) * $ppp; 
 	
 $query = "SELECT * FROM dd_banlist WHERE banlist_name LIKE ('%".$url."%') OR banlist_email LIKE ('%".$url."%') OR banlist_ip LIKE ('%".$url."%') ORDER BY banlist_no DESC LIMIT $start_from, $ppp;";
+$query2 = "SELECT COUNT(*) FROM dd_banlist WHERE banlist_name LIKE ('%".$url."%') OR banlist_email LIKE ('%".$url."%') OR banlist_ip LIKE ('%".$url."%')";
 
 $results = $global->sqlquery($query);
-$searchresultnumbers = $results->num_rows;
+$results2 = $global->sqlquery($query2);
+$searchresultnumbers = $results2->fetch_row();
+$total_records = $searchresultnumbers[0];
+$total_pages = ceil($total_records / $ppp);
+
 echo consolemenu();
 echo '<div id="page"><div class="center">Add Ban</div>';
 echo '<form id="banadd" method="post">
