@@ -98,7 +98,8 @@ if ($emailcheck2['page_contactform'] == '1') {
 	<br><br><label name="emailmessage">Message:</label>
 	<br><textarea id="message" name="emailmessage"></textarea>
 	<input name="emailip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">
-	<br><input type="reset" value="Reset"><input name="emailsubmit" type="submit" value="Submit">';
+			<div class="g-recaptcha" data-sitekey="6LeNpiYTAAAAAMyOT392U3pm6utDTUWvsYaUIV2E"></div>
+	<br /><input type="reset" value="Reset"><input name="emailsubmit" type="submit" value="Submit">';
 		echo "<script>    CKEDITOR.replace( 'message', {
     toolbar: [
     { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', '-', 'Undo', 'Redo' ] },
@@ -189,4 +190,16 @@ if ($usercontact['contact_users_on'] == '1'){
 	return true;
 }
 }
+
+public function ifcommentsclosed($postid)
+{
+	$global = new DB_global;
+		$commentsclosedinit = $global->sqlquery("SELECT content_commentsclosed FROM dd_content WHERE content_id = '".$postid."' LIMIT 1;");
+	$commentsclosed = $commentsclosedinit->fetch_assoc();
+	
+if ($commentsclosed['content_commentsclosed'] == '1'){
+	return true;
+}
+}
+
 }
