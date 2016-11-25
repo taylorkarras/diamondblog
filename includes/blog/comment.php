@@ -26,6 +26,8 @@ if (isset($_POST)){
 	} else {
 		$commentcontent = $_POST['commentcontent'];
 	}
+	
+pluginClass::hook( "captcha" );
 
 		if(isset($hasError)){
 		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
@@ -54,8 +56,15 @@ if (isset($_POST)){
 		$userid = $_COOKIE['userID'];
 	}
 	
-	$comment_id = $global->sqllastid("INSERT INTO `dd_comments` (`comment_id`, `comment_postid`, `comment_username`, `comment_email`, `comment_date`, `comment_content`, `comment_ip`, `comment_reported`, `comment_isfromadmin`, `comment_isfromcontributor`, `comment_userid`) VALUES (NULL, '".$comment_post_id."', '".$commentname."', '".$commentemail."', CURRENT_TIMESTAMP, '".$commentcontent."', '".$_POST[commentip]."', '', ".$commentstatus." '".$userid."')");
+	if ($_POST['commentreply'] !== '0' & $_POST['commentreplyto'] !== '0'){
 	
+	$comment_id = $global->sqllastid("INSERT INTO `dd_comments` (`comment_id`, `comment_postid`, `comment_isreply`, `comment_replyto`, `comment_username`, `comment_email`, `comment_date`, `comment_content`, `comment_ip`, `comment_reported`, `comment_isfromadmin`, `comment_isfromcontributor`, `comment_userid`) VALUES (NULL, '".$comment_post_id."', '".$_POST['commentreply']."', '".$_POST['commentreplyto']."', '".$commentname."', '".$commentemail."', CURRENT_TIMESTAMP, '".$commentcontent."', '".$_POST[commentip]."', '', ".$commentstatus." '".$userid."')");
+	
+	} else {
+		
+	$comment_id = $global->sqllastid("INSERT INTO `dd_comments` (`comment_id`, `comment_postid`, `comment_isreply`, `comment_replyto`, `comment_username`, `comment_email`, `comment_date`, `comment_content`, `comment_ip`, `comment_reported`, `comment_isfromadmin`, `comment_isfromcontributor`, `comment_userid`) VALUES (NULL, '".$comment_post_id."', '0', '0', '".$commentname."', '".$commentemail."', CURRENT_TIMESTAMP, '".$commentcontent."', '".$_POST[commentip]."', '', ".$commentstatus." '".$userid."')");
+		
+	}
 	if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
 	   $_SESSION['resp']['formrefresh'] = true;
        echo json_encode($_SESSION['resp']);
