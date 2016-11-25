@@ -43,11 +43,9 @@ echo '<form id="edituser" method="post">
 <br /><input type="text" name="userrealname" value="'.$edituser2['user_realname'].'">
 <br /><br /><label title="userlocation"><b>User location:</b></label>
 <br /><input type="text" name="userlocation" value="'.$edituser2['user_location'].'">';
-if ($_COOKIE['userID'] == $_GET['userid']){
 define ('POSTPEND', 'Edit User: '.$retrive->realname($_GET['userid']));
 echo '<br /><br /><label title="useremail"><b>Your email:</b></label>
 <br /><input type="text" name="useremail" value="'.$edituser2['user_email'].'">';
-}
 echo '<br /><br /><label title="userdescription"><b>Describe yourself:</b></label>
 <br /><textarea  class="ckeditor" name="userdescription">'.$edituser2['user_description'].'</textarea>';
 if ($edituser4['subtext_on'] == '1'){
