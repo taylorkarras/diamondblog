@@ -499,6 +499,30 @@ $templates = new League\Plates\Engine();
 $templates->addFolder('consoleincludes', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/includes');
     return $templates->render('consoleincludes::themecsssubmit');;
 });
+
+$router->get('/console/posts/pin', function(){
+$templates = new League\Plates\Engine();
+$templates->addFolder('consoleincludes', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/includes');
+    return $templates->render('consoleincludes::pin');;
+});
+
+$router->get('/console/posts/unpin', function(){
+$templates = new League\Plates\Engine();
+$templates->addFolder('consoleincludes', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/includes');
+    return $templates->render('consoleincludes::pin');;
+});
+
+$router->get('/console/posts/comments/close', function(){
+$templates = new League\Plates\Engine();
+$templates->addFolder('consoleincludes', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/includes');
+    return $templates->render('consoleincludes::commentsstatus');;
+});
+
+$router->get('/console/posts/comments/open', function(){
+$templates = new League\Plates\Engine();
+$templates->addFolder('consoleincludes', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/includes');
+    return $templates->render('consoleincludes::commentsstatus');;
+});
 // Lazy load autoloaded route handling classes using strings for classnames
 // Calls the Controllers\User::displayUser($id) method with {id} parameter as an argument
 //$router->any('/users/{id}', function(){;
