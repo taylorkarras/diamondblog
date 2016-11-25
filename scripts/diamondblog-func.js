@@ -1,53 +1,3 @@
-window.onload=function(){	
-    // Prepare
-    var History = window.History; // Note: We are using a capital H instead of a lower h
-    if ( !History.enabled ) {
-         // History.js is disabled for this browser.
-         // This is because we can optionally choose to support HTML4 browsers or not.
-		return false;
-    }
-
-    // Bind to StateChange Event
-    History.Adapter.bind(window,'statechange',function() { // Note: We are using statechange instead of popstate    
-    var State = History.getState();
-        		$.ajax({
-		url: State.url,
-		beforeSend: function(xhr){
-		xhr.setRequestHeader('x-requested-with', '');xhr.overrideMimeType("text/html; charset=UTF-8");
-	}
-		})
-		  .done(function( data ) {	  
-    //$('#page').html($(data).filter('#page').html());
-        // Instead of the line above, you could run the code below if the url returns the whole page instead of just the content (assuming it has a `#content`):
-        $.get(State.url, function(data) {
-            $('#blog').html($(data).find('#blog').html()); });
-        });
-	});
-		
-    // Capture all the links to push their url to the history stack and trigger the StateChange Event
-    $('body').on('click', 'a', function(evt) {
-        evt.preventDefault();
-		var url = $(this).attr('href');
-		var urlwithouthash = $(this).attr('href').split('#')[0];
-		var hash = $(this).attr('href').substring(url.indexOf('#'));
-		$.ajax({
-      url: url,
-	  async: true,
-	  beforeSend: function(xhr){
-		xhr.setRequestHeader('x-requested-with', '');xhr.overrideMimeType("text/html; charset=UTF-8");
-	  },
-      success: function(data) {
-        var title = $(data).filter('title').text();
-    History.pushState(null, title, urlwithouthash);
-	if(hash.indexOf('#') > -1)
-{
-	window.location.href = hash;
-}
-      }
-});
-        //History.pushState(null, null, $(this).attr('href'));
-    });
-
 $('#menu > ul').mousewheel(function(event, delta) {
 	event.preventDefault();
 	this.scrollLeft -= (delta * 50);
@@ -147,9 +97,8 @@ for(var i in CKEDITOR.instances) {
 				  div_id.html(resp.message);
 			  } else if (resp.search === true) {
                   	//successful validation
-					var title = $(data).filter('title').text();
 					var url = "/search?" + form_id.serialize().replace("dbsearchbar", "query");
-					History.pushState(null, title, url);
+					window.location.href = url;
 					event.preventDefault();
 			  } else {
                   $.each(resp, function(i, v) {
