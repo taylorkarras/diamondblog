@@ -77,9 +77,9 @@ $resultpost = $global->sqlquery("SELECT * FROM dd_content WHERE content_permalin
 		echo '" alt="'; echo $row['content_category']; echo '" title="'; echo $row['content_category']; echo'">'; echo $row['content_category']; echo '</div></a>';
 		// Tags
 		echo '<div class="contenttags">Tags: ';
-		$tags = explode (",", $row['content_tags']);
+		$tags = explode (", ", $row['content_tags']);
 		foreach ($tags as $tag) {
-			echo '<a href="/?tag=';
+			echo '<a href="/tag?name=';
 		$taglowcase = strtolower($tag);
 		echo str_replace(" ", "_", $taglowcase);
 		echo '" alt="'; echo $tag; echo '" title="'; echo $tag; echo'">'; echo $tag; echo '</a> ';
@@ -109,10 +109,25 @@ pluginClass::hook( "post_bottom" );
 				// Comments
 		echo '<div class="postcomment">Comments (';echo $check->retrieve_comment_count($row['content_id']); echo')'; echo'</div>';
     }
-	
+	$post_id = $global->sqlquery("SELECT content_id FROM dd_content WHERE content_permalink LIKE '$link'");
+	$post_id_init = $post_id->fetch_assoc();
+	$the_post_id = $post_id_init['content_id'];
+	if ($check->ifcommentsclosed($the_post_id)){
+	} else if ($check->ifbanned()){
+	} else {
 	echo '<h3 class="commentinvite">Leave a comment!</h3>';
+	}
 	echo '<div id="comments"></div>';
-	if ($check->isLoggedIn()){
+	if ($check->ifcommentsclosed($the_post_id)){
+	echo '<h3 class="commentinvite">Comments are closed.</h3><br />';
+	} else if ($check->ifbanned()){
+		echo '<div id="scommentbox">
+		You have been blocked from commenting and voting on comments.
+		<br />
+		<br /><b>Reason:</b> <I>'.BANREASON.'</i>
+		<br />
+		<br /><b>Ban will expire on</b> '.BANEXPIRATION.'</div>';
+	} else if ($check->isLoggedIn()){
 		
 $userinfo3 = $global->sqlquery("SELECT * FROM dd_users WHERE user_id = '".$_COOKIE['userID']."' LIMIT 1");
 $userinfo4 = $userinfo3->fetch_assoc();
@@ -132,18 +147,15 @@ $userinfo4 = $userinfo3->fetch_assoc();
 ]
 });
 </script>";
-	<input name="commentsubmit" type="submit" value="Post comment"/>
+	echo '<input name="commentreply" id="cr-v" type="hidden" value="0">';
+	echo '<input name="commentreplyto" id="crt-id" type="hidden" value="0">';
+	echo '<input name="commentip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">
+	<div class="g-recaptcha" data-sitekey="6LeNpiYTAAAAAMyOT392U3pm6utDTUWvsYaUIV2E"></div>
+	<br /><br /><input name="commentsubmit" type="submit" value="Post comment"/>
 	</form>';
 	echo '<div id="commentwarning">'.$template['comment_notification_message'].'</div>';
 	}
-	else if ($check->ifbanned()){
-		echo '<div id="scommentbox">
-		You have been blocked from commenting and voting on comments.
-		<br />
-		<br /><b>Reason:</b> <I>'.BANREASON.'</i>
-		<br />
-		<br /><b>Ban will expire on</b> '.BANEXPIRATION.'</div>';
-	} else {
+	else {
 	echo '
 	<form method="post" id="postcomment">
 	<div class="commentcontentheader">
@@ -161,10 +173,13 @@ $userinfo4 = $userinfo3->fetch_assoc();
 ]
 });
 </script>";
-	echo '<input name="commentip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">
-	<br /><br /><input name="commentsubmit" type="submit" value="Post comment"/>
+        echo '<input name="commentreply" id="cr-v" type="hidden" value="0">';
+        echo '<input name="commentreplyto" id="crt-id" type="hidden" value="0">';
+	echo '<input name="commentip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">';
+pluginClass::hook( "comment_captcha" );
+	echo '<br /><br /><input name="commentsubmit" type="submit" value="Post comment"/>
 	</form>';
-	echo '<div id="commentwarning">'.$rowcomments['comment_content'].'</div>';
+	echo '<div id="commentwarning">'.$template['comment_notification_message'].'</div>';
 	}
 	//Comments display
 	
@@ -177,7 +192,7 @@ $userinfo4 = $userinfo3->fetch_assoc();
 	$cpp = $commentsperpage['commentsperpage'];
 	$start_from = ($page-1) * $cpp;
 	
-	$comments = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_postid LIKE '$the_post_id' LIMIT $start_from, $cpp");
+	$comments = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_isreply = '0' AND comment_postid LIKE '$the_post_id' LIMIT $start_from, $cpp");
 	$comments2 = $global->sqlquery("SELECT COUNT(*) FROM dd_comments WHERE comment_postid LIKE '$the_post_id'");
 	$row2 = $comments2->fetch_row(); 
 	$total_records = $row2[0];
@@ -231,20 +246,70 @@ echo '<div class="contentpostscroll">';
 		}else{
 			
 			if ($rowcomments['comment_reported'] == '1'){
-			echo ' - <b>Comment Reported</b></div>';}
+			echo ' - <b>Comment Reported</b> | ';}
 			else {
 			echo
-		' - <a href="/reportcomment?id='.$rowcomments['comment_id'].'&ip='.$_SERVER['REMOTE_ADDR'].'" alt="Report Comment" title="Report Comment">Report</a></div>';
-		}
+		' - <a href="/reportcomment?id='.$rowcomments['comment_id'].'&ip='.$_SERVER['REMOTE_ADDR'].'" alt="Report Comment" title="Report Comment">Report</a> | ';
+		} echo '<a href="#postcomment" onclick="document.getElementById(';echo "'"; echo 'cr-v'; echo"'"; echo').value = 1; document.getElementById(';echo "'"; echo 'crt-id'; echo"'"; echo').value = '.$rowcomments['comment_id'].';document.getElementById('; echo "'";echo '#postcomment';echo "'"; echo').scrollIntoView();" alt="Reply" title="Reply to this comment.">Reply</a></div>';
 		}
 		echo '<div class="commentcontent2">'.$rowcomments['comment_content'].'</div>';
 		echo '</div>';
+		// Replies //
+		$commentreplies = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_isreply = '1' AND comment_replyto LIKE '".$rowcomments['comment_id']."' ORDER BY comment_date DESC;");
+	if ($commentreplies->num_rows > 0) {
+		echo '<div id="commentreplies">';
+		echo '<h2>Replies to this comment:</h2>';
+		$replycount = '1';
+		    while($rowcommentreplies = $commentreplies->fetch_assoc()) {
+				echo '<div id="comment_'.$rowcommentreplies['comment_id'].'" class="commentboxreply">';
+						// Vote
+		echo '<div class="commentvote">';
+		if ($check->ifbanned()){
+		}else{
+		echo '<a href="/votecomment?postid='.$the_post_id.'&commentid='.$rowcommentreplies['comment_id'].'&vote=positive" style="color:';if ($check->ifvotedpositive($rowcommentreplies['comment_id'])){
+		echo VOTED;}else {
+		echo 'green';}
+		echo '"  alt="Upvote this comment!" title="Upvote this comment!">▲</a><br />';
+		}echo '<div style="text-align:center">'.$check->positivenegativecomb($the_post_id, $rowcommentreplies['comment_id']).'</div>';
+		if ($check->ifbanned()){
+		}else{
+		echo '<a href="/votecomment?postid='.$the_post_id.'&commentid='.$rowcommentreplies['comment_id'].'&vote=negative" style="color:';if ($check->ifvotednegative($rowcommentreplies['comment_id'])){
+		echo VOTEDN;}else {
+		echo 'red';}
+		echo '" alt="Downvote this comment!" title="Downvote this comment!">▼</a>';
+		}
+		echo '</div>';
+		echo '<div class="commentreplynumber">#'.$replycount.'</div>';
+		if ($rowcommentreplies['comment_isfromadmin'] == '1'){
+		echo '<div class="commentname"><a style="color:#00ff2b; text-decoration:none;" href="/'.$retrive->username($rowcommentreplies['comment_userid']).'" title="'.$rowcommentreplies['comment_username'].'" alt ="'.$rowcommentreplies['comment_username'].'">'.$rowcommentreplies['comment_username'].'</a></div>';
+		} else if ($rowcommentreplies['comment_isfromcontributor'] == '1'){
+		echo '<div class="commentname"><a style="color:#ff0000; text-decoration:none;" href="/'.$retrive->username($rowcommentreplies['comment_userid']).'" title="'.$rowcommentreplies['comment_username'].'" alt ="'.$rowcommentreplies['comment_username'].'">'.$rowcommentreplies['comment_username'].'</a></div>';
+		} else {
+		echo '<div class="commentname">'.$rowcommentreplies['comment_username'].'</div>';
+		}
+		echo '<div class="commentdate">'.$rowcommentreplies['comment_date'];
+		if ($check->ifbanned()){
+		}else{
+			
+			if ($rowcommentreplies['comment_reported'] == '1'){
+			echo ' - <b>Comment Reported</b></div>';}
+			else {
+			echo
+		' - <a href="/reportcomment?id='.$rowcommentreplies['comment_id'].'&ip='.$_SERVER['REMOTE_ADDR'].'" alt="Report Comment" title="Report Comment">Report</a></div>';
+		}
+		}
+		echo '<div class="commentcontent2">'.$rowcommentreplies['comment_content'].'</div>';
+		echo '</div>';
+			$replycount++;}
+	}
+				
 		$count++;
 	}
 }
 echo $totalpages;
 echo pagebar($page, $total_pages, $cpp, '5');
 echo '</div>';
+amp();
 } else {
 header("HTTP/2.0 404 Not Found");
 echo '<div class="notfoundpage">'.$template['404_message'].'</div>';
