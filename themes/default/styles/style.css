@@ -346,3 +346,30 @@ font-size: 15px;
 img {
     width: 725px;
 }
+
+#pinned {
+    border: 1px solid #8a8a8a;
+    padding: 10px;
+    background-color: #efefef;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+#pinned h2 {
+text-align: center;
+}
+
+#commentreplies {
+    float: right;
+    width: 90%;
+}
+
+#commentreplies h2 {
+margin-bottom: 5px;
+}
+
+#commentreplies .commentboxreply{
+    background-color: #c1c1c1;
+    padding: 15px;
+    margin-bottom: 20px;
+}
