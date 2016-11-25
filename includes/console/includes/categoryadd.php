@@ -1,4 +1,6 @@
 <?php
+$retrive = new DB_retrival;
+
 if ($retrive->isLoggedIn() == true){
 		if ($retrive->restrictpermissionlevel('3')){
  header("HTTP/1.0 403 Forbidden");
