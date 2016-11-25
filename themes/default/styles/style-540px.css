@@ -47,3 +47,7 @@
 	    padding: 15px 0px 15px 15px !important;
     width: 475px;
 }
+
+#commentreplies {
+    margin-right: 12px !important;
+}
