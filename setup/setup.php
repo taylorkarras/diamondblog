@@ -96,24 +96,17 @@ ALTER TABLE `dd_categories`
 ");
 	$sql->query("
 INSERT INTO `dd_categories` (`category_id`, `category_name`) VALUES
-(20, 'Reviews'),
-(18, 'Videos'),
-(16, 'Songs'),
-(15, 'Albums'),
-(17, 'Articles'),
-(6, 'Interviews'),
-(7, 'Pictures and GIFs'),
-(8, 'Site News'),
-(9, 'Other'),
-(10, 'Spotlight'),
-(11, 'News'),
-(12, 'Opinion');
+(1, 'Site News'),
+(3, 'Other'),
+(2, 'Opinion');
 ");
 
 	$sql->query("
 CREATE TABLE `dd_comments` (
   `comment_id` int(255) NOT NULL,
   `comment_postid` int(255) NOT NULL,
+  `comment_isreply` int(11) NOT NULL DEFAULT '0',
+  `comment_replyto` int(11) NOT NULL DEFAULT '0',
   `comment_username` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `comment_email` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `comment_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -144,6 +137,8 @@ CREATE TABLE `dd_content` (
   `content_shortlink` varchar(12) NOT NULL,
   `content_date` datetime NOT NULL,
   `content_author` int(255) NOT NULL
+  `content_pinned` int(11) NOT NULL DEFAULT '0',
+  `content_commentsclosed` int(1) NOT NULL DEFAULT '0'
 ) DEFAULT CHARSET=utf8mb4;
 ");
 	$sql->query("
@@ -151,8 +146,8 @@ ALTER TABLE `dd_content`
   ADD PRIMARY KEY (`content_id`);
 ");
 	$sql->query("
-INSERT INTO `dd_content` (`content_id`, `content_link`, `content_embedcode`, `content_description`, `content_summary`, `content_title`, `content_category`, `content_tags`, `content_permalink`, `content_shortlink`, `content_date`, `content_author`) VALUES
-(1, '', '', 'Congratulations, you have successfully set up DiamondBlog, now get to bloggin\' by entering \"/console\" in your address bar. Feel free to delete this post anytime.', 'Congratulations, you have successfully set up DiamondBlog, now get to bloggin\' by entering \"/console\" in your address bar. Feel free to delete this post anytime.', 'My First DiamondBlog post!', 'Site News', '', 'my_first_diamondblog_post', '', NOW(), 1);
+INSERT INTO `dd_content` (`content_id`, `content_link`, `content_embedcode`, `content_description`, `content_summary`, `content_title`, `content_category`, `content_tags`, `content_permalink`, `content_shortlink`, `content_date`, `content_author`, `content_pinned`, `content_commentsclosed`) VALUES
+(1, '', '', 'Congratulations, you have successfully set up DiamondBlog, now get to bloggin\' by entering \"/console\" in your address bar. Feel free to delete this post anytime.', 'Congratulations, you have successfully set up DiamondBlog, now get to bloggin\' by entering \"/console\" in your address bar. Feel free to delete this post anytime.', 'My First DiamondBlog post!', 'Site News', '', 'my_first_diamondblog_post', '', NOW(), 1, 0, 0);
 
 ");
 
