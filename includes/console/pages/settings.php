@@ -237,7 +237,7 @@ echo '<div id="page">
 <br /><select name="maildelete">';
 $result = $global->sqlquery("SELECT * FROM dd_mailtree;");
 	while ($row = $result->fetch_array()){
-	echo '<option value="'.$row['mailtree_name'].'">'.$row['mailtree_name'].'</option>';
+	echo '<option value="'.$row['mailtree_name'].'">'.$row['mailtree_name'].' ('.$row['mailtree_email'].')</option>';
 	}
 echo '</select>
 <input type=hidden name="maildeletedistinguish" value="set">
