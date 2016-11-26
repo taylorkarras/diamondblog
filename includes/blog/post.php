@@ -29,6 +29,7 @@ $userinfo2 = $userinfo->fetch_assoc();
 
 if (!is_null($resultpage2['page_link'])){
 			define ("PREPEND", $resultpage2['page_title']);
+pluginClass::hook( "page_top" );
 	echo '<div class="contentpage">';echo $resultpage2['page_content'];
 	
 	$check->email_form1($link);
@@ -149,9 +150,9 @@ $userinfo4 = $userinfo3->fetch_assoc();
 </script>";
 	echo '<input name="commentreply" id="cr-v" type="hidden" value="0">';
 	echo '<input name="commentreplyto" id="crt-id" type="hidden" value="0">';
-	echo '<input name="commentip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">
+	echo '<input name="commentip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">';
 pluginClass::hook( "comment_captcha" );
-	<br /><br /><input name="commentsubmit" type="submit" value="Post comment"/>
+	echo '<br /><br /><input name="commentsubmit" type="submit" value="Post comment"/>
 	</form>';
 	echo '<div id="commentwarning">'.$template['comment_notification_message'].'</div>';
 	}
