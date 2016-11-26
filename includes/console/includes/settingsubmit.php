@@ -112,6 +112,12 @@ $global->sqlquery("UPDATE `dd_settings` SET `default_theme` = '".$_GET['theme'].
 	} else {
 		$adminemail = $_POST['adminemail'];
 	}
+	if(strlen($_POST['metadescription']) > '200')  {
+                $_SESSION['errors']['metadescription'] = "Meta description cannot be longer than 200 characters.";
+                $hasError = true;
+        } else {
+                $metadescription = str_replace("'", '', $_POST['metadescription']);
+        }
 	if(trim($_POST['dateformat']) === '')  {
 		$_SESSION['errors']['dateformat'] = "You cannot leave the date field field blank.";
 		$hasError = true;
@@ -142,7 +148,7 @@ $global->sqlquery("UPDATE `dd_settings` SET `default_theme` = '".$_GET['theme'].
                 echo json_encode($_SESSION['errors']);
                 exit;
 	}} else {
-		$global->sqlquery("UPDATE `dd_settings` SET `site_name` = '".$sitename."', `site_title` = '".$sitetitle."', `admin_email` = '".$adminemail."', `date_format` = '".$dateformat."', `time_format` = '".$timeformat."', `site_color` = '".$_POST['sitecolor']."', `postsperpage` = '".$postsperpage."', `commentsperpage` = '".$commentsperpage."', `navigation_select` = '".$_POST['sitescrolling']."', `subtext_on` = '".$_POST['subtextenabled']."', `contact_users_on` = '".$_POST['usercontactenabled']."', `logo_on` = '".$_POST['logoenabled']."'");
+		$global->sqlquery("UPDATE `dd_settings` SET `site_name` = '".$sitename."', `site_title` = '".$sitetitle."', `admin_email` = '".$adminemail."', `site_metadescription` = '".$metadescription."', `date_format` = '".$dateformat."', `time_format` = '".$timeformat."', `site_color` = '".$_POST['sitecolor']."', `postsperpage` = '".$postsperpage."', `commentsperpage` = '".$commentsperpage."', `navigation_select` = '".$_POST['sitescrolling']."', `subtext_on` = '".$_POST['subtextenabled']."', `contact_users_on` = '".$_POST['usercontactenabled']."', `logo_on` = '".$_POST['logoenabled']."'");
 			        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			
 				$resp = array();
