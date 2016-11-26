@@ -2,7 +2,6 @@
 <title><?php sitename() ?>: <?php sitetitle() ?></title>
 <?php essentialhead()?>
 <?php amp()?>
-<script src='https://www.google.com/recaptcha/api.js'></script>
 <?php
 pluginClass::hook( "head" ); ?>
 <!--[if lte IE 9]>
