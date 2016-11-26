@@ -55,6 +55,9 @@ echo '<div class="icon"><input type="hidden" name="MAX_FILE_SIZE" value="500000"
 <br /><input type="text" name="sitetitle" value="'.$ss2['site_title'].'">
 <br /><br /><label type="text" name="adminemail">Admin Email</label>
 <br /><input type="text" name="adminemail" value="'.$ss2['admin_email'].'">
+<br /><br /><label type="text" name="metadescription">Site Meta Description</label>
+<div class="smalltext">200 character max.</div>
+<br /><textarea class="metadescription" name="metadescription" maxlength="200">'.$ss2['site_metadescription'].'</textarea>
 <br /><br /><label type="text" name="dateformat">Date format</label>
 <div class="smalltext">PHP format only (<a href="http://php.net/manual/en/function.date.php" title="PHP time manual" alt="PHP time manual">read here</a>)</div>
 <br /><input type="text" name="dateformat" value="'.$ss2['date_format'].'">
