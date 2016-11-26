@@ -221,6 +221,7 @@ CREATE TABLE `dd_settings` (
   `site_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `site_title` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `admin_email` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `site_metadescription` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_format` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `time_format` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `site_color` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -236,8 +237,8 @@ CREATE TABLE `dd_settings` (
 ) DEFAULT CHARSET=utf8mb4;
 ");
 	$sql->query("
-INSERT INTO `dd_settings` (`site_url`, `site_name`, `site_title`, `admin_email`, `date_format`, `time_format`, `site_color`, `postsperpage`, `commentsperpage`, `default_theme`, `navigation_select`, `pages_on`, `menu_on`, `subtext_on`, `contact_users_on`, `logo_on`) VALUES
-('".$siteurl."', '".$sitename."', '".$sitetitle."', '".$adminemail."', 'F j, Y', 'g:i a', '#ffffff', 20, 10, 'default', 0, 0, 0, 1, 1, 0);
+INSERT INTO `dd_settings` (`site_url`, `site_name`, `site_title`, `admin_email`, `site_metadescription`, `date_format`, `time_format`, `site_color`, `postsperpage`, `commentsperpage`, `default_theme`, `navigation_select`, `pages_on`, `menu_on`, `subtext_on`, `contact_users_on`, `logo_on`) VALUES
+('".$siteurl."', '".$sitename."', '".$sitetitle."', '".$adminemail."', NULL, 'F j, Y', 'g:i a', '#ffffff', 20, 10, 'default', 0, 0, 0, 1, 1, 0);
 ");
 	$sql->query("
 CREATE TABLE `dd_storage` (
