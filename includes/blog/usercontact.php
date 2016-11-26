@@ -1,4 +1,6 @@
 <?php
+$templateinit = $global->sqlquery("SELECT * FROM dd_templates;");
+$template = $templateinit->fetch_assoc();
 $username = explode("/", $_SERVER['REQUEST_URI']);
 $global = new DB_global;
 $usersetting = $global->sqlquery("SELECT * FROM dd_settings");
@@ -18,8 +20,9 @@ echo '<form id="mail" method="post">
 	<input type="hidden" value="'.$userinfo2['user_username'].'" name="emaildestination">
 	<br><br><label name="emailmessage">Message:</label>
 	<br><textarea id="message" name="emailmessage"></textarea>
-	<input name="emailip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">
-	<br><input type="reset" value="Reset"><input name="emailsubmit" type="submit" value="Submit">';
+	<input name="emailip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">';
+pluginClass::hook( "comment_captcha" );
+	echo '<br><input type="reset" value="Reset"><input name="emailsubmit" type="submit" value="Submit">';
 		echo "<script>    CKEDITOR.replace( 'message', {
     toolbar: [
     { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', '-', 'Undo', 'Redo' ] },
@@ -31,15 +34,6 @@ echo '<form id="mail" method="post">
 echo '</form>';
 } else {
 header("HTTP/2.0 404 Not Found");
-echo '<div class="notfoundpage"><h1>404 file not found</h1>
-<p>The requested article or page has either been relocated or does not exist, if you reached this page in error; please consider the following.</p>
-<li><b>Heading back:</b> Either to the homepage or retracing your steps, hopefully you will find something there.</li>
-<li><b>Checking the location:</b> You might of mistyped something or forgotten to put in a word, try doublechecking to see if you have done exactly that.</li>
-<li><b>Checking if the url exists:</b> In that case you might of wanted to check out our 404 page on purpose, in that case; you are an awesome explorer.</li>
-<li><b>Using the search bar:</b> It is extremely helpful, it can help you search for pratically anything you would like to search for.</li>
-
-<p>We at Vapourban wish you good luck in getting away fron this 404 page.
-<br /><i>-The Management</i></p>';
-
+echo '<div class="notfoundpage">'.$template['404_message'].'</div>';
 }
 ?>
