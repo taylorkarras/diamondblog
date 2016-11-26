@@ -33,6 +33,8 @@ if (isset($_POST)){
 		$emailmessage = "<p>This message was sent from IP ".$_POST['emailip']."</p>".$_POST['emailmessage'];
 	}
 	
+pluginClass::hook( "captcha" );
+	
 		if(isset($hasError)){
 		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
                 echo json_encode($_SESSION['errors']);
