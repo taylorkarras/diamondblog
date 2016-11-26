@@ -150,7 +150,7 @@ $userinfo4 = $userinfo3->fetch_assoc();
 	echo '<input name="commentreply" id="cr-v" type="hidden" value="0">';
 	echo '<input name="commentreplyto" id="crt-id" type="hidden" value="0">';
 	echo '<input name="commentip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">
-	<div class="g-recaptcha" data-sitekey="6LeNpiYTAAAAAMyOT392U3pm6utDTUWvsYaUIV2E"></div>
+pluginClass::hook( "comment_captcha" );
 	<br /><br /><input name="commentsubmit" type="submit" value="Post comment"/>
 	</form>';
 	echo '<div id="commentwarning">'.$template['comment_notification_message'].'</div>';
