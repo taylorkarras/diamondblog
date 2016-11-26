@@ -1,8 +1,8 @@
 <?php
-$templateinit = $global->sqlquery("SELECT * FROM dd_templates;");
-$template = $templateinit->fetch_assoc();
 $username = explode("/", $_SERVER['REQUEST_URI']);
 $global = new DB_global;
+$templateinit = $global->sqlquery("SELECT * FROM dd_templates;");
+$template = $templateinit->fetch_assoc();
 $usersetting = $global->sqlquery("SELECT * FROM dd_settings");
 $usersetting2 = $usersetting->fetch_assoc();
 $userinfo = $global->sqlquery("SELECT * FROM dd_users WHERE user_username = '".$username[1]."'");
