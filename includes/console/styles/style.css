@@ -292,3 +292,10 @@ width: 49.5%;
 #pinned .postbox {
 background-color: #e6e6e6;
 } 
+
+.metadescription {
+    margin: 0px;
+    width: 100%;
+    height: 95px;
+    resize: none;
+}
