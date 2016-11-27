@@ -9,6 +9,7 @@ $userinfo = $global->sqlquery("SELECT * FROM dd_users WHERE user_username = '".$
 $userinfo2 = $userinfo->fetch_assoc();
 
 if ($userinfo2['user_username'] == $username[1] && $usersetting2['contact_users_on'] == '1'){
+pluginClass::hook( "user_contact" );
 echo '<h1>Contact '.$userinfo2['user_realname'].'</h1>';
 echo '<form id="mail" method="post">
 	<label name="emailname">Name:</label>
@@ -21,7 +22,9 @@ echo '<form id="mail" method="post">
 	<br><br><label name="emailmessage">Message:</label>
 	<br><textarea id="message" name="emailmessage"></textarea>
 	<input name="emailip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">';
+	if (!isset($_COOKIE["userID"])){
 pluginClass::hook( "comment_captcha" );
+}
 	echo '<br><input type="reset" value="Reset"><input name="emailsubmit" type="submit" value="Submit">';
 		echo "<script>    CKEDITOR.replace( 'message', {
     toolbar: [
