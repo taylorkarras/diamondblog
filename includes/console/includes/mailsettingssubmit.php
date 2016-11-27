@@ -56,7 +56,7 @@ $global->sqlquery("DELETE FROM `dd_mailtree` WHERE `dd_mailtree`.`mailtree_name`
 		$mailcheckinit = $global->sqlquery("SELECT * FROM dd_mail");
 		$mailcheck = $mailcheckinit->fetch_assoc();
 
-		if($global->sqlquery("SELECT * FROM dd_mail WHERE EXISTS (SELECT mail_password FROM dd_mail);")){
+		if(!$global->sqlquery("SELECT * FROM dd_mail WHERE EXISTS (SELECT mail_password FROM dd_mail);")){
 			$global->sqlquery("INSERT INTO `dd_mail` (`mail_server`, `mail_user`, `mail_password`, `mail_inuse`) VALUES ('".$mailserver."', '".$mailuser."', '".$mailpassword."', '".$_POST['mailenabled']."')");
 			        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			
