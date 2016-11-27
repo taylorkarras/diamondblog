@@ -33,7 +33,9 @@ if (isset($_POST)){
 		$emailmessage = "<p>This message was sent from IP ".$_POST['emailip']."</p>".$_POST['emailmessage'];
 	}
 	
+if (!isset($_COOKIE["userID"])){
 pluginClass::hook( "captcha" );
+}
 	
 		if(isset($hasError)){
 		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
@@ -56,7 +58,7 @@ if ($retrive->ismailenabled() == true){
 	$mailinit = $global->sqlquery("SELECT * FROM dd_mail");
 	$mail = $mailinit->fetch_assoc();
 	
-$transport = Swift_SmtpTransport::newInstance($mail['mail_server'], 25)
+$transport = Swift_SmtpTransport::newInstance($mail['mail_server'], 587, 'tls')
   ->setUsername($mail['mail_user'])
   ->setPassword($mail['mail_password'])
   ;
