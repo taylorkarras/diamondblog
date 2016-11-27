@@ -98,7 +98,9 @@ if ($emailcheck2['page_contactform'] == '1') {
 	<br><br><label name="emailmessage">Message:</label>
 	<br><textarea id="message" name="emailmessage"></textarea>
 	<input name="emailip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">';
+if (!isset($_COOKIE['userID'])){
 	pluginClass::hook( "comment_captcha" );
+}
 	echo '<br /><input type="reset" value="Reset"><input name="emailsubmit" type="submit" value="Submit">';
 		echo "<script>    CKEDITOR.replace( 'message', {
     toolbar: [
