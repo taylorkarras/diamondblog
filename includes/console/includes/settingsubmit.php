@@ -45,8 +45,10 @@ $global->sqlquery("DELETE FROM `dd_categories` WHERE `dd_categories`.`category_n
 	if(trim($_POST['storagedirectory']) === '' && $_POST['storageenabled'] == '1')  {
 		$_SESSION['errors']['storagedirectory'] = "You need a directory to place your storage in.";
 		$hasError = true;
+	} else if ($_POST['storagedirectory'] === '/'){
+		$storagedirectory = '';
 	} else {
-		$storagedirectory = $_POST['storagedirectory'];
+		$storagedirector = $_POST['storagedirectory'];
 	}
 
 			if(isset($hasError)){
