@@ -13,9 +13,11 @@ if($retrive->isftpenabled()){
 	$ftpinit = $global->sqlquery("SELECT * FROM dd_storage");
 $ftp = $ftpinit->fetch_assoc();
 $conn_id = ftp_ssl_connect($ftp['ftp_server']);
-ftp_pasv($conn_id, true);
 $login_result = ftp_login($conn_id, $ftp['ftp_user'], $ftp['ftp_password']);
+ftp_pasv($conn_id, true);
+if (!empty($ftp['ftp_directory'])){
 ftp_chdir($conn_id, $ftp['ftp_directory']);
+}
 $list = ftp_nlist($conn_id, ".");
 
 echo '<a class="directorylink" href="javascript:void(0);" onclick="getfiles(\'root\')"><li class="directory">/</li></a>';
