@@ -190,7 +190,6 @@ $("#upload").hide();
 
 	function getfiles(directory)
 {
-//	console.log('hi');
    $.ajax({
 
      type: "GET",
@@ -198,7 +197,6 @@ $("#upload").hide();
      data: "dir=" + directory, // appears as $_GET['id'] @ your backend side
      success: function(data) {
            // data is ur summary
-//		  console.log(window.location.hostname+'includes/console/scripts/ddcfinder/includes/getfiles.php');
           $('#fileslist').html(data);
 		  localStorage.setItem('ftpdirectory', directory);
 
