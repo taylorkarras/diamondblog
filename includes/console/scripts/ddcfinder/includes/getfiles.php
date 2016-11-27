@@ -8,9 +8,11 @@ if($retrive->isftpenabled()){
 	$ftpinit = $global->sqlquery("SELECT * FROM dd_storage");
 $ftp = $ftpinit->fetch_assoc();
 $conn_id = ftp_ssl_connect($ftp['ftp_server']);
-ftp_pasv($conn_id, true);
 $login_result = ftp_login($conn_id, $ftp['ftp_user'], $ftp['ftp_password']);
+ftp_pasv($conn_id, true);
+if (!empty($ftp['ftp_directory'])){
 ftp_chdir($conn_id, $ftp['ftp_directory']);
+}
 $list = ftp_nlist($conn_id, ".");
 
 $imagedms = parse_ini_file($_SERVER["DOCUMENT_ROOT"].'/includes/console/scripts/ddcfinder/config.ini');
@@ -19,7 +21,7 @@ foreach ($list as $key => $value){
 if(preg_match('/(.*)\.[^.]+$/', $value)){
 echo '<div class="file"><div class="image"><img src="https://'.$ftp['ftp_server'].'/'.$value.'" style="width:'.$imagedms['thumbs_max_width'].'px; border:1px solid black;"></img></div>
 <div class="imagename">'.$value.'</div></div>';
-if (!restrictpermissionlevel('1')){}{
+if (!$retrive->restrictpermissionlevel('1')){}{
 echo '
 <ul class="custom-menu">
   <li data-action="delete">Delete</li>
@@ -39,7 +41,7 @@ echo'<script>    $(".file").click(function() {
 		console.log(url);
 	});
 		</script>';
-if (restrictpermissionlevel('1')){} else {
+if ($retrive->restrictpermissionlevel('1')){} else {
 echo'<script>
 
 $(".file").bind("contextmenu", function (event) {
@@ -111,7 +113,7 @@ foreach ($list as $key => $value){
 if(preg_match('/(.*)\.[^.]+$/', $value)){
 echo '<div class="file"><div class="image"><img src="https://'.$_SERVER['HTTP_HOST'].$imagedms['files_root'].'/'.$value.'" style="width:'.$imagedms['thumbs_max_width'].'px; border:1px solid black;"></img></div>
 <div class="imagename">'.$value.'</div></div>';
-if (!restrictpermissionlevel('1')){}{
+if (!$retrive->restrictpermissionlevel('1')){}{
 echo '
 <ul class="custom-menu">
   <li data-action="delete">Delete</li>
@@ -131,7 +133,7 @@ echo'<script>    $(".file").click(function() {
 		console.log(url);
 	});
 		</script>';
-		if (restrictpermissionlevel('1')){} else {
+		if ($retrive->restrictpermissionlevel('1')){} else {
 echo'<script>
 
 $(".file").bind("contextmenu", function (event) {
@@ -206,8 +208,8 @@ if($retrive->isftpenabled()){
 	$ftpinit = $global->sqlquery("SELECT * FROM dd_storage");
 $ftp = $ftpinit->fetch_assoc();
 $conn_id = ftp_ssl_connect($ftp['ftp_server']);
-ftp_pasv($conn_id, true);
 $login_result = ftp_login($conn_id, $ftp['ftp_user'], $ftp['ftp_password']);
+ftp_pasv($conn_id, true);
 ftp_chdir($conn_id, $ftp['ftp_directory']);
 $list = ftp_nlist($conn_id, ".");
 
@@ -217,7 +219,7 @@ foreach ($list as $key => $value){
 if(preg_match('/(.*)\.[^.]+$/', $value)){
 echo '<div class="file"><div class="image"><img src="https://'.$ftp['ftp_server'].'/'.$value.'" style="width:'.$imagedms['thumbs_max_width'].'px; border:1px solid black;"></img></div>
 <div class="imagename">'.$value.'</div></div>';
-if (restrictpermissionlevel('1')){}{
+if ($retrive->restrictpermissionlevel('1')){}{
 echo '
 <ul class="custom-menu">
   <li data-action="delete">Delete</li>
@@ -237,7 +239,7 @@ echo'<script>    $(".file").click(function() {
 		console.log(url);
 	});
 		</script>';
-if (restrictpermissionlevel('1')){} else {
+if ($retrive->restrictpermissionlevel('1')){} else {
 echo'<script>
 
 $(".file").bind("contextmenu", function (event) {
@@ -310,7 +312,7 @@ foreach ($list as $key => $value){
 if(preg_match('/(.*)\.[^.]+$/', $value)){
 echo '<div class="file"><div class="image"><img src="https://'.$_SERVER['HTTP_HOST'].$imagedms['files_root'].'/'.$value.'" style="width:'.$imagedms['thumbs_max_width'].'px; border:1px solid black;"></img></div>
 <div class="imagename">'.$value.'</div></div>';
-if (restrictpermissionlevel('1')){} else {
+if ($retrive->restrictpermissionlevel('1')){} else {
 echo'
 <ul class="custom-menu">
   <li data-action="delete">Delete</li>
@@ -330,7 +332,7 @@ echo'<script>    $(".file").click(function() {
 		console.log(url);
 	});
 		</script>';
-		if (restrictpermissionlevel('1')){} else {
+		if ($retrive->restrictpermissionlevel('1')){} else {
 echo'<script>
 
 $(".file").bind("contextmenu", function (event) {
@@ -406,11 +408,10 @@ if($retrive->isftpenabled()){
 	$ftpinit = $global->sqlquery("SELECT * FROM dd_storage");
 $ftp = $ftpinit->fetch_assoc();
 $conn_id = ftp_ssl_connect($ftp['ftp_server']);
-ftp_pasv($conn_id, true);
 $login_result = ftp_login($conn_id, $ftp['ftp_user'], $ftp['ftp_password']);
+ftp_pasv($conn_id, true);
 ftp_chdir($conn_id, $ftp['ftp_directory'].'/'.$_GET['dir']);
 $list = ftp_nlist($conn_id, ".");
-
 $imagedms = parse_ini_file($_SERVER["DOCUMENT_ROOT"].'/includes/console/scripts/ddcfinder/config.ini');
 
 foreach ($list as $key => $value){
@@ -507,7 +508,7 @@ foreach ($list as $key => $value){
 if(preg_match('/(.*)\.[^.]+$/', $value)){
 echo '<div class="file"><div class="image"><img src="https://'.$_SERVER['HTTP_HOST'].$imagedms['files_root'].'/'.$_GET['dir'].'/'.$value.'" style="width:'.$imagedms['thumbs_max_width'].'px; border:1px solid black;"></img></div>
 <div class="imagename">'.$value.'</div></div>';
-if (restrictpermissionlevel('1')){}{
+if ($retrive->restrictpermissionlevel('1')){}{
 	echo'
 <ul class="custom-menu">
   <li data-action="delete">Delete</li>
@@ -527,7 +528,7 @@ echo'<script>    $(".file").click(function() {
 		console.log(url);
 	});
 		</script>';
-if (restrictpermissionlevel('1')){}{
+if ($retrive->restrictpermissionlevel('1')){}{
 echo'<script>
 
 $(".file").bind("contextmenu", function (event) {
