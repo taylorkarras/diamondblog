@@ -50,8 +50,8 @@ move_uploaded_file($_FILES['uploadimage']['tmp_name'][$i], $UploadDirectoryFTP.$
 $ftpinit = $global->sqlquery("SELECT * FROM dd_storage");
 $ftp = $ftpinit->fetch_assoc();
 $conn_id = ftp_ssl_connect($ftp['ftp_server']);
-ftp_pasv($conn_id, true);
 $login_result = ftp_login($conn_id, $ftp['ftp_user'], $ftp['ftp_password']);
+ftp_pasv($conn_id, true);
 
 if (isset($_GET['dir'])){
 if ($_GET['dir'] !== 'null'){
@@ -66,12 +66,14 @@ if(ftp_chdir($conn_id, $directory) && ftp_put($conn_id, $Random_Number.$File_Ext
 } else {
 $_SESSION['errors']['uploaderror'] = "There was an error uploading one of the file to the FTP server.";
 echo json_encode($_SESSION['errors']);
+unlink $UploadDirectoryFTP.$Random_Number.$File_Ext;
 exit;
 	  }
 }else {
 if (!move_uploaded_file($_FILES['uploadimage']['tmp_name'][$i], $_SERVER["DOCUMENT_ROOT"].$UploadDirectory.'/'.$Random_Number.$File_Ext)){
 	$_SESSION['errors']['uploaderror'] = "There was an error uploading the file.";
 echo json_encode($_SESSION['errors']);
+unlink $UploadDirectoryFTP.$Random_Number.$File_Ext;
 exit;
 }	
 }}
@@ -79,4 +81,5 @@ exit;
 $resp = array();
 				$resp['uploadsuccess'] = true;
                 echo json_encode($resp);
+				unlink $UploadDirectoryFTP.$Random_Number.$File_Ext;
 		        exit;
