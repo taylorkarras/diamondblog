@@ -12,8 +12,8 @@ if($retrive->isftpenabled()){
 	$ftpinit = $global->sqlquery("SELECT * FROM dd_storage");
 $ftp = $ftpinit->fetch_assoc();
 $conn_id = ftp_ssl_connect($ftp['ftp_server']);
-ftp_pasv($conn_id, true);
 $login_result = ftp_login($conn_id, $ftp['ftp_user'], $ftp['ftp_password']);
+ftp_pasv($conn_id, true);
 
 if (isset($_GET['dir'])){
 if ($_GET['dir'] !== 'root'){
