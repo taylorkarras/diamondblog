@@ -68,9 +68,12 @@ $resultpost = $global->sqlquery("SELECT * FROM dd_content WHERE content_permalin
 		// Date
 		echo '<div class="contentdate">Posted on '.date_format($date, $postsperpage['date_format']." ".$postsperpage['time_format']).' by '.$retrive->realname($row['content_author']).'</div>';
 		// Post
+pluginClass::hook( "post_contenttop_1" );
 		echo '<div class="contentpost">';echo $row['content_embedcode'];
 		echo '<br />';
+pluginClass::hook( "post_contenttop_2" );
 		echo $row['content_description']; echo '</div>';
+pluginClass::hook( "post_contentbottom" );
 		// Category
 		echo '<div class="contentcategory">Categorized under: <a href="/?cat=';
 		$catlowcase = strtolower($row['content_category']);
