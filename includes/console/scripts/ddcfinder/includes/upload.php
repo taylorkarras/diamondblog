@@ -73,7 +73,6 @@ exit;
 if (!move_uploaded_file($_FILES['uploadimage']['tmp_name'][$i], $_SERVER["DOCUMENT_ROOT"].$UploadDirectory.'/'.$Random_Number.$File_Ext)){
 	$_SESSION['errors']['uploaderror'] = "There was an error uploading the file.";
 echo json_encode($_SESSION['errors']);
-unlink $UploadDirectoryFTP.$Random_Number.$File_Ext;
 exit;
 }	
 }}
