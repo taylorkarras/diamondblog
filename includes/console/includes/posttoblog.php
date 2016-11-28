@@ -92,6 +92,8 @@ unset($_SESSION["errors"]);
 		
 		if (!empty($_POST['postidtoedit'])){
 			$global->sqlquery("UPDATE `dd_content` SET `content_link` = '".$postmedialink."', `content_embedcode` = '".$embedlink."', `content_description` = '".$postcontent."', `content_summary` = '".$postsummary."', `content_title` = '".$posttitle."', `content_category` = '".$_POST['category']."', `content_tags` = '".$_POST['tags']."', `content_permalink` = '".$permalink3."' WHERE `dd_content`.`content_id` = '".$_POST['postidtoedit']."'");	
+
+			pluginClass::hook( "inc_post_form_bottom_edit" );
 			
 						        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			
