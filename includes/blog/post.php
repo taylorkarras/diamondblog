@@ -221,14 +221,14 @@ echo '<div class="contentpostscroll">';
 		echo '<div id="comment_'.$rowcomments['comment_id'].'" class="commentbox">';
 		// Vote
 		echo '<div class="commentvote">';
-		if ($check->ifbanned()){
+		if ($check->ifbanned() or $check->istor()){
 		}else{
 		echo '<a href="/votecomment?postid='.$the_post_id.'&commentid='.$rowcomments['comment_id'].'&vote=positive" style="color:';if ($check->ifvotedpositive($rowcomments['comment_id'])){
 		echo VOTED;}else {
 		echo 'green';}
 		echo '"  alt="Upvote this comment!" title="Upvote this comment!">▲</a><br />';
 		}echo '<div style="text-align:center">'.$check->positivenegativecomb($the_post_id, $rowcomments['comment_id']).'</div>';
-		if ($check->ifbanned()){
+		if ($check->ifbanned() or $check->istor()){
 		}else{
 		echo '<a href="/votecomment?postid='.$the_post_id.'&commentid='.$rowcomments['comment_id'].'&vote=negative" style="color:';if ($check->ifvotednegative($rowcomments['comment_id'])){
 		echo VOTEDN;}else {
