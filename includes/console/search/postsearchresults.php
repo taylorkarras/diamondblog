@@ -219,7 +219,7 @@ $postsperpageinit = $global->sqlquery("SELECT postsperpage FROM dd_settings LIMI
 $postsperpage = $postsperpageinit->fetch_assoc();
 $ppp = $postsperpage['postsperpage'];
 
-$result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_content");
+		if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
         if ($page == '1'){
         $count = $page;
         }
@@ -256,7 +256,7 @@ $results2 = $global->sqlquery($query2);
 }
 $searchresultnumbers = $results2->fetch_row();
 $total_records = $searchresultnumbers[0];
-$total_pages = ceil($total_records2 / $ppp);
+$total_pages = ceil($total_records / $ppp);
 if ($results->num_rows > 0) {
 echo consolemenu();
 echo "<div id='page'>
