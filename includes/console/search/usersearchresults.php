@@ -140,6 +140,7 @@ echo consolemenu();
 echo "<div id='page'>";
 echo "<div class='center'>There are "; echo $retrive->numberofusers(); echo " users on this blog including admins, contributors and mods.</div>
 <a class='nounderline' href='/console/users/new' alt='Create New User' title='Create New User'><div class='createnewpost'>Create New User</div></a>";
+		if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 	if ($page == '1'){
 	$count = $page;
 	}
@@ -170,7 +171,7 @@ if ($results->num_rows > 0) {
 	$count++;
 	}
 }
-echo pagebar($page, $total_pages, $ppp, '5');
+echo pagebar($page, $total_pages, $ppp, '5', '1');
 		echo '</div>';
 echo "</div>";
 } else {
