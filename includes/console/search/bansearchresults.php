@@ -34,7 +34,8 @@ $postsperpage = $postsperpageinit->fetch_assoc();
 $ppp = $postsperpage['postsperpage'];
 
 $result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_banlist");
-$row2 = $result2->fetch_row(); 
+$row2 = $result2->fetch_row();
+		if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
 	if ($page == '1'){
 	$count = $page;
 	}
