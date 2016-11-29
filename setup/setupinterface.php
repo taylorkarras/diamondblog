@@ -33,6 +33,9 @@ Thank you for chosing DiamondBlog, off all the blog CMSes you could chose, we ar
 <br \\><input type="text" name="sitetitle">
 <br \\><br \\><label for="siteurl">Site URL</label>
 <br \\><input type="text" name="siteurl">
+<br \\><br \\><label type="text" name="metadescription">Site Meta Description</label>
+<div class="smalltext">200 character max.</div>
+<br \\><textarea class="metadescription" name="metadescription" maxlength="200"></textarea>
 <br \\><br \\><label for="adminemail">Admin Email</label>
 <br \\><input type="text" name="adminemail">
 <br \\><br \\><label for="password">Password</label>
