@@ -58,6 +58,39 @@ echo '
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="msapplication-TileImage" content="images/favicon-144px.png">
 <meta name="theme-color" content="'.$settings2['site_color'].'" />';
+$link = str_replace('/', '', $_SERVER['REQUEST_URI']);
+
+$resultpage = $global->sqlquery("SELECT * FROM dd_pages WHERE page_link = '$link' LIMIT 1");
+$resultpage2 = $resultpage->fetch_assoc();
+
+$resultpost = $global->sqlquery("SELECT * FROM dd_content WHERE content_permalink = '$link' LIMIT 1");
+$resultpost2 = $resultpost->fetch_assoc();
+$url = "https://".$_SERVER['HTTP_HOST'].str_replace('/', '', $_SERVER['REQUEST_URI']);
+if ($url === $settings2['site_url'] && !empty($settings2['site_metadescription'])){
+echo '<meta name="description" content="'.$settings2['site_metadescription'].'">';
+} else if (!empty($resultpost2['content_summary'])){
+echo '<meta name="description" content="'.strip_tags($resultpost2['content_summary']).'">';
+} else if (!empty($resultpage2['page_title'])){
+echo '<meta name="decription" content="'.$resultpage2['page_title'].'">';
+}
+preg_match('/[^< *img*src *= *>"\']?([^"\']*)+(png|jpg|gif)/' , $resultpost2['content_description'], $image); 
+if (!empty($resultpost2['content_title'])){
+echo '<meta property="og:title" content="'.$resultpost2['content_title'].'">';
+}
+if (!empty($resultpost2['content_permalink'])){
+echo '<meta property="og:url" content="http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'">';
+}
+if (!empty($resultpost2['content_description'])){
+echo '<meta property="og:image" content="'.$image[0].'">';
+echo '<meta property="og:type" content="article">';
+} else {
+echo '<meta property="og:image" content="http://'.$_SERVER['HTTP_HOST'].'images/logo.png">';
+echo '<meta property="og:type" content="article">';
+}
+if (!empty($resultpost2['content_summary'])){
+echo '<meta property="og:description" content="'.strip_tags($resultpost2['content_summary']).'">';
+echo '<meta property="og:site_name" content="'.$settings2['site_name'].'">';
+}
 }
 
 function themestyle()
