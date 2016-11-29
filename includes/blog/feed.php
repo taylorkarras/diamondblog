@@ -44,7 +44,7 @@ if ($result->num_rows > 0) {
 		echo '<item>
 		';
 		// Title
-        echo '<title>'.$row['content_title'].'</title>
+        echo '<title>'.htmlentities($row['content_title'], ENT_XML1)'</title>
 		';
 		// Date
 		echo '<pubDate>'.date_format($date,"D, d M Y H:i:s O").'</pubDate>
@@ -54,7 +54,9 @@ if ($result->num_rows > 0) {
 		';
 		echo '<guid>https://'.$_SERVER['HTTP_HOST'].'/'.$row['content_shortlink'].'</guid>
 		';
-		echo '<description>'.strip_tags($row['content_summary']).'</description>
+                $fix = str_replace("&nbsp;", "&#160;", $row['content_summary']);
+                $fix2 = str_replace ("&quot", "&quot;", $fix);
+                echo '<description>'.strip_tags($fix).'</description>
 		';
 		echo '</item>
 		';
