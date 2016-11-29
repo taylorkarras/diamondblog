@@ -23,6 +23,13 @@ if(isset($_POST)){
 		$sqlpassword = $_POST['sqlpassword'];
 	}
 	
+        if(strlen($_POST['metadescription']) > '200')  {
+                $_SESSION['errors']['metadescription'] = "Meta description cannot be longer than 200 characters.";
+                $hasError = true;
+        } else {
+                $metadescription = str_replace("'", '', $_POST['metadescription']);
+        }
+	
 				if(trim($_POST['adminemail']) === '')  {
 		$_SESSION['errors']['adminemail'] = "You cannot leave the Admin email field blank.";
 		$hasError = true;	
@@ -238,7 +245,7 @@ CREATE TABLE `dd_settings` (
 ");
 	$sql->query("
 INSERT INTO `dd_settings` (`site_url`, `site_name`, `site_title`, `admin_email`, `site_metadescription`, `date_format`, `time_format`, `site_color`, `postsperpage`, `commentsperpage`, `default_theme`, `navigation_select`, `pages_on`, `menu_on`, `subtext_on`, `contact_users_on`, `logo_on`) VALUES
-('".$siteurl."', '".$sitename."', '".$sitetitle."', '".$adminemail."', NULL, 'F j, Y', 'g:i a', '#ffffff', 20, 10, 'default', 0, 0, 0, 1, 1, 0);
+('".$siteurl."', '".$sitename."', '".$sitetitle."', '".$adminemail."', '".$metadescription."', 'F j, Y', 'g:i a', '#ffffff', 20, 10, 'default', 0, 0, 0, 1, 1, 0);
 ");
 	$sql->query("
 CREATE TABLE `dd_storage` (
