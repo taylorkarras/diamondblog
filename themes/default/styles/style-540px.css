@@ -25,18 +25,8 @@
     font-size: 14px !important;
 }
 
-#searchbar {
-    font-size: 45px !important;
-    height: 60px !important;
-}
-
 #menu li a {
     margin-left: 33px !important;
-}
-
-.searchhint{
-	font-size: 25px !important;
-		top: 60px !important;
 }
 
 .contentpostscroll, ins{
