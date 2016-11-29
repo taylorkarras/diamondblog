@@ -49,3 +49,8 @@ body,html{
 	margin: auto;
     margin-top: 15px;
 }
+
+.smalltext {
+    font-size: 17px;
+    margin-top: 10px;
+}
