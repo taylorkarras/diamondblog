@@ -83,9 +83,6 @@ echo '<meta property="og:url" content="http://'.$_SERVER['HTTP_HOST'].$_SERVER['
 if (!empty($resultpost2['content_description'])){
 echo '<meta property="og:image" content="'.$image[0].'">';
 echo '<meta property="og:type" content="article">';
-} else {
-echo '<meta property="og:image" content="http://'.$_SERVER['HTTP_HOST'].'images/logo.png">';
-echo '<meta property="og:type" content="article">';
 }
 if (!empty($resultpost2['content_summary'])){
 echo '<meta property="og:description" content="'.strip_tags($resultpost2['content_summary']).'">';
