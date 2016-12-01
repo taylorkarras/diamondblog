@@ -425,11 +425,22 @@ ul.meta li {
     height="400"
     layout="responsive">
 </amp-instagram>';
-			} else if(preg_match('/instagram/', $resultpostint['content_link'])){
-		echo '<amp-facebook width=486 height=657
+			} else if(preg_match('/reddit/', $resultpostint['content_link'])){
+				$ifredditcomment = explode('/', $resultpostint['content_link']);
+					if (isset($ifredditcomment[8])){
+		echo '<amp-reddit width=400 height=200
   layout="responsive"
-  data-href="'.$resultpostint['content_link'].'">
-			</amp-facebook>';} else if (preg_match('/jpg/', $resultpostint['content_link']) or preg_match('/gif/', $resultpostint['content_link']) or preg_match('/png/', $resultpostint['content_link']) or preg_match('/gif/', $resultpostint['content_link'])){
+  data-embedtype="comment"
+  data-src="'.$resultpostint['content_link'].'">
+</amp-reddit>';
+					} else {
+		echo '<amp-reddit width=400 height=200
+  layout="responsive"
+  data-embedtype="post"
+  data-src="'.$resultpostint['content_link'].'">
+</amp-reddit>';
+					}}
+			else if (preg_match('/jpg/', $resultpostint['content_link']) or preg_match('/gif/', $resultpostint['content_link']) or preg_match('/png/', $resultpostint['content_link']) or preg_match('/gif/', $resultpostint['content_link'])){
 				echo '<amp-img src="'.$resultpostint['content_link'].'"
       width="1080"
       height="610"
