@@ -11,9 +11,9 @@ $ctq = str_replace ('_', ' ', $_GET['name']);
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
 $start_from = ($page-1) * $ppp; 
 
-$result = $global->sqlquery("SELECT * FROM dd_content WHERE content_tags RLIKE '[[:<:]]".$ctq."[[:>:]]' ORDER BY content_date DESC LIMIT $start_from, $ppp;");
+$result = $global->sqlquery("SELECT * FROM dd_content WHERE content_tags LIKE '%".$ctq."%' ORDER BY content_date DESC LIMIT $start_from, $ppp;");
 $resultcount = $result->num_rows;
-$result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_content WHERE content_tags RLIKE '[[:<:]]".$ctq."[[:>:]]'");
+$result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_content WHERE content_tags LIKE '%".$ctq."%'");
 $row2 = $result2->fetch_row(); 
 $total_records = $row2[0];
 $total_pages = ceil($total_records / $ppp);
