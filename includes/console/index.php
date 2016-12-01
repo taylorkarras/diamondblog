@@ -15,7 +15,6 @@
 <script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/ckeditor/adapters/jquery.js"></script>
 <link href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/featherlight.min.css" rel="stylesheet" type="text/css" />
 <script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console//scripts/featherlight.min.js"></script>
-<script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/jquery.history.js"></script>
 <script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/jquery.autocomplete.js"></script>
 <script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/jquery.mousewheel.min.js"></script>
 <script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/jquery.jscroll.min.js"></script>
