@@ -26,8 +26,9 @@ if (isset($_POST)){
 	} else {
 		$commentcontent = $_POST['commentcontent'];
 	}
-	
+if (!$check->isLoggedIn()){
 pluginClass::hook( "captcha" );
+}
 
 		if(isset($hasError)){
 		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
@@ -40,8 +41,12 @@ pluginClass::hook( "captcha" );
 	$link = str_replace("/", "", $parsed_link['path']);
 	$linkinit = $global->sqlquery("SELECT content_id FROM dd_content WHERE content_permalink = '".$link."';");
 	$post_id = $linkinit->fetch_assoc();
+if (is_null($post_id['content_id'])){
+	$parsed_link = parse_url ($_SERVER['HTTP_REFERER']);
+	$comment_post_id = str_replace("postid=", "", $parsed_link['query']);
+} else {
 	$comment_post_id = $post_id['content_id'];
-	
+}
 	
 	$userstatus = $global->sqlquery("SELECT * FROM dd_users WHERE user_id = '".$_COOKIE['userID']."';");
 	$userstatus2 = $userstatus->fetch_assoc();
