@@ -65,12 +65,19 @@ unset($_SESSION["errors"]);
 			$embedlink = '<iframe src="http://www.audiomack.com/embed4/'.$audiomacklink2.'" scrolling="no" width="100%" height="110" scrollbars="no" frameborder="0"></iframe>';
 		}
 		else if (strpos($_POST['postmedialink'], 'twitter') == true or strpos($_POST['postmedialink'], 'instagram') == true or strpos($_POST['postmedialink'], 'facebook') == true or strpos($_POST['postmedialink'], 'imgur') == true or strpos($_POST['postmedialink'], 'reddit') == true or strpos($_POST['postmedialink'], 'soundcloud') == true or strpos($_POST['postmedialink'], 'tumblr') == true or strpos($_POST['postmedialink'], 'youtube') == true){
+			$redditlink = explode ('/', $_POST['postmedialink']);
+			if(isset($redditlink[8])){
+			$redditjson = file_get_contents('http://reddit.com/oembed?url='.$_POST['postmedialink']);
+			$redditjson2 = (json_decode($redditjson));
+			$embedlink = str_replace("'", '&rsquo;', $redditjson2->{'html'});
+			} else {
 			$embed = Embed::create($_POST['postmedialink']);
 			$embedlink = $embed->code;
 			$GLOBALS['embedlinkinstagram'] = $embed->thumbnail_url;
 			$GLOBALS['embedlinkyoutube'] = $embed->image;
 			$GLOBALS['embedlinkimgur'] = $embed->media_url;
 			$GLOBALS['embedlinksoundcloud'] = $embed->thumbnail_url;
+			}
 		}
 		else if (strpos($_POST['postmedialink'], 'vine') == true){
 			$vine = explode ('/', $_POST['postmedialink']);
@@ -92,7 +99,6 @@ unset($_SESSION["errors"]);
 		
 		if (!empty($_POST['postidtoedit'])){
 			$global->sqlquery("UPDATE `dd_content` SET `content_link` = '".$postmedialink."', `content_embedcode` = '".$embedlink."', `content_description` = '".$postcontent."', `content_summary` = '".$postsummary."', `content_title` = '".$posttitle."', `content_category` = '".$_POST['category']."', `content_tags` = '".$_POST['tags']."', `content_permalink` = '".$permalink3."' WHERE `dd_content`.`content_id` = '".$_POST['postidtoedit']."'");	
-
 			pluginClass::hook( "inc_post_form_bottom_edit" );
 			
 						        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
