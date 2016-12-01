@@ -163,21 +163,24 @@ for(var i in CKEDITOR.instances) {
 				  div_id.html(resp.message);
 			  } else if (resp.searchposts === true) {
                   	//successful validation
-					var title = $(data).filter('title').text();
+					//var title = $(data).filter('title').text();
 					var url = "/console/posts/search?" + form_id.serialize().replace("dbsearchbar", "query");
-					History.pushState(null, title, url);
+					//History.pushState(null, title, url);
+					window.location.replace(url);
 					event.preventDefault();
 			  } else if (resp.searchusers === true) {
                   	//successful validation
-					var title = $(data).filter('title').text();
+					//var title = $(data).filter('title').text();
 					var url = "/console/users/search?" + form_id.serialize().replace("dbsearchbar", "query");
-					History.pushState(null, title, url);
+					//History.pushState(null, title, url);
+					window.location.replace(url);
 					event.preventDefault();
 			  } else if (resp.searchbans === true) {
                   	//successful validation
-					var title = $(data).filter('title').text();
+					//var title = $(data).filter('title').text();
 					var url = "/console/ban/search?" + form_id.serialize().replace("dbsearchbar", "query");
-					History.pushState(null, title, url);
+					//History.pushState(null, title, url);
+					window.location.replace(url);
 					event.preventDefault();
 			  } else {
                   $.each(resp, function(i, v) {
