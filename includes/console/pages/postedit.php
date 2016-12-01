@@ -34,7 +34,7 @@ if (!empty($_GET["draftid"])){
 	echo 'value="'.$editpost2['draft_title'].'"';
 }
 echo '>';
-echo '<br /><br /><label title="postmedialink"><b>Link to media:</b></label>
+echo '<br /><br /><label title="postmedialink"><b>Link to embeddable media:</b></label>
 <br /><input type="text" name="postmedialink"';
 if (!empty($_GET["postid"])){
 	echo 'value="'.$editpost2['content_link'].'"';
@@ -43,7 +43,7 @@ if (!empty($_GET["draftid"])){
 	echo 'value="'.$editpost2['draft_link'].'"';
 }
 echo '>';
-echo '<br /><div class="smalltext">Accepted formats: Soundcloud, Bandcamp, YouTube, Vimeo, Dailymotion, Audiomack, Twitter, Facebook, Instagram, Vine, Mixcloud, Imgur, Reddit (<i>comments only</i>), Images (JPEG, PNG, GIF)</div>
+echo '<br /><div class="smalltext">Accepted formats: Soundcloud, Bandcamp, YouTube, Vimeo, Dailymotion, Audiomack, Twitter, Facebook, Instagram, Vine, Mixcloud, Imgur, Reddit, Images (JPEG, PNG, GIF)</div>
 <br /><label title="postcontent"><b>Post content:</b></label>
 <br /><textarea  class="ckeditor" name="postcontent">';
 if (!empty($_GET["postid"])){
