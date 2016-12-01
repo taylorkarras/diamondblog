@@ -96,9 +96,10 @@ unset($_SESSION["errors"]);
 		$permalink1 = str_replace($plarray1, '_', $posttitle);
 		$permalink2 = strtolower($permalink1);
 		$permalink3 = urlencode($permalink2);
-		
+		$tags = str_replace('_', ' ', $_POST['tags']);	
+	    
 		if (!empty($_POST['postidtoedit'])){
-			$global->sqlquery("UPDATE `dd_content` SET `content_link` = '".$postmedialink."', `content_embedcode` = '".$embedlink."', `content_description` = '".$postcontent."', `content_summary` = '".$postsummary."', `content_title` = '".$posttitle."', `content_category` = '".$_POST['category']."', `content_tags` = '".$_POST['tags']."', `content_permalink` = '".$permalink3."' WHERE `dd_content`.`content_id` = '".$_POST['postidtoedit']."'");	
+			$global->sqlquery("UPDATE `dd_content` SET `content_link` = '".$postmedialink."', `content_embedcode` = '".$embedlink."', `content_description` = '".$postcontent."', `content_summary` = '".$postsummary."', `content_title` = '".$posttitle."', `content_category` = '".$_POST['category']."', `content_tags` = '".$tags."', `content_permalink` = '".$permalink3."' WHERE `dd_content`.`content_id` = '".$_POST['postidtoedit']."'");	
 			pluginClass::hook( "inc_post_form_bottom_edit" );
 			
 						        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
@@ -115,12 +116,12 @@ unset($_SESSION["errors"]);
 			$GLOBALS['category'] = $_POST['category'];
 			$shortlink = $global->generate_code(10);
 			$GLOBALS['shortlink'] = $shortlink;
-			$global->sqlquery("INSERT INTO `dd_content` (`content_id`, `content_link`, `content_embedcode`, `content_description`, `content_summary`, `content_title`, `content_category`, `content_tags`, `content_permalink`, `content_shortlink`, `content_date`, `content_author`, `content_pinned`, `content_commentsclosed`) VALUES (NULL, '".$postmedialink."', '".$embedlink."', '".$postcontent."', '".$postsummary."', '".$posttitle."', '".$_POST['category']."', '".$_POST['tags']."', '".$permalink3."', '".$shortlink."', NOW(), '".$_COOKIE['userID']."', '0', '0')");
+			$global->sqlquery("INSERT INTO `dd_content` (`content_id`, `content_link`, `content_embedcode`, `content_description`, `content_summary`, `content_title`, `content_category`, `content_tags`, `content_permalink`, `content_shortlink`, `content_date`, `content_author`, `content_pinned`, `content_commentsclosed`) VALUES (NULL, '".$postmedialink."', '".$embedlink."', '".$postcontent."', '".$postsummary."', '".$posttitle."', '".$_POST['category']."', '".$tags."', '".$permalink3."', '".$shortlink."', NOW(), '".$_COOKIE['userID']."', '0', '0')");
 			
-		if (str_word_count($_POST['tags']) == '1'){
-		$global->sqlquery("INSERT INTO `dd_tags` (`tag_number`, `tag_name`) VALUES (NULL, '".$_POST['tags']."')");
+		if (str_word_count($tags) == '1'){
+		$global->sqlquery("INSERT INTO `dd_tags` (`tag_number`, `tag_name`) VALUES (NULL, '".$tags."')");
 		} else {		
-		$posttags = explode(',', $_POST['tags']);
+		$posttags = explode(',', $tags);
 		foreach ($posttags as $posttag) {
 			$similartaginit = $global->sqlquery("SELECT tag_name FROM `dd_tags` WHERE `tag_name` = '".$posttag."';");
 			$similartag = $similartaginit->fetch_assoc();
