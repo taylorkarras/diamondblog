@@ -13,16 +13,16 @@ $start_from = ($page-1) * $ppp;
 
 $result = $global->sqlquery("SELECT * FROM dd_content WHERE content_category = '".$ctq."' ORDER BY content_date DESC LIMIT $start_from, $ppp;");
 $result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_content WHERE content_category = '".$ctq."';");
-$resultcount = $result->num_rows;
+$resultcount = $result2->num_rows;
 $row2 = $result2->fetch_row(); 
 $total_records = $row2[0];
 $total_pages = ceil($total_records / $ppp);
 
 $check = new DB_check;
-echo '<div class="contentpostscroll">';
 if ($result->num_rows > 0) {
-	echo '<h1>There are '.$resultcount.' pages with the category ("'.$ctq.'").</h1>
+	echo '<h1>There are '.$row2[0].' pages with the category ("'.$ctq.'").</h1>
 <br />';
+echo '<div class="contentpostscroll">';
     // output data of each row
     while($row = $result->fetch_assoc()) {
 		// Comments
