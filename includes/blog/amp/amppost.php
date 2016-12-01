@@ -455,6 +455,7 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, '');
 		echo preg_replace($ampsearcharray, $ampreplacementarray, $resultpostint['content_description']);
 			pluginClass::hook( "amp_post_bottom" );
+			pluginClass::hook( "amp_bottom" );
 echo '  <br> <amp-iframe width="480"
       height="720"
       layout="responsive"
