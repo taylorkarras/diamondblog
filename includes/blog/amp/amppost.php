@@ -5,6 +5,9 @@ $retrive = new DB_retrival;
 $postsperpageinit = $global->sqlquery("SELECT * FROM dd_settings;");
 $postsperpage = $postsperpageinit->fetch_assoc();
 
+$pattern = '/data-oembed-url=*("(.*?)")/';
+preg_match_all($pattern, $resultpostint['content_description'], $oembedvalues);
+
 $link = explode("/", $_SERVER['REQUEST_URI']);
 $resultpost = $global->sqlquery("SELECT * FROM dd_content WHERE content_permalink = '".$link[1]."' LIMIT 1");
 $resultpostint = $resultpost->fetch_assoc();
@@ -137,9 +140,7 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		echo '<span class="author">'.$retrive->realname($resultpostint['content_author']).' - </span></li>';
 		echo '<li><time datetime="'.$date->format(DateTime::W3C).'">Posted on '.date_format($date, $postsperpage['date_format']." ".$postsperpage['time_format']).'</time></li>
 		</ul>';
-		$pattern = '/data-oembed-url=*("(.*?)")/';
 		// Post
-		preg_match_all($pattern, $resultpostint['content_description'], $oembedvalues);
 		if(preg_grep('/instagram/', $oembedvalues[1])){
 		$instagramconvert = preg_grep('/instagram/', $oembedvalues[1]);
 		foreach ($instagramconvert as $value){
