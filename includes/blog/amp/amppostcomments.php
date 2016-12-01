@@ -69,7 +69,7 @@ $userinfo4 = $userinfo3->fetch_assoc();
 	echo "<script>    CKEDITOR.replace( 'commentcontent', {
 	customConfig: 'custom/config.js',
     toolbar: [
-    { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', '-', 'Undo', 'Redo' ] },
+    { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', '-', 'Undo', 'Redo' ] },
     { name: 'editing', groups: ['selection'], items: ['SelectAll'] },
     { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
 ]
@@ -95,7 +95,7 @@ $userinfo4 = $userinfo3->fetch_assoc();
 	echo "<script>    CKEDITOR.replace( 'commentcontent', {
 	customConfig: 'custom/config.js',
     toolbar: [
-    { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', '-', 'Undo', 'Redo' ] },
+    { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', '-', 'Undo', 'Redo' ] },
     { name: 'editing', groups: ['selection'], items: ['SelectAll'] },
     { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
 ]
