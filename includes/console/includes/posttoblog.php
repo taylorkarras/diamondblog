@@ -96,7 +96,7 @@ unset($_SESSION["errors"]);
 		$permalink1 = str_replace($plarray1, '_', $posttitle);
 		$permalink2 = strtolower($permalink1);
 		$permalink3 = urlencode($permalink2);
-		$tags = str_replace('_', ' ', $_POST['tags']);	
+		$tags = $_POST['tags'];	
 	    
 		if (!empty($_POST['postidtoedit'])){
 			$global->sqlquery("UPDATE `dd_content` SET `content_link` = '".$postmedialink."', `content_embedcode` = '".$embedlink."', `content_description` = '".$postcontent."', `content_summary` = '".$postsummary."', `content_title` = '".$posttitle."', `content_category` = '".$_POST['category']."', `content_tags` = '".$tags."', `content_permalink` = '".$permalink3."' WHERE `dd_content`.`content_id` = '".$_POST['postidtoedit']."'");	
