@@ -35,13 +35,25 @@ $templates->addFolder('blog', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog');
     return $templates->render('blog::amp');;
 });
 
+$router->any('/{id}/amp/comments', function(){
+$templates = new League\Plates\Engine();
+$templates->addFolder('amp', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog/amp');
+    return $templates->render('amp::amppostcomments');;
+});
+
 $router->get('/feed', function(){
 $templates = new League\Plates\Engine();
 $templates->addFolder('blog', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog');
     return $templates->render('blog::feed');;
 });
 
-$router->post('/postcomment', function(){
+$router->post('/{id}/amp/postcomment', function(){
+$templates = new League\Plates\Engine();
+$templates->addFolder('blog', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog');
+    return $templates->render('blog::comment');;
+});
+
+$router->post('/{id}/postcomment', function(){
 $templates = new League\Plates\Engine();
 $templates->addFolder('blog', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog');
     return $templates->render('blog::comment');;
@@ -123,6 +135,12 @@ $router->get('/manifest.json', function(){
 $templates = new League\Plates\Engine();
 $templates->addFolder('includes', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/');
     return $templates->render('includes::manifest');;
+});
+
+$router->any('/scripts/ckeditor/skins/{id}/skin.js', function(){
+$link = explode('/', $_SERVER['REQUEST_URI']);
+echo file_get_contents($_SERVER['DOCUMENT_ROOT'].'/scripts/ckeditor/skins/'.$link[4].'/skin.js');
+exit;
 });
 
 pluginClass::hook( "link_routes" );
