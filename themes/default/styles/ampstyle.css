@@ -14,3 +14,12 @@
     color: #fff;
     padding-bottom: 5px;
 }
+
+.plugintheme {
+    background-color: #4c4c4c;
+    border: 1px solid #cecece;
+}
+
+.pluginthemeleft {
+	border-right: 1px solid #cecece;
+}
