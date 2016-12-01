@@ -19,7 +19,6 @@ $pinned = $global->sqlquery("SELECT * FROM dd_content WHERE content_pinned = '1'
 
 $check = new DB_check;
 pluginClass::hook( "content_top" );
-echo '<div class="addthis_inline_follow_toolbox"></div>';
 // Pinned post //
 if ($pinned->num_rows > 0) {
     // output data of each row
@@ -44,7 +43,7 @@ echo '<h2>Pinned</h2>';
 		// Category
 		echo '<div class="contentcategory">Categorized under: <a href="/category?name=';
 		$catlowcase = strtolower($row['content_category']);
-		echo str_replace(" ", "_", $catlowcase);
+		echo $catlowcase;
 		echo '" alt="'; echo $row['content_category']; echo '" title="'; echo $row['content_category']; echo'">'; echo $row['content_category']; echo '</div></a>';
 		// Tags
 		echo '<div class="contenttags">Tags: ';
@@ -52,7 +51,7 @@ echo '<h2>Pinned</h2>';
 		foreach ($tags as $tag) {
 			echo '<a href="/tag?name=';
 		$taglowcase = strtolower($tag);
-		echo str_replace(" ", "_", $taglowcase);
+		echo $taglowcase;
 		echo '" alt="'; echo $tag; echo '" title="'; echo $tag; echo'">'; echo $tag; echo '</a> ';
 		}
 		echo '</div>';
@@ -82,7 +81,7 @@ if ($result->num_rows > 0) {
 		// Category
 		echo '<div class="contentcategory">Categorized under: <a href="/category?name=';
 		$catlowcase = strtolower($row['content_category']);
-		echo str_replace(" ", "_", $catlowcase);
+		echo $catlowcase;
 		echo '" alt="'; echo $row['content_category']; echo '" title="'; echo $row['content_category']; echo'">'; echo $row['content_category']; echo '</div></a>';
 		// Tags
 		echo '<div class="contenttags">Tags: ';
@@ -90,7 +89,7 @@ if ($result->num_rows > 0) {
 		foreach ($tags as $tag) {
 			echo '<a href="/tag?name=';
 		$taglowcase = strtolower($tag);
-		echo str_replace(" ", "_", $taglowcase);
+		echo $taglowcase;
 		echo '" alt="'; echo $tag; echo '" title="'; echo $tag; echo'">'; echo $tag; echo '</a> ';
 		}
 		echo '</div>';
