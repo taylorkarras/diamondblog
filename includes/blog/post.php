@@ -77,7 +77,7 @@ pluginClass::hook( "post_contentbottom" );
 		// Category
 		echo '<div class="contentcategory">Categorized under: <a href="/?cat=';
 		$catlowcase = strtolower($row['content_category']);
-		echo str_replace(" ", "_", $catlowcase);
+		echo $catlowcase;
 		echo '" alt="'; echo $row['content_category']; echo '" title="'; echo $row['content_category']; echo'">'; echo $row['content_category']; echo '</div></a>';
 		// Tags
 		echo '<div class="contenttags">Tags: ';
@@ -85,7 +85,7 @@ pluginClass::hook( "post_contentbottom" );
 		foreach ($tags as $tag) {
 			echo '<a href="/tag?name=';
 		$taglowcase = strtolower($tag);
-		echo str_replace(" ", "_", $taglowcase);
+		echo $taglowcase;
 		echo '" alt="'; echo $tag; echo '" title="'; echo $tag; echo'">'; echo $tag; echo '</a> ';
 		}
 		echo '</div>';
