@@ -6,7 +6,7 @@ $postsperpageinit = $global->sqlquery("SELECT postsperpage FROM dd_settings LIMI
 $postsperpage = $postsperpageinit->fetch_assoc();
 $ppp = $postsperpage['postsperpage'];
 
-$ctq = str_replace ('_', ' ', $_GET['name']);
+$ctq = $_GET['name'];
 
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
 $start_from = ($page-1) * $ppp; 
