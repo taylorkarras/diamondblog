@@ -80,27 +80,43 @@ ul.meta li {
     <script type="application/ld+json">
       {
         "@context": "http://schema.org",
-        "@type": "';
-		if ($resultpostint['content_category'] == 'Reviews' or $resultpostint['content_category'] == 'Articles' or $resultpostint['content_category'] == 'Site News' or $resultpostint['content_category'] == 'Spotlight' or $resultpostint['content_category'] == 'Interviews' or $resultpostint['content_category'] == 'Opinion' or $resultpostint['content_category'] == 'News')
-		{ echo 'NewsArticle';
-	    } else if ($resultpostint['content_category'] == 'Videos')
-	    { echo 'VideoObject';}
-	else { echo 'ImageObject'; }
-		echo '
-		",
+        "@type": "NewsArticle",
         "headline": "'.$resultpostint['content_title'].'",
         "datePublished": "'.$date->format(DateTime::W3C).'",
-		'; 	if (!empty($image[0])){
-			echo '"image": [
-		  "'.$image[0].'"
-		  ]';
-		} else if (file_exists($_SERVER['DOCUMENT_ROOT'].'/images/logo.png')) {
-          echo '"image": [
-		  "https://'.$_SERVER['HTTP_HOST'].'/images/logo.png"
-		  ]
-		  ';
+		"description": "'.strip_tags($resultpostint['content_summary']).'",
+		"author": {
+		"@type": "Person",
+		"name": "'.$retrive->realname($resultpostint['content_author']).'"
+		},
+		"publisher": {
+		"@type": "Organization",
+		"name": "'.$postsperpage['site_name'].'"';
+		if (file_exists($_SERVER['DOCUMENT_ROOT'].'/images/logo.png')) {
+        echo ',"logo": {
+          "@type": "ImageObject",
+          "url": "https://'.$_SERVER['HTTP_HOST'].'/images/logo.png",
+          "width": 264,
+          "height": 50
+        }';
 		}
-		echo '}
+      echo '},';
+	  if (!empty($image[0])){
+		echo '"image": {
+		"@type": "ImageObject",';
+			echo '"url": "'.$image[0].'",
+		  "height": 400,
+		  "width": 225
+		}';
+	  } else {
+	  		echo '"image": {
+		"@type": "ImageObject",
+          "url": "https://'.$_SERVER['HTTP_HOST'].'/images/logo.png",
+          "width": 264,
+          "height": 50
+		}';
+	  }
+	  echo '
+	  }
     </script>
   <script async custom-element="amp-dynamic-css-classes" src="https://cdn.ampproject.org/v0/amp-dynamic-css-classes-0.1.js"></script>
   <script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script>
