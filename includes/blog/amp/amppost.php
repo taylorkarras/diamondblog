@@ -444,8 +444,10 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		$allconvert = preg_grep('/data-oembed-url/', $oembedvalues2[0]);
 		foreach ($allconvert as $value){
 		$allregex = '/<div data-oembed-url=+.*?(<\/div>){1,3}/';
+		$allregex2 = '/<script+.*?(<\/script>){1,3}/';
 		$allamp = '<div class="unsupported">This type of embed is unsupported on AMP pages (not by us), please visit the page on the regular website to see the embed.)</div>';
 		array_push($amp2searcharray, $allregex);
+		array_push($amp2searcharray, $allregex2);
 		array_push($amp2replacementarray, $allamp);
 		}
 		}
