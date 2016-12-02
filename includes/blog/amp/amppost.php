@@ -464,7 +464,4 @@ echo '  <br> <amp-iframe width="480"
   </amp-iframe>';
 		echo '</div></body>
 </html>';
-exit;} else {
-header("HTTP/2.0 404 Not Found");
-echo '<div class="notfoundpage">'.$template['404_message'].'</div>';
-}
+exit;}
