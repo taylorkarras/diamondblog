@@ -6,19 +6,20 @@ $postsperpageinit = $global->sqlquery("SELECT * FROM dd_settings;");
 $postsperpage = $postsperpageinit->fetch_assoc();
 
 $pattern = '/data-oembed-url=*("(.*?)")/';
-preg_match_all($pattern, $resultpostint['content_description'], $oembedvalues);
 
 $link = explode("/", $_SERVER['REQUEST_URI']);
 $resultpost = $global->sqlquery("SELECT * FROM dd_content WHERE content_permalink = '".$link[1]."' LIMIT 1");
 $resultpostint = $resultpost->fetch_assoc();
+preg_match_all($pattern, $resultpostint['content_description'], $oembedvalues);
 $date=date_create($resultpostint['content_date']);
 
 $ampembedcode = $resultpostint['content_embedcode'];
 $ampdescription = $resultpostint['content_description'];
 $ampsearcharray = array();
 $ampreplacementarray = array();
+preg_match('/[^< *img*src *= *>"\']?(http[^"\']*)+(png|jpg|gif)/' , $resultpostint['content_description'], $image);
 if($resultpostint['content_permalink'] == $link[1]){
-	
+
 echo '<!doctype html>
 <html amp lang="en">
   <head>
@@ -89,12 +90,17 @@ ul.meta li {
 		",
         "headline": "'.$resultpostint['content_title'].'",
         "datePublished": "'.$date->format(DateTime::W3C).'",
-		'; if (file_exists($_SERVER['DOCUMENT_ROOT'].'/images/logo.png')) {
+		'; 	if (!empty($image[0])){
+			echo '"image": [
+		  "'.$image[0].'"
+		  ]';
+		} else if (file_exists($_SERVER['DOCUMENT_ROOT'].'/images/logo.png')) {
           echo '"image": [
 		  "https://'.$_SERVER['HTTP_HOST'].'/images/logo.png"
-		  ]';
+		  ]
+		  ';
 		}
-		echo '
+		echo '}
     </script>
   <script async custom-element="amp-dynamic-css-classes" src="https://cdn.ampproject.org/v0/amp-dynamic-css-classes-0.1.js"></script>
   <script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script>
@@ -103,7 +109,7 @@ ul.meta li {
   <script async custom-element="amp-instagram" src="https://cdn.ampproject.org/v0/amp-instagram-0.1.js"></script>
   <script async custom-element="amp-image-lightbox" src="https://cdn.ampproject.org/v0/amp-image-lightbox-0.1.js"></script>
   <script async custom-element="amp-lightbox" src="https://cdn.ampproject.org/v0/amp-lightbox-0.1.js"></script>';
- if(preg_grep('/reddit/', $oembedvalues[1]) or preg_match('/reddit/', $resultpostint['content_link'])){
+ if(preg_grep('/reddit/', $oembedvalues[0]) or preg_match('/reddit/', $resultpostint['content_link'])){
 echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/v0/amp-reddit-0.1.js"></script>';
  }
  echo '<script async custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js"></script>
@@ -141,8 +147,8 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		echo '<li><time datetime="'.$date->format(DateTime::W3C).'">Posted on '.date_format($date, $postsperpage['date_format']." ".$postsperpage['time_format']).'</time></li>
 		</ul>';
 		// Post
-		if(preg_grep('/instagram/', $oembedvalues[1])){
-		$instagramconvert = preg_grep('/instagram/', $oembedvalues[1]);
+		if(preg_grep('/instagram/', $oembedvalues[0])){
+		$instagramconvert = preg_grep('/instagram/', $oembedvalues[0]);
 		foreach ($instagramconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$value3 = explode('/', $value2);
@@ -159,8 +165,8 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, '');
 		}
 		}
-		if(preg_grep('/twitter/', $oembedvalues[1])){
-		$twitterconvert = preg_grep('/twitter/', $oembedvalues[1]);
+		if(preg_grep('/twitter/', $oembedvalues[0])){
+		$twitterconvert = preg_grep('/twitter/', $oembedvalues[0]);
 		foreach ($twitterconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$value3 = explode('/', $value2);
@@ -176,8 +182,8 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $twitteramp);
 		}
 		}
-		if(preg_grep('/youtube/', $oembedvalues[1])){
-		$youtubeconvert = preg_grep('/youtube/', $oembedvalues[1]);
+		if(preg_grep('/youtube/', $oembedvalues[0])){
+		$youtubeconvert = preg_grep('/youtube/', $oembedvalues[0]);
 		foreach ($youtubeconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$value3 = explode('=', $value2);
@@ -192,8 +198,8 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $youtubeamp);
 		}
 		}
-		if(preg_grep('/vine/', $oembedvalues[1])){
-		$vineconvert = preg_grep('/vine/', $oembedvalues[1]);
+		if(preg_grep('/vine/', $oembedvalues[0])){
+		$vineconvert = preg_grep('/vine/', $oembedvalues[0]);
 		foreach ($vineconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$value3 = explode('/', $value2);
@@ -208,8 +214,8 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $vineamp);
 		}
 		}
-		if(preg_grep('/vimeo/', $oembedvalues[1])){
-		$vimeoconvert = preg_grep('/vimeo/', $oembedvalues[1]);
+		if(preg_grep('/vimeo/', $oembedvalues[0])){
+		$vimeoconvert = preg_grep('/vimeo/', $oembedvalues[0]);
 		foreach ($vimeoconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$value3 = explode('/', $value2);
@@ -224,8 +230,8 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $vimeoamp);
 		}
 		}
-		if(preg_grep('/soundcloud/', $oembedvalues[1])){
-		$soundcloudconvert = preg_grep('/soundcloud/', $oembedvalues[1]);
+		if(preg_grep('/soundcloud/', $oembedvalues[0])){
+		$soundcloudconvert = preg_grep('/soundcloud/', $oembedvalues[0]);
 		foreach ($soundcloudconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$value3 = file_get_contents('https://noembed.com/embed?url='.$value2);
@@ -240,8 +246,8 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $soundcloudamp);
 		}
 		}
-		if(preg_grep('/pinterest/', $oembedvalues[1])){
-		$pinterestconvert = preg_grep('/pinterest/', $oembedvalues[1]);
+		if(preg_grep('/pinterest/', $oembedvalues[0])){
+		$pinterestconvert = preg_grep('/pinterest/', $oembedvalues[0]);
 		foreach ($pinterestconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$pinterestregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
@@ -253,8 +259,8 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $pinterestamp);
 		}
 		}
-		if(preg_grep('/soundcloud/', $oembedvalues[1])){
-		$soundcloudconvert = preg_grep('/soundcloud/', $oembedvalues[1]);
+		if(preg_grep('/soundcloud/', $oembedvalues[0])){
+		$soundcloudconvert = preg_grep('/soundcloud/', $oembedvalues[0]);
 		foreach ($soundcloudconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$value3 = file_get_contents('https://noembed.com/embed?url='.$value2);
@@ -269,8 +275,8 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $soundcloudamp);
 		}
 		}
-		if(preg_grep('/dailymotion/', $oembedvalues[1])){
-		$dailymotionconvert = preg_grep('/dailymotion/', $oembedvalues[1]);
+		if(preg_grep('/dailymotion/', $oembedvalues[0])){
+		$dailymotionconvert = preg_grep('/dailymotion/', $oembedvalues[0]);
 		foreach ($dailymotionconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$value3 = explode('/', $value2);
@@ -283,8 +289,8 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $dailymotionamp);
 		}
 		}
-		if(preg_grep('/facebook/', $oembedvalues[1])){
-		$facebookconvert = preg_grep('/facebook/', $oembedvalues[1]);
+		if(preg_grep('/facebook/', $oembedvalues[0])){
+		$facebookconvert = preg_grep('/facebook/', $oembedvalues[0]);
 		foreach ($facebookconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$facebookregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
@@ -296,8 +302,8 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $facebookamp);
 		}
 		}
-		if(preg_grep('/reddit/', $oembedvalues[1])){
-		$redditconvert = preg_grep('/reddit/', $oembedvalues[1]);
+		if(preg_grep('/reddit/', $oembedvalues[0])){
+		$redditconvert = preg_grep('/reddit/', $oembedvalues[0]);
 		foreach ($redditconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$valuecomment = explode('/', $value);
@@ -334,48 +340,6 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
       alt=""></amp-img>';
 		array_push($ampsearcharray, $imgregex);
 		array_push($ampreplacementarray, $imageamp);
-		}
-		}
-		if(preg_match('/imgur/', $oembedvalues[1]) or preg_match('/mixcloud/', $oembedvalues[1]) or preg_match('/audiomack/', $oembedvalues[1]) or preg_match('/bandcamp/', $oembedvalues[1])){
-		$imgurunsupported = preg_grep('/imgur/', $oembedvalues[1]);
-		$redditunsupported = preg_grep('/audiomack/', $oembedvalues[1]);
-		$mixcloudunsupported = preg_grep('/reddit/', $oembedvalues[1]);
-		$audiomackunsupported = preg_grep('/mixcloud/', $oembedvalues[1]);
-		$bandcampunsupported = preg_grep('/bandcamp/', $oembedvalues[1]);
-		foreach ($bandcampunsupported as $value){
-		$value2 = str_replace ('"', '', $value);
-		$unsupportedregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
-		$unsupportedamp = '<div class="unsupported">This type of embed is unsupported on AMP pages (not by us), please visit the page on the regular website to see the embed.)</div>';
-		array_push($ampsearcharray, $unsupportedregex);
-		array_push($ampreplacementarray, $unsupportedamp);
-		}
-		foreach ($mixcloudunsupported as $value){
-		$value2 = str_replace ('"', '', $value);
-		$unsupportedregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
-		$unsupportedamp = '<div class="unsupported">This type of embed is unsupported on AMP pages (not by us), please visit the page on the regular website to see the embed.)</div>';
-		array_push($ampsearcharray, $unsupportedregex);
-		array_push($ampreplacementarray, $unsupportedamp);
-		}
-		foreach ($audiomackunsupported as $value){
-		$value2 = str_replace ('"', '', $value);
-		$unsupportedregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
-		$unsupportedamp = '<div class="unsupported">This type of embed is unsupported on AMP pages (not by us), please visit the page on the regular website to see the embed.)</div>';
-		array_push($ampsearcharray, $unsupportedregex);
-		array_push($ampreplacementarray, $unsupportedamp);
-		}
-		foreach ($mixcloudunsupported as $value){
-		$value2 = str_replace ('"', '', $value);
-		$unsupportedregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
-		$unsupportedamp = '<div class="unsupported">This type of embed is unsupported on AMP pages (not by us), please visit the page on the regular website to see the embed.)</div>';
-		array_push($ampsearcharray, $unsupportedregex);
-		array_push($ampreplacementarray, $unsupportedamp);
-		}
-		foreach ($imgurunsupported as $value){
-		$value2 = str_replace ('"', '', $value);
-		$unsupportedregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
-		$unsupportedamp = '<div class="unsupported">This type of embed is unsupported on AMP pages (not by us), please visit the page on the regular website to see the embed.)</div>';
-		array_push($ampsearcharray, $unsupportedregex);
-		array_push($ampreplacementarray, $unsupportedamp);
 		}
 		}
 		
@@ -449,11 +413,27 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
       height="610"
       layout="responsive"
       alt=""></amp-img>';
-			}
+			} else if(preg_match('/imgur/', $resultpostint['content_link']) or preg_match('/mixcloud/', $resultpostint['content_link']) or preg_match('/audiomack/', $resultpostint['content_link']) or preg_match('/bandcamp/', $resultpostint['content_link'])){
+		echo '<div class="unsupported">This type of embed is unsupported on AMP pages (not by us), please visit the page on the regular website to see the embed.)</div>';
+		}
 		}
 			array_push($ampsearcharray, '/style="*.*?"/');
 		array_push($ampreplacementarray, '');
-		echo preg_replace($ampsearcharray, $ampreplacementarray, $resultpostint['content_description']);
+		$replace1 = preg_replace($ampsearcharray, $ampreplacementarray, $resultpostint['content_description']);
+		$amp2searcharray = array();
+		$amp2replacementarray = array();
+
+		preg_match_all($pattern, $replace1, $oembedvalues2);
+		if(preg_grep('/data-oembed-url/', $oembedvalues2[0])){
+		$allconvert = preg_grep('/data-oembed-url/', $oembedvalues2[0]);
+		foreach ($allconvert as $value){
+		$allregex = '/<div data-oembed-url=+.*?(<\/div>){1,3}/';
+		$allamp = '<div class="unsupported">This type of embed is unsupported on AMP pages (not by us), please visit the page on the regular website to see the embed.)</div>';
+		array_push($amp2searcharray, $allregex);
+		array_push($amp2replacementarray, $allamp);
+		}
+		}
+		echo preg_replace($amp2searcharray, $amp2replacementarray, $replace1);
 			pluginClass::hook( "amp_post_bottom" );
 			pluginClass::hook( "amp_bottom" );
 echo '  <br> <amp-iframe width="480"
