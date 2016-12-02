@@ -429,7 +429,7 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
       height="610"
       layout="responsive"
       alt=""></amp-img>';
-			} else if(preg_match('/imgur/', $resultpostint['content_link']) or preg_match('/mixcloud/', $resultpostint['content_link']) or preg_match('/audiomack/', $resultpostint['content_link']) or preg_match('/bandcamp/', $resultpostint['content_link'])){
+			} else if(preg_match('/imgur/', $resultpostint['content_link']) or preg_match('/tumblr/', $resultpostint['content_link']) or preg_match('/mixcloud/', $resultpostint['content_link']) or preg_match('/audiomack/', $resultpostint['content_link']) or preg_match('/bandcamp/', $resultpostint['content_link'])){
 		echo '<div class="unsupported">This type of embed is unsupported on AMP pages (not by us), please visit the page on the regular website to see the embed.)</div>';
 		}
 		}
