@@ -53,7 +53,7 @@ $templates->addFolder('blog', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog');
     return $templates->render('blog::comment');;
 });
 
-$router->post('/{id}/postcomment', function(){
+$router->post('/postcomment', function(){
 $templates = new League\Plates\Engine();
 $templates->addFolder('blog', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog');
     return $templates->render('blog::comment');;
