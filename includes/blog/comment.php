@@ -1,5 +1,4 @@
 <?php 
-
 if (isset($_POST)){
 
 	$check = new DB_check;
@@ -41,7 +40,9 @@ pluginClass::hook( "captcha" );
 	$link = str_replace("/", "", $parsed_link['path']);
 	$linkinit = $global->sqlquery("SELECT content_id FROM dd_content WHERE content_permalink = '".$link."';");
 	$post_id = $linkinit->fetch_assoc();
-if (is_null($post_id['content_id'])){
+if (isset($_POST['postid'])){
+	$comment_post_id = $_POST['postid'];
+} else if (is_null($post_id['content_id'])){
 	$parsed_link = parse_url ($_SERVER['HTTP_REFERER']);
 	$comment_post_id = str_replace("postid=", "", $parsed_link['query']);
 } else {
@@ -63,7 +64,7 @@ if (is_null($post_id['content_id'])){
 	
 	if ($_POST['commentreply'] !== '0' & $_POST['commentreplyto'] !== '0'){
 	
-	$comment_id = $global->sqllastid("INSERT INTO `dd_comments` (`comment_id`, `comment_postid`, `comment_isreply`, `comment_replyto`, `comment_username`, `comment_email`, `comment_date`, `comment_content`, `comment_ip`, `comment_reported`, `comment_isfromadmin`, `comment_isfromcontributor`, `comment_userid`) VALUES (NULL, '".$comment_post_id."', '".$_POST['commentreply']."', '".$_POST['commentreplyto']."', '".$commentname."', '".$commentemail."', CURRENT_TIMESTAMP, '".$commentcontent."', '".$_POST[commentip]."', '', ".$commentstatus." '".$userid."')");
+	$comment_id = $global->sqllastid("INSERT INTO `dd_comments` (`comment_id`, `comment_`, `comment_isreply`, `comment_replyto`, `comment_username`, `comment_email`, `comment_date`, `comment_content`, `comment_ip`, `comment_reported`, `comment_isfromadmin`, `comment_isfromcontributor`, `comment_userid`) VALUES (NULL, '".$comment_post_id."', '".$_POST['commentreply']."', '".$_POST['commentreplyto']."', '".$commentname."', '".$commentemail."', CURRENT_TIMESTAMP, '".$commentcontent."', '".$_POST[commentip]."', '', ".$commentstatus." '".$userid."')");
 	
 	} else {
 		
