@@ -44,19 +44,19 @@ echo'<script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/jquery-2.2.3.min.js"
     var CKEDITOR_BASEPATH = "/scripts/ckeditor/";
 </script>';
 echo '
-<link rel="apple-touch-icon" sizes="57x57" href="images/favicon-57px.png">
-<link rel="apple-touch-icon" sizes="76x76" href="images/favicon-76px.png">
-<link rel="apple-touch-icon" sizes="120x120" href="images/favicon-120px.png">
-<link rel="apple-touch-icon" sizes="152x152" href="images/favicon-152px.png">
-<link rel="apple-touch-icon" sizes="192x192" href="images/favicon-192px.png">
-<link rel="icon" type="image/png" sizes="192x192"  href="images/favicon-192px.png">
-<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32px.png">
-<link rel="icon" type="image/png" sizes="96x96" href="images/favicon-96px.png">
-<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16px.png">
-<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon-57px.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon-76px.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon-120px.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon-152px.png">
+<link rel="apple-touch-icon" sizes="192x192" href="/images/favicon-192px.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/images/favicon-192px.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32px.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96px.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16px.png">
+<link rel="manifest" href="/manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="msapplication-TileImage" content="images/favicon-144px.png">
+<meta name="msapplication-TileImage" content="/images/favicon-144px.png">
 <meta name="theme-color" content="'.$settings2['site_color'].'" />';
 $link = str_replace('/', '', $_SERVER['REQUEST_URI']);
 
@@ -75,7 +75,7 @@ echo '<meta name="description" content="'.strip_tags($resultpost2['content_summa
 } else if (!empty($resultpage2['page_title'])){
 echo '<meta name="decription" content="'.$resultpage2['page_title'].'">';
 }
-preg_match('/[^< *img*src *= *>"\']?(http:[^"\']*)+(png|jpg|gif)/' , $resultpost2['content_description'], $image); 
+preg_match('/[^< *img*src *= *>"\']*(http[^"\']*)+(png|jpg|gif)/' , $resultpost2['content_description'], $image); 
 if (!empty($resultpost2['content_title'])){
 echo '<meta property="og:title" content="'.$resultpost2['content_title'].'">';
 }
