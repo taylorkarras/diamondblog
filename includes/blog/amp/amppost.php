@@ -1,4 +1,5 @@
 <?php
+header('Access-Control-Allow-Origin: *');
 $global = new DB_global;
 $check = new DB_check;
 $retrive = new DB_retrival;
@@ -117,7 +118,9 @@ ul.meta li {
 	  }
 	  echo '
 	  }
-    </script>
+    </script>';
+echo file_get_contents("https://".$_SERVER['HTTP_HOST']."/themes/".THEME."/styles/ampfont.php");
+echo '
   <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
   <script async custom-element="amp-dynamic-css-classes" src="https://cdn.ampproject.org/v0/amp-dynamic-css-classes-0.1.js"></script>
   <script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script>
