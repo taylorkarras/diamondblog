@@ -195,12 +195,12 @@ pluginClass::hook( "comment_captcha" );
 	$cpp = $commentsperpage['commentsperpage'];
 	$start_from = ($page-1) * $cpp;
 	
-	$comments = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_isreply = '0' AND comment_postid LIKE '$the_post_id' LIMIT $start_from, $cpp");
+	$comments = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_isreply = '0' AND comment_postid LIKE '$the_post_id' ORDER BY comment_date ASC LIMIT $start_from, $cpp");
 	$comments2 = $global->sqlquery("SELECT COUNT(*) FROM dd_comments WHERE comment_postid LIKE '$the_post_id'");
 	$row2 = $comments2->fetch_row(); 
 	$total_records = $row2[0];
 	
-	$result = $global->sqlquery("SELECT * FROM dd_content ORDER BY content_date DESC LIMIT $start_from, $ppp;");
+	$result = $global->sqlquery("SELECT * FROM dd_content ORDER BY content_date ASC LIMIT $start_from, $ppp;");
 $result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_content");
 $row2 = $result2->fetch_row(); 
 $total_records = $row2[0];
