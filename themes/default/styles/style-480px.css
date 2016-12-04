@@ -64,7 +64,18 @@ iframe {
 }
 
 img {
-	width: 250px !important
+        float: initial !important;
+        margin: auto !important;
+	max-width: 250px !important;
+	max-height: 250px !important;
+	height:auto !important;
+	width: auto !important;
+}
+
+#pinned, #postcomment, #commentwarning, #subtextbox {
+    margin: auto !important;
+    width: 250px !important;
+	margin-bottom: 25px !important;
 }
 
 .contenttitle {
