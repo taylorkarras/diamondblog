@@ -36,7 +36,7 @@ pluginClass::hook( "page_top" );
 	
 	echo '</div>';
 } else if($userinfo2['user_username'] == $link && $userinfo2['user_isadmin'] == '1' or $userinfo2['user_iscontributor'] == '1'){
-
+header("X-Robots-Tag: noindex", true);
 echo '<div id="userinfo"><h1>'.$userinfo2['user_realname'].'</h1>
 <small>(';
 if ($userinfo2['user_isadmin'] == '1')
@@ -47,8 +47,8 @@ echo ')
 
 <br /><br /><li>Location: '.$userinfo2['user_location'].'</li>';
 if ($check->usercontactenabled() == true){
-echo '<li><a href="/'.$userinfo2['user_username'].'/contact" title="Contact" alt="Contact">Contact</a></li>';
-echo '<li><a href="/author?name='.$userinfo2['user_username'].'" title="All articles by this author" alt="All articles by this author">All articles by this author</a></li>';
+echo '<li><a href="/'.$userinfo2['user_username'].'/contact" rel="nofollow" title="Contact" alt="Contact">Contact</a></li>';
+echo '<li><a href="/author?name='.$userinfo2['user_username'].'" rel="nofollow" title="All articles by this author" alt="All articles by this author">All articles by this author</a></li>';
 }
 echo '
 <h2>About Me:</h2>
@@ -78,7 +78,7 @@ pluginClass::hook( "post_contentbottom" );
 		echo '<div class="contentcategory">Categorized under: <a href="/?cat=';
 		$catlowcase = strtolower($row['content_category']);
 		echo $catlowcase;
-		echo '" alt="'; echo $row['content_category']; echo '" title="'; echo $row['content_category']; echo'">'; echo $row['content_category']; echo '</div></a>';
+		echo '" rel="nofollow" alt="'; echo $row['content_category']; echo '" title="'; echo $row['content_category']; echo'">'; echo $row['content_category']; echo '</div></a>';
 		// Tags
 		echo '<div class="contenttags">Tags: ';
 		$tags = explode (", ", $row['content_tags']);
@@ -86,7 +86,7 @@ pluginClass::hook( "post_contentbottom" );
 			echo '<a href="/tag?name=';
 		$taglowcase = strtolower($tag);
 		echo $taglowcase;
-		echo '" alt="'; echo $tag; echo '" title="'; echo $tag; echo'">'; echo $tag; echo '</a> ';
+		echo '" rel="nofollow" alt="'; echo $tag; echo '" title="'; echo $tag; echo'">'; echo $tag; echo '</a> ';
 		}
 		echo '</div>';
 		
@@ -153,7 +153,6 @@ $userinfo4 = $userinfo3->fetch_assoc();
 </script>";
 	echo '<input name="commentreply" id="cr-v" type="hidden" value="0">';
 	echo '<input name="commentreplyto" id="crt-id" type="hidden" value="0">';
-	echo '<input name="commentip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">';
 	echo '<br /><br /><input name="commentsubmit" type="submit" value="Post comment"/>
 	</form>';
 	echo '<div id="commentwarning">'.$template['comment_notification_message'].'</div>';
@@ -178,7 +177,6 @@ $userinfo4 = $userinfo3->fetch_assoc();
 </script>";
         echo '<input name="commentreply" id="cr-v" type="hidden" value="0">';
         echo '<input name="commentreplyto" id="crt-id" type="hidden" value="0">';
-	echo '<input name="commentip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">';
 pluginClass::hook( "comment_captcha" );
 	echo '<br /><br /><input name="commentsubmit" type="submit" value="Post comment"/>
 	</form>';
@@ -226,14 +224,14 @@ echo '<div class="contentpostscroll">';
 		echo '<a href="/votecomment?postid='.$the_post_id.'&commentid='.$rowcomments['comment_id'].'&vote=positive" style="color:';if ($check->ifvotedpositive($rowcomments['comment_id'])){
 		echo VOTED;}else {
 		echo 'green';}
-		echo '"  alt="Upvote this comment!" title="Upvote this comment!">▲</a><br />';
+		echo '" rel="nofollow" alt="Upvote this comment!" title="Upvote this comment!">▲</a><br />';
 		}echo '<div style="text-align:center">'.$check->positivenegativecomb($the_post_id, $rowcomments['comment_id']).'</div>';
 		if ($check->ifbanned() or $check->istor()){
 		}else{
 		echo '<a href="/votecomment?postid='.$the_post_id.'&commentid='.$rowcomments['comment_id'].'&vote=negative" style="color:';if ($check->ifvotednegative($rowcomments['comment_id'])){
 		echo VOTEDN;}else {
 		echo 'red';}
-		echo '" alt="Downvote this comment!" title="Downvote this comment!">▼</a>';
+		echo '" rel="nofollow" alt="Downvote this comment!" title="Downvote this comment!">▼</a>';
 		}
 		echo '</div>';
 		echo '<div class="commentnumber">#'.$count.'</div>';
@@ -252,8 +250,8 @@ echo '<div class="contentpostscroll">';
 			echo ' - <b>Comment Reported</b> | ';}
 			else {
 			echo
-		' - <a href="/reportcomment?id='.$rowcomments['comment_id'].'&ip='.$_SERVER['REMOTE_ADDR'].'" alt="Report Comment" title="Report Comment">Report</a> | ';
-		} echo '<a href="#postcomment" onclick="document.getElementById(';echo "'"; echo 'cr-v'; echo"'"; echo').value = 1; document.getElementById(';echo "'"; echo 'crt-id'; echo"'"; echo').value = '.$rowcomments['comment_id'].';document.getElementById('; echo "'";echo '#postcomment';echo "'"; echo').scrollIntoView();" alt="Reply" title="Reply to this comment.">Reply</a></div>';
+		' - <a href="/reportcomment?id='.$rowcomments['comment_id'].'&ip='.$_SERVER['REMOTE_ADDR'].'" rel="nofollow" alt="Report Comment" title="Report Comment">Report</a> | ';
+		} echo '<a href="#postcomment" rel="nofollow" onclick="document.getElementById(';echo "'"; echo 'cr-v'; echo"'"; echo').value = 1; document.getElementById(';echo "'"; echo 'crt-id'; echo"'"; echo').value = '.$rowcomments['comment_id'].';document.getElementById('; echo "'";echo '#postcomment';echo "'"; echo').scrollIntoView();" alt="Reply" title="Reply to this comment.">Reply</a></div>';
 		}
 		echo '<div class="commentcontent2">'.$rowcomments['comment_content'].'</div>';
 		echo '</div>';
