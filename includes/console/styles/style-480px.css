@@ -1,7 +1,23 @@
 #page{
-    width: 300px !important;
+    width: 275px !important;
 }
 
 .menu2 li {
 	    margin-right: -5px !important;
+}
+
+#login input{
+        width: 275px !important;
+}
+
+.postsubmit {
+        width: 275px !important;
+}
+
+.searchhint {
+max-width: 253px !important;
+}
+
+#post select {
+    width: 55% !important;
 }
