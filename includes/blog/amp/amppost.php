@@ -128,7 +128,7 @@ echo '
   <script async custom-element="amp-instagram" src="https://cdn.ampproject.org/v0/amp-instagram-0.1.js"></script>
   <script async custom-element="amp-image-lightbox" src="https://cdn.ampproject.org/v0/amp-image-lightbox-0.1.js"></script>
   <script async custom-element="amp-lightbox" src="https://cdn.ampproject.org/v0/amp-lightbox-0.1.js"></script>';
- if(preg_grep('/reddit/', $oembedvalues[0]) or preg_match('/reddit/', $resultpostint['content_link'])){
+ if(preg_grep('/reddit/', $oembedvalues[1]) or preg_match('/reddit/', $resultpostint['content_link'])){
 echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/v0/amp-reddit-0.1.js"></script>';
  }
  echo '<script async custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js"></script>
@@ -166,12 +166,12 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		echo '<li><time datetime="'.$date->format(DateTime::W3C).'">Posted on '.date_format($date, $postsperpage['date_format']." ".$postsperpage['time_format']).'</time></li>
 		</ul>';
 		// Post
-		if(preg_grep('/instagram/', $oembedvalues[0])){
-		$instagramconvert = preg_grep('/instagram/', $oembedvalues[0]);
+		if(preg_grep('/instagram/', $oembedvalues[1])){
+		$instagramconvert = preg_grep('/instagram/', $oembedvalues[1]);
 		foreach ($instagramconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$value3 = explode('/', $value2);
-		$instagramregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
+		$instagramregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?(div>)([^\s]+.?){1,3}(>)/';
 		$instagramamp = '<amp-instagram
     data-shortcode="'.$value3[4].'"
     width="400"
@@ -184,12 +184,12 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, '');
 		}
 		}
-		if(preg_grep('/twitter/', $oembedvalues[0])){
-		$twitterconvert = preg_grep('/twitter/', $oembedvalues[0]);
+		if(preg_grep('/twitter/', $oembedvalues[1])){
+		$twitterconvert = preg_grep('/twitter/', $oembedvalues[1]);
 		foreach ($twitterconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$value3 = explode('/', $value2);
-		$twitterregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
+		$twitterregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?(div>)([^\s]+.?){1,3}(>)/';
 		$twitteramp = '<amp-twitter
     data-tweetid="'.$value3[5].'"
     width="486"
@@ -201,12 +201,12 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $twitteramp);
 		}
 		}
-		if(preg_grep('/youtube/', $oembedvalues[0])){
-		$youtubeconvert = preg_grep('/youtube/', $oembedvalues[0]);
+		if(preg_grep('/youtube/', $oembedvalues[1])){
+		$youtubeconvert = preg_grep('/youtube/', $oembedvalues[1]);
 		foreach ($youtubeconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$value3 = explode('=', $value2);
-		$youtuberegex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
+		$youtuberegex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?(div>)([^\s]+.?){1,3}(>)/';
 		$youtubeamp = '<amp-youtube
     data-videoid="'.$value3[1].'"
     width="480"
@@ -217,12 +217,12 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $youtubeamp);
 		}
 		}
-		if(preg_grep('/vine/', $oembedvalues[0])){
-		$vineconvert = preg_grep('/vine/', $oembedvalues[0]);
+		if(preg_grep('/vine/', $oembedvalues[1])){
+		$vineconvert = preg_grep('/vine/', $oembedvalues[1]);
 		foreach ($vineconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$value3 = explode('/', $value2);
-		$vineregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
+		$vineregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?(div>)([^\s]+.?){1,3}(>)/';
 		$vineamp = '<amp-vine 
     data-vineid="'.$value3[4].'"
     width="400"
@@ -233,12 +233,12 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $vineamp);
 		}
 		}
-		if(preg_grep('/vimeo/', $oembedvalues[0])){
-		$vimeoconvert = preg_grep('/vimeo/', $oembedvalues[0]);
+		if(preg_grep('/vimeo/', $oembedvalues[1])){
+		$vimeoconvert = preg_grep('/vimeo/', $oembedvalues[1]);
 		foreach ($vimeoconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$value3 = explode('/', $value2);
-		$vimeoregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
+		$vimeoregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?(div>)([^\s]+.?){1,3}(>)/';
 		$vimeoamp = '<amp-vimeo 
     data-videoid="'.$value3[3].'"
     width="500"
@@ -249,27 +249,11 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $vimeoamp);
 		}
 		}
-		if(preg_grep('/soundcloud/', $oembedvalues[0])){
-		$soundcloudconvert = preg_grep('/soundcloud/', $oembedvalues[0]);
-		foreach ($soundcloudconvert as $value){
-		$value2 = str_replace ('"', '', $value);
-		$value3 = file_get_contents('https://noembed.com/embed?url='.$value2);
-		preg_match('/tracks%2F([^&]+)&/', $value3, $value4);
-		$soundcloudregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
-		$soundcloudamp = '<amp-soundcloud 
-    data-trackid="'.$value4[1].'"
-    height="657"
-    layout="fixed-height">
-</amp-soundcloud>';
-		array_push($ampsearcharray, $soundcloudregex);
-		array_push($ampreplacementarray, $soundcloudamp);
-		}
-		}
-		if(preg_grep('/pinterest/', $oembedvalues[0])){
-		$pinterestconvert = preg_grep('/pinterest/', $oembedvalues[0]);
+		if(preg_grep('/pinterest/', $oembedvalues[1])){
+		$pinterestconvert = preg_grep('/pinterest/', $oembedvalues[1]);
 		foreach ($pinterestconvert as $value){
 		$value2 = str_replace ('"', '', $value);
-		$pinterestregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
+		$pinterestregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?(div>)([^\s]+.?){1,3}(>)/';
 		$pinterestamp = '<amp-pinterest width=245 height=330
   data-do="embedPin"
   data-url="'.$value2.'">
@@ -278,28 +262,30 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $pinterestamp);
 		}
 		}
-		if(preg_grep('/soundcloud/', $oembedvalues[0])){
-		$soundcloudconvert = preg_grep('/soundcloud/', $oembedvalues[0]);
+		if(preg_grep('/soundcloud/', $oembedvalues[1])){
+		$soundcloudconvert = preg_grep('/soundcloud/', $oembedvalues[1]);
 		foreach ($soundcloudconvert as $value){
 		$value2 = str_replace ('"', '', $value);
-		$value3 = file_get_contents('https://noembed.com/embed?url='.$value2);
-		preg_match('/tracks%2F([^&]+)&/', $value3, $value4);
-		$soundcloudregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
-		$soundcloudamp = '<amp-soundcloud 
-    data-trackid="'.$value4[1].'"
-    height="657"
+		$value3 = str_replace ("data-oembed-url=", '', $value2);
+		$value4 = file_get_contents('https://noembed.com/embed?url='.$value3);
+		preg_match('/tracks%2F([^&]+)&/', $value4, $value5);
+		$soundcloudregex = '/<div data-oembed-url="'.preg_quote($value3, "/").'">.*?(div>)([^\s]+.?){1,3}(>)/';
+		$soundcloudamp = '<amp-soundcloud
+    data-trackid="'.$value5[1].'"
+    height="200"
     layout="fixed-height">
 </amp-soundcloud>';
 		array_push($ampsearcharray, $soundcloudregex);
 		array_push($ampreplacementarray, $soundcloudamp);
 		}
 		}
-		if(preg_grep('/dailymotion/', $oembedvalues[0])){
-		$dailymotionconvert = preg_grep('/dailymotion/', $oembedvalues[0]);
+
+		if(preg_grep('/dailymotion/', $oembedvalues[1])){
+		$dailymotionconvert = preg_grep('/dailymotion/', $oembedvalues[1]);
 		foreach ($dailymotionconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$value3 = explode('/', $value2);
-		$dailymotionregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
+		$dailymotionregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?(div>)([^\s]+.?){1,3}(>)/';
 		$dailymotionamp = '<amp-dailymotion
     data-videoid="'.$value3[4].'"
     layout="responsive"
@@ -308,11 +294,11 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $dailymotionamp);
 		}
 		}
-		if(preg_grep('/facebook/', $oembedvalues[0])){
-		$facebookconvert = preg_grep('/facebook/', $oembedvalues[0]);
+		if(preg_grep('/facebook/', $oembedvalues[1])){
+		$facebookconvert = preg_grep('/facebook/', $oembedvalues[1]);
 		foreach ($facebookconvert as $value){
 		$value2 = str_replace ('"', '', $value);
-		$facebookregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
+		$facebookregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?(div>)([^\s]+.?){1,3}(>)/';
 		$facebookamp = '<amp-facebook width=486 height=657
   layout="responsive"
   data-href="'.$value2.'">
@@ -321,13 +307,13 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $facebookamp);
 		}
 		}
-		if(preg_grep('/reddit/', $oembedvalues[0])){
-		$redditconvert = preg_grep('/reddit/', $oembedvalues[0]);
+		if(preg_grep('/reddit/', $oembedvalues[1])){
+		$redditconvert = preg_grep('/reddit/', $oembedvalues[1]);
 		foreach ($redditconvert as $value){
 		$value2 = str_replace ('"', '', $value);
 		$valuecomment = explode('/', $value);
 		if(isset($valuecomment[8])){
-		$redditregex2 = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
+		$redditregex2 = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?(div>)([^\s]+.?){1,3}(>)/';
 		$redditamp2 = '<amp-reddit width=400 height=200
   layout="responsive"
   data-embedtype="comment"
@@ -336,7 +322,7 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampsearcharray, $redditregex2);
 		array_push($ampreplacementarray, $redditamp2);
 		} else {
-		$redditregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?<\/div>/';
+		$redditregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?(div>)([^\s]+.?){1,3}(>)/';
 		$redditamp = '<amp-reddit width=400 height=200
   layout="responsive"
   data-embedtype="post"
@@ -438,23 +424,8 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		}
 			array_push($ampsearcharray, '/style="*.*?"/');
 		array_push($ampreplacementarray, '');
-		$replace1 = preg_replace($ampsearcharray, $ampreplacementarray, $resultpostint['content_description']);
-		$amp2searcharray = array();
-		$amp2replacementarray = array();
-
-		preg_match_all($pattern, $replace1, $oembedvalues2);
-		if(preg_grep('/data-oembed-url/', $oembedvalues2[0])){
-		$allconvert = preg_grep('/data-oembed-url/', $oembedvalues2[0]);
-		foreach ($allconvert as $value){
-		$allregex = '/<div data-oembed-url=+.*?(<\/div>){1,3}/';
-		$allregex2 = '/<script+.*?(<\/script>){1,3}/';
-		$allamp = '<div class="unsupported">This type of embed is unsupported on AMP pages (not by us), please visit the page on the regular website to see the embed.)</div>';
-		array_push($amp2searcharray, $allregex);
-		array_push($amp2searcharray, $allregex2);
-		array_push($amp2replacementarray, $allamp);
-		}
-		}
-		echo preg_replace($amp2searcharray, $amp2replacementarray, $replace1);
+		echo $replace1 = preg_replace($ampsearcharray, $ampreplacementarray, $resultpostint['content_description']);
+		//echo preg_replace('/<div data-oembed-url=.*?(div>)([^\s]+.?){1,3}(>)/', '<div class="unsupported">This type of embed is unsupported on AMP pages (not by us), please visit the page on the regular website to see the embed.)</div>', $replace1);
 			pluginClass::hook( "amp_post_bottom" );
 			pluginClass::hook( "amp_bottom" );
 echo '  <br> <amp-iframe width="480"
