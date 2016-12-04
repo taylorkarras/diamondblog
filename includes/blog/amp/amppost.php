@@ -337,10 +337,11 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		if(preg_match_all($patternimg, $resultpostint['content_description'], $imgsrcvalues)){
 		foreach ($imgsrcvalues[2] as $value){
 		$value2 = str_replace ('"', '', $value);
+		$imgsize = getimagesize($value2);
 		$imgregex = '/<img.*? \s*(src="(.*'.preg_quote($value2, '/').')").* \/>/';
 		$imageamp = '<amp-img src="'.$value2.'"
-      width="1080"
-      height="610"
+      width="'.$imgsize[0].'"
+      height="'.$imgsize[1].'"
       layout="responsive"
       alt=""></amp-img>';
 		array_push($ampsearcharray, $imgregex);
@@ -413,9 +414,10 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 </amp-reddit>';
 					}}
 			else if (preg_match('/jpg/', $resultpostint['content_link']) or preg_match('/gif/', $resultpostint['content_link']) or preg_match('/png/', $resultpostint['content_link']) or preg_match('/gif/', $resultpostint['content_link'])){
+				$imgsize = getimagesize($resultpostint['content_link']);
 				echo '<amp-img src="'.$resultpostint['content_link'].'"
-      width="1080"
-      height="610"
+      width="'.$imgsize[0].'"
+      height="'.$imgsize[1].'"
       layout="responsive"
       alt=""></amp-img>';
 			} else if(preg_match('/imgur/', $resultpostint['content_link']) or preg_match('/tumblr/', $resultpostint['content_link']) or preg_match('/mixcloud/', $resultpostint['content_link']) or preg_match('/audiomack/', $resultpostint['content_link']) or preg_match('/bandcamp/', $resultpostint['content_link'])){
