@@ -40,7 +40,7 @@ $row2 = $result2->fetch_row();
 	$count = $page;
 	}
 	else {
-	$count = $page + $ppp - '1';
+	$count = $page + $start_from - $page + '1';
 	}
 
 	if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
