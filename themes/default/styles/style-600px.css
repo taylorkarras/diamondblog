@@ -26,6 +26,11 @@
 	height: 97px;
 }
 
+img {
+	max-width: 545px !important;
+	max-height: 545px !important;
+}
+
 .contenttitle{
 	    font-size: 45px !important;
 }
