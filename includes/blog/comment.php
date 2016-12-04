@@ -1,87 +1,43 @@
-<?php 
-if (isset($_POST)){
+<?php
+$username = explode("/", $_SERVER['REQUEST_URI']);
+$global = new DB_global;
+$templateinit = $global->sqlquery("SELECT * FROM dd_templates;");
+$template = $templateinit->fetch_assoc();
+$usersetting = $global->sqlquery("SELECT * FROM dd_settings");
+$usersetting2 = $usersetting->fetch_assoc();
+$userinfo = $global->sqlquery("SELECT * FROM dd_users WHERE user_username = '".$username[1]."'");
+$userinfo2 = $userinfo->fetch_assoc();
 
-	$check = new DB_check;
-	if ($check->ifbanned()){
-	}else{
-		
-				if(trim($_POST['commentname']) === '')  {
-		$_SESSION['errors']['commentname'] = "You must enter a name.";
-		$hasError = true;	
-	} else {
-		$commentname = $_POST['commentname'];
-	}
-	
-		if(empty($_POST['commentemail']))  {	
-		$_SESSION['errors']['commentemail'] = "You must enter an email.";
-		$hasError = true;	
-	} else {
-		$commentemail = $_POST['commentemail'];
-	}
-	
-		if(empty($_POST['commentcontent']))  {	
-		$_SESSION['errors']['commentcontent'] = "You must enter content.";
-		$hasError = true;	
-	} else {
-		$commentcontent = $_POST['commentcontent'];
-	}
-if (!$check->isLoggedIn()){
-pluginClass::hook( "captcha" );
+if ($userinfo2['user_username'] == $username[1] && $usersetting2['contact_users_on'] == '1'){
+header("X-Robots-Tag: noindex", true);
+pluginClass::hook( "user_contact" );
+echo '<h1>Contact '.$userinfo2['user_realname'].'</h1>';
+echo '<form id="mail" method="post">
+	<label name="emailname">Name:</label>
+	<br><input type="text" name="emailname"/>
+	<br><br><label name="emailsubject">Subject:</label>
+	<br><input type="text" name="emailsubject"/>
+	<br><br><label name="emailaddress">Email address:</label>
+	<br><input type="email" name="emailaddress"/>
+	<input type="hidden" value="'.$userinfo2['user_username'].'" name="emaildestination">
+	<br><br><label name="emailmessage">Message:</label>
+	<br><textarea id="message" name="emailmessage"></textarea>
+	<input name="emailip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">';
+	if (!isset($_COOKIE["userID"])){
+pluginClass::hook( "comment_captcha" );
 }
-
-		if(isset($hasError)){
-		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-                echo json_encode($_SESSION['errors']);
-                exit;
-	}} else {
-	
-	$global = new DB_global;
-	$parsed_link = parse_url ($_SERVER['HTTP_REFERER']);
-	$link = str_replace("/", "", $parsed_link['path']);
-	$linkinit = $global->sqlquery("SELECT content_id FROM dd_content WHERE content_permalink = '".$link."';");
-	$post_id = $linkinit->fetch_assoc();
-if (isset($_POST['postid'])){
-	$comment_post_id = $_POST['postid'];
-} else if (is_null($post_id['content_id'])){
-	$parsed_link = parse_url ($_SERVER['HTTP_REFERER']);
-	$comment_post_id = str_replace("postid=", "", $parsed_link['query']);
+	echo '<br><input type="reset" value="Reset"><input name="emailsubmit" type="submit" value="Submit">';
+		echo "<script>    CKEDITOR.replace( 'message', {
+    toolbar: [
+    { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', '-', 'Undo', 'Redo' ] },
+    { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
+    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
+]
+});
+</script>";
+echo '</form>';
 } else {
-	$comment_post_id = $post_id['content_id'];
+header("HTTP/2.0 404 Not Found");
+echo '<div class="notfoundpage">'.$template['404_message'].'</div>';
 }
-	
-	if (isset($_POST['userid'])){
-		$userid = $_POST['userid'];
-	}
-	else if ($check->isLoggedIn()){
-                $userid = $_COOKIE['userID'];
-        }
-
-	$userstatus = $global->sqlquery("SELECT * FROM dd_users WHERE user_id = '".$userid."';");
-	$userstatus2 = $userstatus->fetch_assoc();
-	
-	if ($userstatus2['user_isadmin'] == '1'){
-	$commentstatus = "'1', '0',";
-	} else if ($userstatus2['user_iscontributor'] == '1'){
-	$commentstatus = "'0', '1',";
-	} else {
-	$commentstatus = "'0', '0',";
-	}
-	
-	$commentip = $_SERVER['REMOTE_ADDR'];
-
-	if ($_POST['commentreply'] !== '0' & $_POST['commentreplyto'] !== '0'){
-	
-	$comment_id = $global->sqllastid("INSERT INTO `dd_comments` (`comment_id`, `comment_`, `comment_isreply`, `comment_replyto`, `comment_username`, `comment_email`, `comment_date`, `comment_content`, `comment_ip`, `comment_reported`, `comment_isfromadmin`, `comment_isfromcontributor`, `comment_userid`) VALUES (NULL, '".$comment_post_id."', '".$_POST['commentreply']."', '".$_POST['commentreplyto']."', '".$commentname."', '".$commentemail."', CURRENT_TIMESTAMP, '".$commentcontent."', '".$commentip."', '', ".$commentstatus." '".$userid."')");
-	
-	} else {
-		
-$comment_id = $global->sqllastid("INSERT INTO `dd_comments` (`comment_id`, `comment_postid`, `comment_isreply`, `comment_replyto`, `comment_username`, `comment_email`, `comment_date`, `comment_content`, `comment_ip`, `comment_reported`, `comment_isfromadmin`, `comment_isfromcontributor`, `comment_userid`) VALUES (NULL, '".$comment_post_id."', '0', '0', '".$commentname."', '".$commentemail."', CURRENT_TIMESTAMP, '".$commentcontent."', '".$commentip."', '', ".$commentstatus." '".$userid."')");
-	
-	}
-	if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
-	   $_SESSION['resp']['formrefresh'] = true;
-       echo json_encode($_SESSION['resp']);
-       exit;
-	}
-	}}
-}
+?>
