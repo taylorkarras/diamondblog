@@ -1,43 +1,102 @@
 <?php
-$username = explode("/", $_SERVER['REQUEST_URI']);
+define ("RSSHEAD", '<link rel="alternate" type="application/rss+xml" title="'.$postsperpage['site_name'].'" href="https://'.$_SERVER['HTTP_HOST'].'/feed" />');
 $global = new DB_global;
-$templateinit = $global->sqlquery("SELECT * FROM dd_templates;");
-$template = $templateinit->fetch_assoc();
-$usersetting = $global->sqlquery("SELECT * FROM dd_settings");
-$usersetting2 = $usersetting->fetch_assoc();
-$userinfo = $global->sqlquery("SELECT * FROM dd_users WHERE user_username = '".$username[1]."'");
-$userinfo2 = $userinfo->fetch_assoc();
+$retrive = new DB_retrival;
+$postsperpageinit = $global->sqlquery("SELECT * FROM dd_settings;");
+$postsperpage = $postsperpageinit->fetch_assoc();
+$ppp = $postsperpage['postsperpage'];
 
-if ($userinfo2['user_username'] == $username[1] && $usersetting2['contact_users_on'] == '1'){
-header("X-Robots-Tag: noindex", true);
-pluginClass::hook( "user_contact" );
-echo '<h1>Contact '.$userinfo2['user_realname'].'</h1>';
-echo '<form id="mail" method="post">
-	<label name="emailname">Name:</label>
-	<br><input type="text" name="emailname"/>
-	<br><br><label name="emailsubject">Subject:</label>
-	<br><input type="text" name="emailsubject"/>
-	<br><br><label name="emailaddress">Email address:</label>
-	<br><input type="email" name="emailaddress"/>
-	<input type="hidden" value="'.$userinfo2['user_username'].'" name="emaildestination">
-	<br><br><label name="emailmessage">Message:</label>
-	<br><textarea id="message" name="emailmessage"></textarea>
-	<input name="emailip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">';
-	if (!isset($_COOKIE["userID"])){
-pluginClass::hook( "comment_captcha" );
+if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
+$start_from = ($page-1) * $ppp; 
+
+$result = $global->sqlquery("SELECT * FROM dd_content WHERE content_pinned = '0' ORDER BY content_date DESC LIMIT $start_from, $ppp;");
+$result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_content");
+$row2 = $result2->fetch_row(); 
+$total_records = $row2[0];
+$total_pages = ceil($total_records / $ppp);
+
+$pinned = $global->sqlquery("SELECT * FROM dd_content WHERE content_pinned = '1' OR content_pinned = '2';");
+
+$check = new DB_check;
+pluginClass::hook( "content_top" );
+// Pinned post //
+if ($pinned->num_rows > 0) {
+    // output data of each row
+echo '<div id="pinned">';
+echo '<h2>Pinned</h2>';
+    while($row = $pinned->fetch_assoc()) {
+		$date=date_create($row['content_date']);
+		// Comments
+		echo '<div class="contentcomment"><a class="contentcomment" href="'; echo $row['content_permalink']; echo '#comments" title="Comment & share!" alt="Comment & share!">Comments (';echo $check->retrieve_comment_count($row['content_id']); echo')'; echo'<a/></div>';
+		// Title
+        echo '<a href="';echo $row['content_permalink']; echo '" class="contenttitle" title="';echo $row['content_title']; echo '" alt="';echo $row['content_title']; echo '"><div class="contenttitle">';echo $row['content_title']; echo '</div></a>';
+		// Date
+		echo '<div class="contentdate">Posted on '.date_format($date, $postsperpage['date_format']." ".$postsperpage['time_format']).' by '.$retrive->realname($row['content_author']).'</div>';
+		// Post
+		echo '<div class="contentpost">'; echo $row['content_embedcode'];
+		echo '<br />';
+		echo $row['content_summary'];
+		if (strpos($row['content_summary'], "...")){
+		echo '<p><a class="readmore" href="'.$row['content_permalink'].'" title="';echo $row['content_title']; echo '" alt="';echo $row['content_title']; echo '">(read more)</a></p>';
+		}
+		echo '</div>';
+		// Category
+		echo '<div class="contentcategory">Categorized under: <a href="/category?name=';
+		$catlowcase = strtolower($row['content_category']);
+		echo $catlowcase;
+		echo '" rel="nofollow" alt="'; echo $row['content_category']; echo '" title="'; echo $row['content_category']; echo'">'; echo $row['content_category']; echo '</div></a>';
+		// Tags
+		echo '<div class="contenttags">Tags: ';
+		$tags = explode (", ", $row['content_tags']);
+		foreach ($tags as $tag) {
+			echo '<a href="/tag?name=';
+		$taglowcase = strtolower($tag);
+		echo $taglowcase;
+		echo '" rel="nofollow" alt="'; echo $tag; echo '" title="'; echo $tag; echo'">'; echo $tag; echo '</a> ';
+		}
+		echo '</div>';
+    }
 }
-	echo '<br><input type="reset" value="Reset"><input name="emailsubmit" type="submit" value="Submit">';
-		echo "<script>    CKEDITOR.replace( 'message', {
-    toolbar: [
-    { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', '-', 'Undo', 'Redo' ] },
-    { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
-    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
-]
-});
-</script>";
-echo '</form>';
+echo '</div>';
+
+echo '<div class="contentpostscroll">';
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+		$date=date_create($row['content_date']);
+		// Comments
+		echo '<div class="contentcomment"><a class="contentcomment" href="'; echo $row['content_permalink']; echo '#comments" title="Comment & share!" alt="Comment & share!">Comments (';echo $check->retrieve_comment_count($row['content_id']); echo')'; echo'<a/></div>';
+		// Title
+        echo '<a href="';echo $row['content_permalink']; echo '" class="contenttitle" title="';echo $row['content_title']; echo '" alt="';echo $row['content_title']; echo '"><div class="contenttitle">';echo $row['content_title']; echo '</div></a>';
+		// Date
+		echo '<div class="contentdate">Posted on '.date_format($date, $postsperpage['date_format']." ".$postsperpage['time_format']).' by '.$retrive->realname($row['content_author']).'</div>';
+		// Post
+		echo '<div class="contentpost">'; echo $row['content_embedcode'];
+		echo '<br />';
+				echo $row['content_summary'];
+		if (strpos($row['content_summary'], "...")){
+		echo '<p><a class="readmore" href="'.$row['content_permalink'].'" title="';echo $row['content_title']; echo '" alt="';echo $row['content_title']; echo '">(read more)</a></p>';
+		}
+		echo '</div>';
+		// Category
+		echo '<div class="contentcategory">Categorized under: <a href="/category?name=';
+		$catlowcase = strtolower($row['content_category']);
+		echo $catlowcase;
+		echo '" rel="nofollow" alt="'; echo $row['content_category']; echo '" title="'; echo $row['content_category']; echo'">'; echo $row['content_category']; echo '</div></a>';
+		// Tags
+		echo '<div class="contenttags">Tags: ';
+		$tags = explode (", ", $row['content_tags']);
+		foreach ($tags as $tag) {
+			echo '<a href="/tag?name=';
+		$taglowcase = strtolower($tag);
+		echo $taglowcase;
+		echo '" rel="nofollow" alt="'; echo $tag; echo '" title="'; echo $tag; echo'">'; echo $tag; echo '</a> ';
+		}
+		echo '</div>';
+    }
 } else {
-header("HTTP/2.0 404 Not Found");
-echo '<div class="notfoundpage">'.$template['404_message'].'</div>';
+    echo "This blog currently has no posts.";
 }
-?>
+
+echo pagebar($page, $total_pages, $ppp, '5');
+		echo '</div>';
