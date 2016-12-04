@@ -26,10 +26,15 @@ function essentialhead()
 		$settings2 = $settings->fetch_assoc();
 if (strpos($_SERVER['REQUEST_URI'], "category")){
 $category = str_replace('name=', '', $_SERVER['QUERY_STRING']);
+echo '<meta name="robots" content="noindex" />';
 echo '<link rel="alternate" type="application/rss+xml" title="Category - &quot;'.$category.'&quot;: '.$settings2['site_name'].'" href="https://'.$_SERVER['HTTP_HOST'].'/feed?category='.$category.'" />';
 } else if (strpos($_SERVER['REQUEST_URI'], "author")){
 $category = str_replace('name=', '', $_SERVER['QUERY_STRING']);
+echo '<meta name="robots" content="noindex" />';
 echo '<link rel="alternate" type="application/rss+xml" title="Author - &quot;'.$category.'&quot;: '.$settings2['site_name'].'" href="https://'.$_SERVER['HTTP_HOST'].'/feed?author='.$category.'" />';
+} else if (strpos($_SERVER['REQUEST_URI'], "tag")){
+echo '<meta name="robots" content="noindex" />';
+echo '<link rel="alternate" type="application/rss+xml" title="'.$settings2['site_name'].'" href="https://'.$_SERVER['HTTP_HOST'].'/feed" />';
 } else {
 echo '<link rel="alternate" type="application/rss+xml" title="'.$settings2['site_name'].'" href="https://'.$_SERVER['HTTP_HOST'].'/feed" />';
 }
