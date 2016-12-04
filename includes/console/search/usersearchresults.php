@@ -107,15 +107,15 @@ $postsperpage = $postsperpageinit->fetch_assoc();
 $ppp = $postsperpage['postsperpage'];
 
 $result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_users");
-	if ($page == '1'){
+	if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
+$start_from = ($page-1) * $ppp; 
+	
+if ($page == '1'){
 	$count = $page;
 	}
 	else {
-	$count = $page + $ppp - '1';
+	$count = $page + $start_from - $page + '1';
 	}
-
-	if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
-$start_from = ($page-1) * $ppp; 
 	
 $contentquery = " user_username LIKE ('".$searchterm5."') OR user_realname LIKE ('".$searchterm5."')";
 $query = "SELECT * FROM dd_users WHERE".$contentquery.$status.$date." ORDER BY user_id DESC LIMIT $start_from, $ppp;";
