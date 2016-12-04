@@ -220,16 +220,16 @@ $postsperpage = $postsperpageinit->fetch_assoc();
 $ppp = $postsperpage['postsperpage'];
 
 		if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
-        if ($page == '1'){
-        $count = $page;
-        }
-        else {
-        $count = $page + $ppp - '1';
-        }
-
+	
         if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 $start_from = ($page-1) * $ppp;
 
+if ($page == '1'){
+        $count = $page;
+        }
+        else {
+        $count = $page + $start_from - $page + '1';
+        }
 	
 $contentquery = " content_title LIKE ('".$searchterm5."') OR content_description LIKE ('".$searchterm5."')";
 $query = "SELECT * FROM dd_content WHERE".$contentquery.$category.$tags.$date.$author." ORDER BY content_date DESC LIMIT $start_from, $ppp;";
