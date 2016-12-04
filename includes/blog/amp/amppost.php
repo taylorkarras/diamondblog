@@ -1,5 +1,4 @@
 <?php
-header('Access-Control-Allow-Origin: *');
 $global = new DB_global;
 $check = new DB_check;
 $retrive = new DB_retrival;
