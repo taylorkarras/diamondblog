@@ -36,15 +36,15 @@ $ppp = $postsperpage['postsperpage'];
 $result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_banlist");
 $row2 = $result2->fetch_row();
 		if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
+	if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
+$start_from = ($page-1) * $ppp;
+	
 	if ($page == '1'){
 	$count = $page;
 	}
 	else {
 	$count = $page + $start_from - $page + '1';
 	}
-
-	if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
-$start_from = ($page-1) * $ppp; 
 	
 $query = "SELECT * FROM dd_banlist WHERE banlist_name LIKE ('%".$url."%') OR banlist_email LIKE ('%".$url."%') OR banlist_ip LIKE ('%".$url."%') ORDER BY banlist_no DESC LIMIT $start_from, $ppp;";
 $query2 = "SELECT COUNT(*) FROM dd_banlist WHERE banlist_name LIKE ('%".$url."%') OR banlist_email LIKE ('%".$url."%') OR banlist_ip LIKE ('%".$url."%')";
