@@ -47,12 +47,6 @@ $templates->addFolder('blog', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog');
     return $templates->render('blog::feed');;
 });
 
-$router->post('/{id}/amp/postcomment', function(){
-$templates = new League\Plates\Engine();
-$templates->addFolder('blog', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog');
-    return $templates->render('blog::comment');;
-});
-
 $router->post('/postcomment', function(){
 $templates = new League\Plates\Engine();
 $templates->addFolder('blog', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog');
