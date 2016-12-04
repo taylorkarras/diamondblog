@@ -6,8 +6,6 @@ $templateinit = $global->sqlquery("SELECT * FROM dd_templates;");
 $template = $templateinit->fetch_assoc();
 $userinfo3 = $global->sqlquery("SELECT * FROM dd_users WHERE user_id = '".$_COOKIE['userID']."' LIMIT 1");
 $userinfo4 = $userinfo3->fetch_assoc();
-require_once $_SERVER['DOCUMENT_ROOT'].'/includes/plugins.php';
-pluginClass::initialize();
 	echo '<head>';
 themestyle();
 echo '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -37,81 +35,8 @@ echo '</head>';
 	if (isset($_GET["page"])) { $page  = $_GET["page"];
 $link = str_replace('?page='.$_GET["page"], '', $link);	} else { $page=1; }; 
 echo '<script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/diamondblog-func.js"></script>';
-pluginClass::hook( "ampcomments_captcha" );
+
 	echo '<div class="postcomment">Comments (';echo $check->retrieve_comment_count($_GET['postid']); echo')'; echo'</div>';
-		if ($check->ifcommentsclosed($_GET['postid'])){
-	} else if ($check->ifbanned()){
-	} else {
-	echo '<h3 class="commentinvite">Leave a comment!</h3>';
-	}
-	echo '<div id="comments"></div>';
-	if ($check->ifcommentsclosed($_GET['postid'])){
-	echo '<h3 class="commentinvite">Comments are closed.</h3><br />';
-	} else if ($check->ifbanned()){
-		echo '<div id="scommentbox">
-		You have been blocked from commenting and voting on comments.
-		<br />
-		<br /><b>Reason:</b> <I>'.BANREASON.'</i>
-		<br />
-		<br /><b>Ban will expire on</b> '.BANEXPIRATION.'</div>';
-	} else if ($check->isLoggedIn()){
-		
-$userinfo3 = $global->sqlquery("SELECT * FROM dd_users WHERE user_id = '".$_COOKIE['userID']."' LIMIT 1");
-$userinfo4 = $userinfo3->fetch_assoc();
-		
-	echo '
-	<form method="post" id="postcomment">
-	<big>You are logged in as '.$retrive->realname($_COOKIE['userID']).'.</big>
-	<input name="commentname" type="hidden" value="'.$retrive->realname($_COOKIE['userID']).'"/>
-	<input name="commentemail" type="hidden" value="'.$userinfo4['user_email'].'"/>
-	<br /><br /><label for="commentcontent"><div class="commentcontentheader"><b>Comment:</b></div></label>
-	<textarea name="commentcontent" id="commentcontent requiredField"/></textarea>';
-	echo "<script>    CKEDITOR.replace( 'commentcontent', {
-	customConfig: 'custom/config.js',
-    toolbar: [
-    { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', '-', 'Undo', 'Redo' ] },
-    { name: 'editing', groups: ['selection'], items: ['SelectAll'] },
-    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
-]
-});
-</script>";
-	echo '<input name="commentreply" id="cr-v" type="hidden" value="0">';
-	echo '<input name="commentreplyto" id="crt-id" type="hidden" value="0">';
-	echo '<input name="postid" type="hidden" value="'.$_GET['postid'].'">';
-	echo '<input name="commentip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">';
-	echo '<br /><br /><input name="commentsubmit" type="submit" value="Post comment"/>
-	</form>';
-	echo '<div id="commentwarning">'.$template['comment_notification_message'].'</div>';
-	}
-	else {
-	echo '
-	<form method="post" id="postcomment">
-	<div class="commentcontentheader">
-	<label for="commentname"><b>Name:</b></label></div>
-	<input name="commentname" type="text" class="txtarea requiredField"/>
-	<br /><br /><div class="commentcontentheader"><label for="commentemail"><b>Email:</b></label></div>
-	<input name="commentemail" type="email" class="txtarea requiredField"/>
-	<br /><br /><label for="commentcontent"><div class="commentcontentheader"><b>Comment:</b></div></label>
-	<textarea name="commentcontent" id="commentcontent requiredField"/></textarea>';
-	echo "<script>    CKEDITOR.replace( 'commentcontent', {
-	customConfig: 'custom/config.js',
-    toolbar: [
-    { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', '-', 'Undo', 'Redo' ] },
-    { name: 'editing', groups: ['selection'], items: ['SelectAll'] },
-    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
-]
-});
-</script>";
-        echo '<input name="commentreply" id="cr-v" type="hidden" value="0">';
-        echo '<input name="commentreplyto" id="crt-id" type="hidden" value="0">';
-        echo '<input name="postid" type="hidden" value="'.$_GET['postid'].'">';
-	echo '<input name="commentip" type="hidden" value="'; echo $_SERVER['REMOTE_ADDR']; echo '">';
-pluginClass::hook( "comment_captcha" );
-	echo '<br /><br /><input name="commentsubmit" type="submit" value="Post comment"/>
-	</form>';
-	echo '<div id="commentwarning">'.$template['comment_notification_message'].'</div>';
-	}
-	
 	//Comments display
 	
 	$commentsperpageinit = $global->sqlquery("SELECT commentsperpage FROM dd_settings LIMIT 1;");
@@ -177,7 +102,7 @@ echo '<div class="contentpostscroll">';
 			else {
 			echo
 		' - <a href="/reportcomment?id='.$rowcomments['comment_id'].'&ip='.$_SERVER['REMOTE_ADDR'].'" alt="Report Comment" title="Report Comment">Report</a> | ';
-		} echo '<a href="#postcomment" onclick="document.getElementById(';echo "'"; echo 'cr-v'; echo"'"; echo').value = 1; document.getElementById(';echo "'"; echo 'crt-id'; echo"'"; echo').value = '.$rowcomments['comment_id'].';document.getElementById('; echo "'";echo '#postcomment';echo "'"; echo').scrollIntoView();" alt="Reply" title="Reply to this comment.">Reply</a></div>';
+		} echo '<a href="#postcomment" onclick="document.getElementById(';echo "'"; echo 'cr-v'; echo"'"; echo').value = 1; document.getElementById(';echo "'"; echo 'crt-id'; echo"'"; echo').value = '.$rowcomments['comment_id'].';document.getElementById('; echo "'";echo '#postcomment';echo "'"; echo').scrollIntoView();" rel="nofollow" alt="Reply" title="Reply to this comment.">Reply</a></div>';
 		}
 		echo '<div class="commentcontent2">'.$rowcomments['comment_content'].'</div>';
 		echo '</div>';
@@ -196,14 +121,14 @@ echo '<div class="contentpostscroll">';
 		echo '<a href="/votecomment?postid='.$_GET['postid'].'&commentid='.$rowcommentreplies['comment_id'].'&vote=positive" style="color:';if ($check->ifvotedpositive($rowcommentreplies['comment_id'])){
 		echo VOTED;}else {
 		echo 'green';}
-		echo '"  alt="Upvote this comment!" title="Upvote this comment!">?</a><br />';
+		echo '" rel="nofollow" alt="Upvote this comment!" title="Upvote this comment!">?</a><br />';
 		}echo '<div style="text-align:center">'.$check->positivenegativecomb($_GET['postid'], $rowcommentreplies['comment_id']).'</div>';
 		if ($check->ifbanned()){
 		}else{
 		echo '<a href="/votecomment?postid='.$_GET['postid'].'&commentid='.$rowcommentreplies['comment_id'].'&vote=negative" style="color:';if ($check->ifvotednegative($rowcommentreplies['comment_id'])){
 		echo VOTEDN;}else {
 		echo 'red';}
-		echo '" alt="Downvote this comment!" title="Downvote this comment!">?</a>';
+		echo ' "rel="nofollow" alt="Downvote this comment!" title="Downvote this comment!">?</a>';
 		}
 		echo '</div>';
 		echo '<div class="commentreplynumber">#'.$replycount.'</div>';
@@ -222,7 +147,7 @@ echo '<div class="contentpostscroll">';
 			echo ' - <b>Comment Reported</b></div>';}
 			else {
 			echo
-		' - <a href="/reportcomment?id='.$rowcommentreplies['comment_id'].'&ip='.$_SERVER['REMOTE_ADDR'].'" alt="Report Comment" title="Report Comment">Report</a></div>';
+		' - <a href="/reportcomment?id='.$rowcommentreplies['comment_id'].'&ip='.$_SERVER['REMOTE_ADDR'].'" rel="nofollow" alt="Report Comment" title="Report Comment">Report</a></div>';
 		}
 		}
 		echo '<div class="commentcontent2">'.$rowcommentreplies['comment_content'].'</div>';
