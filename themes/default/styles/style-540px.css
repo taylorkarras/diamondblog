@@ -29,6 +29,11 @@
     margin-left: 33px !important;
 }
 
+img {
+max-width: 420px !important;
+max-height: 420px !important;
+}
+
 .contentpostscroll, ins{
     width: 495px !important;
 }
