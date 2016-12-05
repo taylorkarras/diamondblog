@@ -19,7 +19,7 @@ if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 $start_from = ($page-1) * $ppp; 
 
 if ($_GET["page"] > '1'){
-define ("PAGE", '(Page '.$_GET['page'].')');
+define ("PAGE", ' (Page '.$_GET['page'].')');
 }
 
 $result = $global->sqlquery("SELECT * FROM dd_users ORDER BY user_id ASC LIMIT $start_from, $ppp;");
