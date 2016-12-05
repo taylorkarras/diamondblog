@@ -17,7 +17,11 @@ $router = new RouteCollector();
 //});
 
 $router->any('/console', function(){
+$retrive = new DB_retrival;
+if ($retrive->isLoggedIn()){
+} else {
 define ('POSTPEND', 'Login');
+}
 $templates = new League\Plates\Engine();
 $templates->addFolder('consolepages', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/pages');
     return $templates->render('consolepages::login');;
