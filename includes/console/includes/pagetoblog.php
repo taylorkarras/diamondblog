@@ -15,7 +15,7 @@ unset($_SESSION["errors"]);
 		$_SESSION['errors']['pagetitle'] = "Please enter a page title.";
 		$hasError = true;	
 	} else {
-		$pagetitle = $_POST['pagetitle'];
+		$pagetitle = $global->real_escape_string($_POST['pagetitle']);
 	}
 	
 		if(!empty($_POST['pagelink']) xor empty(!$_POST['pagecontent']))  {	
@@ -27,8 +27,13 @@ unset($_SESSION["errors"]);
 	}
 				$contactform = $global->sqlquery("SELECT * FROM `dd_pages` WHERE `page_contactform` = '1';");
 				$contactform2 = $contactform->fetch_assoc();
-				
-		if ($contactform2['page_contactform'] == $_POST['contactform']){
+		
+		if (!empty($_POST['pageidtoedit']) && $contactform2['page_number'] == $_POST['pageidtoedit']){
+			$cf = $_POST['contactform'];
+		} else if (!empty($_POST['pageidtoedit']) && $contactform2['page_number'] !== $_POST['pageidtoedit']){
+                $_SESSION['errors']['contactform'] = "You can only have one contact form at a time.";
+                $hasError = true;
+		} else if ($contactform2['page_contactform'] == '1' && empty($_POST['pageidtoedit'])){
 		$_SESSION['errors']['contactform'] = "You can only have one contact form at a time.";
 		$hasError = true;
 		} else {
@@ -106,6 +111,7 @@ unset($_SESSION["errors"]);
 	}
 			}
 		}
+	}
 	}
 	} else {
  header("HTTP/1.0 403 Forbidden");
