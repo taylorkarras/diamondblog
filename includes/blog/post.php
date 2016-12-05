@@ -317,5 +317,6 @@ echo '</div>';
 amp();
 } else {
 header("HTTP/2.0 404 Not Found");
+define ("PREPEND", '404 Not Found');
 echo '<div class="notfoundpage">'.$template['404_message'].'</div>';
 }
