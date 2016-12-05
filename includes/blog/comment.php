@@ -1,102 +1,87 @@
-<?php
-define ("RSSHEAD", '<link rel="alternate" type="application/rss+xml" title="'.$postsperpage['site_name'].'" href="https://'.$_SERVER['HTTP_HOST'].'/feed" />');
-$global = new DB_global;
-$retrive = new DB_retrival;
-$postsperpageinit = $global->sqlquery("SELECT * FROM dd_settings;");
-$postsperpage = $postsperpageinit->fetch_assoc();
-$ppp = $postsperpage['postsperpage'];
+<?php 
+if (isset($_POST)){
 
-if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
-$start_from = ($page-1) * $ppp; 
-
-$result = $global->sqlquery("SELECT * FROM dd_content WHERE content_pinned = '0' ORDER BY content_date DESC LIMIT $start_from, $ppp;");
-$result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_content");
-$row2 = $result2->fetch_row(); 
-$total_records = $row2[0];
-$total_pages = ceil($total_records / $ppp);
-
-$pinned = $global->sqlquery("SELECT * FROM dd_content WHERE content_pinned = '1' OR content_pinned = '2';");
-
-$check = new DB_check;
-pluginClass::hook( "content_top" );
-// Pinned post //
-if ($pinned->num_rows > 0) {
-    // output data of each row
-echo '<div id="pinned">';
-echo '<h2>Pinned</h2>';
-    while($row = $pinned->fetch_assoc()) {
-		$date=date_create($row['content_date']);
-		// Comments
-		echo '<div class="contentcomment"><a class="contentcomment" href="'; echo $row['content_permalink']; echo '#comments" title="Comment & share!" alt="Comment & share!">Comments (';echo $check->retrieve_comment_count($row['content_id']); echo')'; echo'<a/></div>';
-		// Title
-        echo '<a href="';echo $row['content_permalink']; echo '" class="contenttitle" title="';echo $row['content_title']; echo '" alt="';echo $row['content_title']; echo '"><div class="contenttitle">';echo $row['content_title']; echo '</div></a>';
-		// Date
-		echo '<div class="contentdate">Posted on '.date_format($date, $postsperpage['date_format']." ".$postsperpage['time_format']).' by '.$retrive->realname($row['content_author']).'</div>';
-		// Post
-		echo '<div class="contentpost">'; echo $row['content_embedcode'];
-		echo '<br />';
-		echo $row['content_summary'];
-		if (strpos($row['content_summary'], "...")){
-		echo '<p><a class="readmore" href="'.$row['content_permalink'].'" title="';echo $row['content_title']; echo '" alt="';echo $row['content_title']; echo '">(read more)</a></p>';
-		}
-		echo '</div>';
-		// Category
-		echo '<div class="contentcategory">Categorized under: <a href="/category?name=';
-		$catlowcase = strtolower($row['content_category']);
-		echo $catlowcase;
-		echo '" rel="nofollow" alt="'; echo $row['content_category']; echo '" title="'; echo $row['content_category']; echo'">'; echo $row['content_category']; echo '</div></a>';
-		// Tags
-		echo '<div class="contenttags">Tags: ';
-		$tags = explode (", ", $row['content_tags']);
-		foreach ($tags as $tag) {
-			echo '<a href="/tag?name=';
-		$taglowcase = strtolower($tag);
-		echo $taglowcase;
-		echo '" rel="nofollow" alt="'; echo $tag; echo '" title="'; echo $tag; echo'">'; echo $tag; echo '</a> ';
-		}
-		echo '</div>';
-    }
+	$global = new DB_global;
+	$check = new DB_check;
+	if ($check->ifbanned()){
+	}else{
+		
+				if(trim($_POST['commentname']) === '')  {
+		$_SESSION['errors']['commentname'] = "You must enter a name.";
+		$hasError = true;	
+	} else {
+		$commentname = $global->real_escape_string($_POST['commentname']);
+	}
+	
+		if(empty($_POST['commentemail']))  {	
+		$_SESSION['errors']['commentemail'] = "You must enter an email.";
+		$hasError = true;	
+	} else {
+		$commentemail = $_POST['commentemail'];
+	}
+	
+		if(empty($_POST['commentcontent']))  {	
+		$_SESSION['errors']['commentcontent'] = "You must enter content.";
+		$hasError = true;	
+	} else {
+		$commentcontent = $_POST['commentcontent'];
+	}
+if (!$check->isLoggedIn()){
+pluginClass::hook( "captcha" );
 }
-echo '</div>';
 
-echo '<div class="contentpostscroll">';
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-		$date=date_create($row['content_date']);
-		// Comments
-		echo '<div class="contentcomment"><a class="contentcomment" href="'; echo $row['content_permalink']; echo '#comments" title="Comment & share!" alt="Comment & share!">Comments (';echo $check->retrieve_comment_count($row['content_id']); echo')'; echo'<a/></div>';
-		// Title
-        echo '<a href="';echo $row['content_permalink']; echo '" class="contenttitle" title="';echo $row['content_title']; echo '" alt="';echo $row['content_title']; echo '"><div class="contenttitle">';echo $row['content_title']; echo '</div></a>';
-		// Date
-		echo '<div class="contentdate">Posted on '.date_format($date, $postsperpage['date_format']." ".$postsperpage['time_format']).' by '.$retrive->realname($row['content_author']).'</div>';
-		// Post
-		echo '<div class="contentpost">'; echo $row['content_embedcode'];
-		echo '<br />';
-				echo $row['content_summary'];
-		if (strpos($row['content_summary'], "...")){
-		echo '<p><a class="readmore" href="'.$row['content_permalink'].'" title="';echo $row['content_title']; echo '" alt="';echo $row['content_title']; echo '">(read more)</a></p>';
-		}
-		echo '</div>';
-		// Category
-		echo '<div class="contentcategory">Categorized under: <a href="/category?name=';
-		$catlowcase = strtolower($row['content_category']);
-		echo $catlowcase;
-		echo '" rel="nofollow" alt="'; echo $row['content_category']; echo '" title="'; echo $row['content_category']; echo'">'; echo $row['content_category']; echo '</div></a>';
-		// Tags
-		echo '<div class="contenttags">Tags: ';
-		$tags = explode (", ", $row['content_tags']);
-		foreach ($tags as $tag) {
-			echo '<a href="/tag?name=';
-		$taglowcase = strtolower($tag);
-		echo $taglowcase;
-		echo '" rel="nofollow" alt="'; echo $tag; echo '" title="'; echo $tag; echo'">'; echo $tag; echo '</a> ';
-		}
-		echo '</div>';
-    }
+		if(isset($hasError)){
+		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                echo json_encode($_SESSION['errors']);
+                exit;
+	}} else {
+	
+	$parsed_link = parse_url ($_SERVER['HTTP_REFERER']);
+	$link = str_replace("/", "", $parsed_link['path']);
+	$linkinit = $global->sqlquery("SELECT content_id FROM dd_content WHERE content_permalink = '".$link."';");
+	$post_id = $linkinit->fetch_assoc();
+if (isset($_POST['postid'])){
+	$comment_post_id = $_POST['postid'];
+} else if (is_null($post_id['content_id'])){
+	$parsed_link = parse_url ($_SERVER['HTTP_REFERER']);
+	$comment_post_id = str_replace("postid=", "", $parsed_link['query']);
 } else {
-    echo "This blog currently has no posts.";
+	$comment_post_id = $post_id['content_id'];
 }
+	
+	if (isset($_POST['userid'])){
+		$userid = $_POST['userid'];
+	}
+	else if ($check->isLoggedIn()){
+                $userid = $_COOKIE['userID'];
+        }
 
-echo pagebar($page, $total_pages, $ppp, '5');
-		echo '</div>';
+	$userstatus = $global->sqlquery("SELECT * FROM dd_users WHERE user_id = '".$userid."';");
+	$userstatus2 = $userstatus->fetch_assoc();
+	
+	if ($userstatus2['user_isadmin'] == '1'){
+	$commentstatus = "'1', '0',";
+	} else if ($userstatus2['user_iscontributor'] == '1'){
+	$commentstatus = "'0', '1',";
+	} else {
+	$commentstatus = "'0', '0',";
+	}
+	
+	$commentip = $_SERVER['REMOTE_ADDR'];
+
+	if ($_POST['commentreply'] !== '0' & $_POST['commentreplyto'] !== '0'){
+	
+	$comment_id = $global->sqllastid("INSERT INTO `dd_comments` (`comment_id`, `comment_`, `comment_isreply`, `comment_replyto`, `comment_username`, `comment_email`, `comment_date`, `comment_content`, `comment_ip`, `comment_reported`, `comment_isfromadmin`, `comment_isfromcontributor`, `comment_userid`) VALUES (NULL, '".$comment_post_id."', '".$_POST['commentreply']."', '".$_POST['commentreplyto']."', '".$commentname."', '".$commentemail."', CURRENT_TIMESTAMP, '".$commentcontent."', '".$commentip."', '', ".$commentstatus." '".$userid."')");
+	
+	} else {
+		
+$comment_id = $global->sqllastid("INSERT INTO `dd_comments` (`comment_id`, `comment_postid`, `comment_isreply`, `comment_replyto`, `comment_username`, `comment_email`, `comment_date`, `comment_content`, `comment_ip`, `comment_reported`, `comment_isfromadmin`, `comment_isfromcontributor`, `comment_userid`) VALUES (NULL, '".$comment_post_id."', '0', '0', '".$commentname."', '".$commentemail."', CURRENT_TIMESTAMP, '".$commentcontent."', '".$commentip."', '', ".$commentstatus." '".$userid."')");
+	
+	}
+	if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
+	   $_SESSION['resp']['formrefresh'] = true;
+       echo json_encode($_SESSION['resp']);
+       exit;
+	}
+	}}
+}
