@@ -150,7 +150,11 @@ $userinfo4 = $userinfo3->fetch_assoc();
     { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
 ]
 });
-</script>";
+</script><style>
+.cke {
+margin-top: 15px;
+}
+</style>";
 	echo '<input name="commentreply" id="cr-v" type="hidden" value="0">';
 	echo '<input name="commentreplyto" id="crt-id" type="hidden" value="0">';
 	echo '<br /><br /><input name="commentsubmit" type="submit" value="Post comment"/>
