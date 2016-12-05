@@ -11,6 +11,12 @@ $ctq = $_GET['name'];
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
 $start_from = ($page-1) * $ppp; 
 
+if ($_GET["page"] > '1'){
+define ("PREPEND", 'Category: "'.$_GET['name'].'" - Page '.$_GET['page'].'');
+} else {
+define ("PREPEND", 'Category: "'.$_GET['name'].'"');
+}
+
 $result = $global->sqlquery("SELECT * FROM dd_content WHERE content_category = '".$ctq."' ORDER BY content_date DESC LIMIT $start_from, $ppp;");
 $result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_content WHERE content_category = '".$ctq."';");
 $resultcount = $result2->num_rows;
