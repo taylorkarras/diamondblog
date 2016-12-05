@@ -20,5 +20,6 @@ if (!is_null($resultpostint['content_permalink'])){
 echo $templates->render('amp::amppost');
 } else {
 header("HTTP/2.0 404 Not Found");
+define ("PREPEND", '404 Not Found');
 echo '<div class="notfoundpage">'.$template['404_message'].'</div>';
 }
