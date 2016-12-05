@@ -9,6 +9,10 @@ $ppp = $postsperpage['postsperpage'];
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
 $start_from = ($page-1) * $ppp; 
 
+if ($_GET["page"] > '1'){
+define ("PREPEND", 'Page '.$_GET['page'].'');
+}
+
 $result = $global->sqlquery("SELECT * FROM dd_content WHERE content_pinned = '0' ORDER BY content_date DESC LIMIT $start_from, $ppp;");
 $result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_content");
 $row2 = $result2->fetch_row(); 
@@ -44,7 +48,7 @@ echo '<h2>Pinned</h2>';
 		echo '<div class="contentcategory">Categorized under: <a href="/category?name=';
 		$catlowcase = strtolower($row['content_category']);
 		echo $catlowcase;
-		echo '" alt="'; echo $row['content_category']; echo '" title="'; echo $row['content_category']; echo'">'; echo $row['content_category']; echo '</div></a>';
+		echo '" rel="nofollow" alt="'; echo $row['content_category']; echo '" title="'; echo $row['content_category']; echo'">'; echo $row['content_category']; echo '</div></a>';
 		// Tags
 		echo '<div class="contenttags">Tags: ';
 		$tags = explode (", ", $row['content_tags']);
@@ -52,7 +56,7 @@ echo '<h2>Pinned</h2>';
 			echo '<a href="/tag?name=';
 		$taglowcase = strtolower($tag);
 		echo $taglowcase;
-		echo '" alt="'; echo $tag; echo '" title="'; echo $tag; echo'">'; echo $tag; echo '</a> ';
+		echo '" rel="nofollow" alt="'; echo $tag; echo '" title="'; echo $tag; echo'">'; echo $tag; echo '</a> ';
 		}
 		echo '</div>';
     }
@@ -82,7 +86,7 @@ if ($result->num_rows > 0) {
 		echo '<div class="contentcategory">Categorized under: <a href="/category?name=';
 		$catlowcase = strtolower($row['content_category']);
 		echo $catlowcase;
-		echo '" alt="'; echo $row['content_category']; echo '" title="'; echo $row['content_category']; echo'">'; echo $row['content_category']; echo '</div></a>';
+		echo '" rel="nofollow" alt="'; echo $row['content_category']; echo '" title="'; echo $row['content_category']; echo'">'; echo $row['content_category']; echo '</div></a>';
 		// Tags
 		echo '<div class="contenttags">Tags: ';
 		$tags = explode (", ", $row['content_tags']);
@@ -90,7 +94,7 @@ if ($result->num_rows > 0) {
 			echo '<a href="/tag?name=';
 		$taglowcase = strtolower($tag);
 		echo $taglowcase;
-		echo '" alt="'; echo $tag; echo '" title="'; echo $tag; echo'">'; echo $tag; echo '</a> ';
+		echo '" rel="nofollow" alt="'; echo $tag; echo '" title="'; echo $tag; echo'">'; echo $tag; echo '</a> ';
 		}
 		echo '</div>';
     }
