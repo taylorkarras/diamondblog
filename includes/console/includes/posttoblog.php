@@ -17,7 +17,7 @@ unset($_SESSION["errors"]);
 		$_SESSION['errors']['posttitle'] = "Please enter a post title.";
 		$hasError = true;	
 	} else {
-		$posttitle = $_POST['posttitle'];
+		$posttitle = $global->real_escape_string($_POST['posttitle']);
 		$GLOBALS['posttitle'] = $posttitle;
 	}
 	
@@ -92,13 +92,14 @@ unset($_SESSION["errors"]);
 		}
 		
 		$GLOBALS['category'] = $_POST['category'];
-		$plarray1 = array(',', '!', "'", '@', '(', ')', '[', ']', '+', '#', '%', '/', ':', '*', ';', '&', '=', '?', '~', ' ');
-		$permalink1 = str_replace($plarray1, '_', $posttitle);
-		$permalink2 = strtolower($permalink1);
-		$permalink3 = urlencode($permalink2);
-		$tags = $_POST['tags'];
+		$plarray1 = array(',', '!', "'", '@', '(', ')', '[', ']', '+', '#', '%', '/', ':', '*', ';', '&', '=', '?', '~', ':', '.');
+		$permalink1 = str_replace($plarray1, '', $posttitle);
+		$permalink2 = str_replace(' ', '_', $permalink1);
+		$permalink3 = strtolower($permalink2);
+		$permalink4 = urlencode($permalink3);
+		$tags = strtolower($_POST['tags']);
 		if (!empty($_POST['postidtoedit'])){
-			$global->sqlquery("UPDATE `dd_content` SET `content_link` = '".$postmedialink."', `content_embedcode` = '".$embedlink."', `content_description` = '".$postcontent."', `content_summary` = '".$postsummary."', `content_title` = '".$posttitle."', `content_category` = '".$_POST['category']."', `content_tags` = '".$tags."', `content_permalink` = '".$permalink3."' WHERE `dd_content`.`content_id` = '".$_POST['postidtoedit']."'");	
+			$global->sqlquery("UPDATE `dd_content` SET `content_link` = '".$postmedialink."', `content_embedcode` = '".$embedlink."', `content_description` = '".$postcontent."', `content_summary` = '".$postsummary."', `content_title` = '".$posttitle."', `content_category` = '".$_POST['category']."', `content_tags` = '".$tags."', `content_permalink` = '".$permalink4."' WHERE `dd_content`.`content_id` = '".$_POST['postidtoedit']."'");	
 			pluginClass::hook( "inc_post_form_bottom_edit" );
 			
 						        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
