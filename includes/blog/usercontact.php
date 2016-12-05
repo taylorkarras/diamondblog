@@ -9,6 +9,7 @@ $userinfo = $global->sqlquery("SELECT * FROM dd_users WHERE user_username = '".$
 $userinfo2 = $userinfo->fetch_assoc();
 
 if ($userinfo2['user_username'] == $username[1] && $usersetting2['contact_users_on'] == '1'){
+header("X-Robots-Tag: noindex", true);
 pluginClass::hook( "user_contact" );
 echo '<h1>Contact '.$userinfo2['user_realname'].'</h1>';
 echo '<form id="mail" method="post">
@@ -37,6 +38,7 @@ pluginClass::hook( "comment_captcha" );
 echo '</form>';
 } else {
 header("HTTP/2.0 404 Not Found");
+define ("PREPEND", '404 Not Found');
 echo '<div class="notfoundpage">'.$template['404_message'].'</div>';
 }
 ?>
