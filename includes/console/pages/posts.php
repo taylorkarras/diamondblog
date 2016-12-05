@@ -19,6 +19,10 @@ $ppp = $ss2['postsperpage'];
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
 $start_from = ($page-1) * $ppp; 
 
+if ($_GET["page"] > '1'){
+define ("PAGE", '(Page '.$_GET['page'].')');
+}
+
 $result = $global->sqlquery("SELECT * FROM dd_content WHERE content_pinned = '0' ORDER BY content_id DESC LIMIT $start_from, $ppp;");
 $resultpinned = $global->sqlquery("SELECT * FROM dd_content WHERE content_pinned = '1' OR content_pinned = '2' ORDER BY content_pinned ASC;");
 $result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_content");
@@ -29,7 +33,7 @@ $total_pages = ceil($total_records / $ppp);
 	$count = $page;
 	}
 	else {
-	$count = $page + $ppp - '1';
+	$count = $page + $start_from - $page + '1';
 	}
 echo dbsearchbar();
 if ($result->num_rows > 0) {
