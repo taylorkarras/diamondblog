@@ -3,13 +3,13 @@
 // Database settings
 // database hostname or IP. default:localhost
 // localhost will be correct for 99% of times
-define("HOST", "localhost");
+define("HOST", "hostnamereplacesql");
 // Database user
-define("DBUSER", "vapourban");
+define("DBUSER", "dbuserreplacesql");
 // Database password
-define("PASS", '3R@2!l%s^aMn(');
+define("PASS", 'dbpassreplacesql');
 // Database name
-define("DB", "dd_vapourban");
+define("DB", "dbreplacesql");
 
 class DB_global
 {
@@ -28,7 +28,7 @@ else {
 }
 }
 
-public function sqllastid($queryterms)
+public function real_escape_string($word)
 {
 
 	$sql = mysqli_connect(HOST, DBUSER, PASS, DB);
@@ -37,10 +37,24 @@ if ($sql->connect_errno) {
     echo 'Could not connect!, Please contact the site\'s administrator.' . $mysqli->connect_error;
 }
 else {
-	$temp = $sql->query($queryterms);
-	return $sql->insert_id;
+	return $sql->real_escape_string($word);
 }
 }
+
+public function sqllastid($queryterms)
+{
+
+        $sql = mysqli_connect(HOST, DBUSER, PASS, DB);
+
+if ($sql->connect_errno) {
+    echo 'Could not connect!, Please contact the site\'s administrator.' . $mysqli->connect_error;
+}
+else {
+        $temp = $sql->query($queryterms);
+        return $sql->insert_id;
+}
+}
+
 
 
 public function generate_code($length = 10)
