@@ -13,7 +13,19 @@ echo '<h1 style="display:table; margin:0;">No search terms entered, please enter
 $haserror = true;
   }
 //Category
-  if (preg_match('/^category:.*/', $url) or preg_match('/, category:.*/', $url)){
+if (preg_match('/category:"[^"]+"/im', $url) or preg_match('/, category:"[^"]+"/im', $url)){
+preg_match_all ('/category:"[^"]+"/im', $url, $category2);
+if(empty($category2[0])){
+	echo '<h1 style="display:table; margin:0;">No search terms entered, please enter search terms above.</h1>';
+	$haserror = true;
+  } else {
+$category3 = implode(':',$category2[0]);
+$replace = array('category:', ',');
+$category4 = str_replace($replace, '', $category3);
+$category5 = str_replace('"', '', $category4);
+$category = " AND LOWER(content_category) = LOWER('".$category5."') ";
+  }
+  } else if (preg_match('/^category:.*/', $url) or preg_match('/, category:.*/', $url)){
 preg_match_all ('/category:\S+/im', $url, $category2);
 if(empty($category2[0])){
 	echo '<h1 style="display:table; margin:0;">No search terms entered, please enter search terms above.</h1>';
@@ -26,7 +38,6 @@ $category5 = str_replace('"', '', $category4);
 $category = " AND LOWER(content_category) = LOWER('".$category5."') ";
   }
   }
-
 //Tags
 
 if (preg_match('/^tag:"[^"]+"/im', $url) or preg_match('/, tag:"[^"]+"/im', $url)){
@@ -57,14 +68,14 @@ $tags7 = trim($tags6);
 $replace = array('"', '% ');
 $replace2 = array('', '%');
 $tags8 = str_replace($replace, $replace2, $tags7);
-$tags = " AND content_tags LIKE ('%".$tags8."%')";
+$tags = " AND LOWER(content_tags) LIKE LOWER('%".$tags8."%')";
 } else {
 $replace = array('"', '% ');
 $replace2 = array('', '%');
 $replace3 = array('/, category:.*/im', '/, tags:.*/im', '/, author:.*/im', '/, date:.*/im');
 $tags5 = str_replace($replace, $replace2, $tags4);
 $tags6 = preg_replace($replace3, '', $tags5);
-$tags = " AND content_tags LIKE ('%".$tags6."%')";
+$tags = " AND LOWER(content_tags) LIKE LOWER('%".$tags6."%')";
 }
   }
   }
@@ -168,6 +179,12 @@ $ppp = $postsperpage['postsperpage'];
 
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 $start_from = ($page-1) * $ppp;
+
+if ($_GET["page"] > '1'){
+define ("PREPEND", 'Search results for "'.$_GET['query'].'" - Page '.$_GET['page'].'');
+}else{
+define ("PREPEND", 'Search results for "'.$_GET['query'].'"');
+}
 
 $contentquery = " content_title LIKE ('".$searchterm5."') OR content_description LIKE ('".$searchterm5."')";
 $query = "SELECT * FROM dd_content WHERE".$contentquery.$category.$tags.$date.$author." ORDER BY content_date DESC LIMIT $start_from, $ppp;";
