@@ -115,15 +115,6 @@ $ifnavenabled = $ifnavenabled2->fetch_assoc();
 	if($lastpage > 1)
 	{	
 		$pagination .= "<div style=".$display." class=\"pagination\"";
-		if($margin || $padding)
-		{
-			$pagination .= " style=\"";
-			if($margin)
-				$pagination .= "margin: $margin;";
-			if($padding)
-				$pagination .= "padding: $padding;";
-			$pagination .= "\"";
-		}
 		$pagination .= ">";
 
 		//previous button
@@ -209,7 +200,12 @@ function dbsearchbar($searchhint = "shenabled")
 	$global = new DB_global;
 	
 	echo '<form method="get" id="search">';
-	echo "<input type='search' name='dbsearchbar' id='searchbar' placeholder='Search' value='".$_GET['query']."'>";
+	if (!empty($_GET['query'])){
+	$query = " value='".$_GET['query']."'";
+	} else {
+	$query = '';
+	}
+	echo "<input type='search' name='dbsearchbar' id='searchbar' placeholder='Search'".$query.">";
 	if ($searchhint == 'shenabled'){
 	echo "<div class='searchhint'>This searchbar can also search for specific describers as well as words... Here's a couple you can try.
 	<br />
