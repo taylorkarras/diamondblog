@@ -2,7 +2,9 @@
 $retrive = new DB_retrival;
 if ($retrive->isLoggedIn() == true){
 $global = new DB_global;
-
+$user = new DB_userfunctions;
+require_once $_SERVER['DOCUMENT_ROOT'].'/includes/plugins.php';
+pluginClass::initialize();
 unset($_SESSION["errors"]);
 
 	if (isset ($_GET['unbanid'])){
@@ -19,22 +21,22 @@ header("Location: /console/ban");
 		$hasError = true;	
 		} else {
 		if (strpos($_POST['addthree'], '.') xor strpos($_POST['addthree'], '@')){
-			if (!substr($_POST['addthree'], '.') == '4' && !ctype_digit($_POST['addthree']) && !filter_var($_POST['addthree'], FILTER_VALIDATE_IP)){
-		$_SESSION['errors']['addthree'] = "An IPV4 address must have 4 dots, be valid and be all numbers!";
+			if (substr_count($_POST['addthree'], '.') !== 3 && !ctype_digit($_POST['addthree']) && !filter_var($_POST['addthree'], FILTER_VALIDATE_IP)){
+		$_SESSION['errors']['addthree'] = "An IPV4 address must have 3 dots, be valid and be all numbers!";
 		$hasError = true;
 	} else {
 		$banip = $_POST['addthree'];
 		}}
 	if (strpos($_POST['addthree'], ':')){
-			if (!substr($_POST['addthree'], ':') == '8' && preg_match('/[^a-z0-9]/', $_POST['addthree'])){
-		$_SESSION['errors']['addthree'] = "An IPV6 address must have 8 colons, lowercase letters and numbers!";
+			if (substr_count($_POST['addthree'], ':') !== 7 && preg_match('/[^a-z0-9]/', $_POST['addthree'])){
+		$_SESSION['errors']['addthree'] = "An IPV6 address must have 7 colons, lowercase letters and numbers!";
 		$hasError = true;
 	} else {
 		$banip = $_POST['addthree'];
 	}
 		}
 		if (strpos($_POST['addthree'], '@')){
-			if (!valid_email($_POST['addthree'])) {$_SESSION['errors']['addthree'] = 'An email address must contain a "@" and a ".com"!';
+			if (!$user->valid_email($_POST['addthree'])) {$_SESSION['errors']['addthree'] = 'An email address must contain a "@" and a ".com"!';
 			}
 			else {
 			$banemail = $_POST['addthree'];
@@ -45,7 +47,7 @@ header("Location: /console/ban");
 		$_SESSION['errors']['addthree'] = "Names can only have Uppercase letters & lowercase numbers!";
 		$hasError = true;
 		} else {
-			if (filter_var($_POST['addthree'], FILTER_VALIDATE_IP) or valid_email($_POST['addthree'])){
+			if (filter_var($_POST['addthree'], FILTER_VALIDATE_IP) or $user->valid_email($_POST['addthree'])){
 			$banname = '';
 			} else {
 			$banname = $_POST['addthree'];}
@@ -85,6 +87,7 @@ header("Location: /console/ban");
 		}
 		if ($_POST['baneradicatecomments'] == '1' && isset($banip)){
 		$global->sqlquery("DELETE FROM `dd_comments` WHERE `dd_comments`.`comment_ip` = '".$banip."'");
+		pluginClass::hook( "ban_eradicate" );
 		} else if ($_POST['baneradicatecomments'] == '1' && isset($banemail)){
 		$global->sqlquery("DELETE FROM `dd_comments` WHERE `dd_comments`.`comment_email` = '".$banemail."'");
 		}
