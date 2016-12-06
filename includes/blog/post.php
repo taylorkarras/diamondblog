@@ -201,11 +201,6 @@ pluginClass::hook( "comment_captcha" );
 	$comments2 = $global->sqlquery("SELECT COUNT(*) FROM dd_comments WHERE comment_postid LIKE '$the_post_id'");
 	$row2 = $comments2->fetch_row(); 
 	$total_records = $row2[0];
-	
-	$result = $global->sqlquery("SELECT * FROM dd_content ORDER BY content_date ASC LIMIT $start_from, $ppp;");
-$result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_content");
-$row2 = $result2->fetch_row(); 
-$total_records = $row2[0];
 $total_pages = ceil($total_records / $cpp);
 
 echo '<div class="contentpostscroll">';
@@ -311,7 +306,6 @@ echo '<div class="contentpostscroll">';
 		$count++;
 	}
 }
-echo $totalpages;
 echo pagebar($page, $total_pages, $cpp, '5');
 echo '</div>';
 amp();
