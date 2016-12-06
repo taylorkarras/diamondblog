@@ -1,12 +1,19 @@
 <?php
-
 $global = new DB_global;
 $retrive = new DB_retrival;
-
 $url = urldecode($_GET['query']);
 $urlstripped1 = preg_replace('/[^ ]*:"[^"]+"/', '', $url);
 $urlstripped2 = preg_replace('/[^ ]*:\S+/im', '', $urlstripped1);
 $urlexploded = str_getcsv($urlstripped2, ", ", '"');
+$haserror = '';
+$status = '';
+$date = '';
+if (empty($_GET['query'])){
+$query='';
+}else{
+$query=$_GET['query'];
+define ('POSTPEND', 'User search results for "'.$query.'"');
+}
   if(empty($url)){
 echo consolemenu();
 echo "<div id='page'>";
@@ -76,7 +83,6 @@ echo dbsearchbar('shdisabled');
 }
   }
 }
-
 if (str_word_count($url) == '1'){
 $searchtermreplace1 = preg_replace('/date[:]\S+/','',$url);
 } else {
@@ -85,7 +91,6 @@ $searchterm3 = trim($searchterm2);
 $searchterm4 = str_replace('% ', "%",  $searchterm3);
 $searchterm = preg_replace('/date[:]\S+/','',$searchterm4);
 }
-
 if (strlen($urlstripped2) < 1){
 $searchterm5 = '';
 }
@@ -99,17 +104,19 @@ $searchtermra1 = str_replace('%% ,', '', $searchterm);
 $searchtermra2 = str_replace(', %%', '', $searchtermra1);
 $searchterm5 = '%'.$searchtermra2.'%';
 }
-
 if ($haserror == true){}
 else {
 $postsperpageinit = $global->sqlquery("SELECT postsperpage FROM dd_settings LIMIT 1;");
 $postsperpage = $postsperpageinit->fetch_assoc();
 $ppp = $postsperpage['postsperpage'];
-
 $result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_users");
 	if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
 $start_from = ($page-1) * $ppp; 
-	
+
+if ($page > '1'){
+define ("PAGE", ' (Page '.$_GET['page'].')');
+}
+
 if ($page == '1'){
 	$count = $page;
 	}
@@ -119,7 +126,6 @@ if ($page == '1'){
 	
 $contentquery = " user_username LIKE ('".$searchterm5."') OR user_realname LIKE ('".$searchterm5."')";
 $query = "SELECT * FROM dd_users WHERE".$contentquery.$status.$date." ORDER BY user_id DESC LIMIT $start_from, $ppp;";
-
 if(trim($searchterm5) === ''){
 $contentquery = "";
 $query = "SELECT * FROM dd_users WHERE".$status.$date." ORDER BY user_id DESC LIMIT $start_from, $ppp;";
