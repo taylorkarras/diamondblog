@@ -166,7 +166,7 @@ public function valid_password($pass, $minlength = 8, $maxlength = 18)
 		return false;
 	}
  
-	$result = !preg_match_all('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]', $pass);
+	$result = preg_match_all('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]/', $pass);
  
 	if ($result)
 	{
