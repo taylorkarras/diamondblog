@@ -12,7 +12,13 @@ $userid = $retrive->userid($ctq);
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
 $start_from = ($page-1) * $ppp; 
 
-$result = $global->sqlquery("SELECT * FROM dd_content WHERE content_author = '".$userid."' ORDER BY content_date DESC LIMIT $start_from, $ppp;");
+if ($page > '1'){
+define ("PREPEND", 'Posts by author "'.$_GET['name'].'" (Page '.$_GET['page'].')');
+} else {
+define ("PREPEND", 'Posts by author "'.$_GET['name'].'"');
+}
+
+$result = $global->sqlquery("SELECT * FROM dd_content WHERE content_author = LOWER('".$userid."') ORDER BY content_date DESC LIMIT $start_from, $ppp;");
 $result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_content WHERE content_author = '".$userid."';");
 $row2 = $result2->fetch_row(); 
 $total_records = $row2[0];
