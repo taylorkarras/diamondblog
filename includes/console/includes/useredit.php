@@ -2,6 +2,7 @@
 $userfunc = new DB_userfunctions;
 $global = new DB_global;
 $retrive = new DB_retrival;
+$userlevel = '';
 if ($retrive->isLoggedIn() == true){
 unset($_SESSION["errors"]);
     if (isset($_POST))
@@ -35,6 +36,7 @@ if (isset($_POST['useridtoedit'])){
 	}
 	}
 
+if (isset($_POST['userlevel'])){
 	if ($_POST['userlevel'] == 'admin'){
 $userlevel = "`user_isadmin` = '1', `user_iscontributor` = '0', `user_ismod` = '0'";
 	} else if ($_POST['userlevel'] == 'contrib'){
@@ -42,6 +44,7 @@ $userlevel = "`user_isadmin` = '0', `user_iscontributor` = '1', `user_ismod` = '
 	} else if ($_POST['userlevel'] == 'mod'){
 $userlevel = "`user_isadmin` = '0', `user_iscontributor` = '0', `user_ismod` = '1'";
 	}
+}
 	
 		if(isset($hasError)){
 		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
