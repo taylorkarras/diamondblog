@@ -5,19 +5,27 @@ $retrive = new DB_retrival;
 
 $ssinit = $global->sqlquery("SELECT * FROM dd_settings");
 $ss = $ssinit->fetch_assoc();
+if (isset($_GET['category'])){
 $category_link = str_replace('_', ' ', $_GET['category']);
+}
+else {$category_link = '';
+}
+if (isset($_GET['author'])){
 $author_link = str_replace('_', ' ', $_GET['author']);
+}
+else {$author_link = '';
+}
   header("Content-Type: application/xml;");
 
 echo '<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
   <atom:link href="https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'" rel="self" type="application/rss+xml" />';
-  if (isset($_GET['category'])){
+  if (!empty($category_link)){
 	echo '<title>Category - "'.$category_link.'": '.$ss['site_name'].'</title>
   <link>https://'.$_SERVER['HTTP_HOST'].'/category?name='.$category_link.'</link>
   <description>Results for the category "'.$category_link.'" on '.$ss['site_name'].'</description>';  
-  } else if (isset($_GET['author'])){
+  } else if (!empty($author_link)){
 	echo '<title>Author - "'.$author_link.'": '.$ss['site_name'].'</title>
   <link>https://'.$_SERVER['HTTP_HOST'].'/author?name='.$author_link.'</link>
   <description>Results for the author "'.$author_link.'" on '.$ss['site_name'].'</description>';  
@@ -27,8 +35,6 @@ echo '<?xml version="1.0" encoding="utf-8"?>
   <description>'.$ss['site_title'].'</description>';
   }
   echo '<language>en-us</language>';
-
-$date=date_create($row['content_date']);
 
 if (isset($_GET['category'])){
 $result = $global->sqlquery("SELECT * FROM dd_content WHERE content_category = '".$category_link."' ORDER BY content_date DESC LIMIT 10");
@@ -41,6 +47,7 @@ $result = $global->sqlquery("SELECT * FROM dd_content ORDER BY content_date DESC
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
+$date=date_create($row['content_date']);
 		echo '<item>
 		';
 		// Title
