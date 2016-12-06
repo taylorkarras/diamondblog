@@ -10,6 +10,7 @@ $start_from = ($page-1) * $ppp;
 
 if ($page > '1'){
 define ("PREPEND", 'Page '.$_GET['page'].'');
+header("X-Robots-Tag: noindex", true);
 }
 
 $result = $global->sqlquery("SELECT * FROM dd_content WHERE content_pinned = '0' ORDER BY content_date DESC LIMIT $start_from, $ppp;");
