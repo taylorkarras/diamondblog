@@ -184,9 +184,9 @@ public function valid_email($email)
 public function isLoggedIn()
 {
 $global = new DB_global;
+if (isset($_COOKIE['userID']) && isset($_COOKIE['username'])){
 $usercheck1 = $global->sqlquery("SELECT * FROM dd_users WHERE user_id = '".$_COOKIE['userID']."';");
 $usercheck2 = $usercheck1->fetch_assoc();
-if (isset($_COOKIE['userID']) && isset($_COOKIE['username'])){
     if ($_COOKIE['userID'] == $usercheck2['user_id'] && $_COOKIE['username'] == $usercheck2['user_username']){
         return true; // the user is loged in
     } else
