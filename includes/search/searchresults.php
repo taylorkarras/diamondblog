@@ -4,6 +4,11 @@ $global = new DB_global;
 $retrive = new DB_retrival;
 $check = new DB_check;
 
+$category = '';
+$tags = '';
+$date = '';
+$author = '';
+
 $url = urldecode($_GET['query']);
 $urlstripped1 = preg_replace('/[^ ]*:"[^"]+"/', '', $url);
 $urlstripped2 = preg_replace('/[^ ]*:\S+/im', '', $urlstripped1);
@@ -180,7 +185,7 @@ $ppp = $postsperpage['postsperpage'];
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 $start_from = ($page-1) * $ppp;
 
-if ($_GET["page"] > '1'){
+if ($page > '1'){
 define ("PREPEND", 'Search results for "'.$_GET['query'].'" - Page '.$_GET['page'].'');
 }else{
 define ("PREPEND", 'Search results for "'.$_GET['query'].'"');
