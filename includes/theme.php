@@ -80,7 +80,7 @@ echo '<meta name="description" content="'.strip_tags($resultpost2['content_summa
 } else if (!empty($resultpage2['page_title'])){
 echo '<meta name="decription" content="'.$resultpage2['page_title'].'">';
 }
-preg_match('/[^< *img*src *= *>"\']*(http[^"\']*)+(png|jpg|gif)/' , $resultpost2['content_description'], $image); 
+preg_match('/[^< *img*src *= *>"\']*(http[^"\']*)+(png|jpg|gif)/' , $resultpost2['content_description'], $image);
 if (!empty($resultpost2['content_title'])){
 echo '<meta property="og:title" content="'.$resultpost2['content_title'].'">';
 }
@@ -88,7 +88,9 @@ if (!empty($resultpost2['content_permalink'])){
 echo '<meta property="og:url" content="https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'">';
 }
 if (!empty($resultpost2['content_description'])){
+if (!empty($image[0])){
 echo '<meta property="og:image" content="'.$image[0].'">';
+}
 echo '<meta property="og:type" content="article">';
 echo '<meta property="article:published_time" content="'.date_format($date,"Y-m-d\TH:i:sO").'">';
 }
@@ -162,9 +164,14 @@ function dbsearchbar()
 	$global = new DB_global;
 $titleinit = $global->sqlquery("SELECT site_name FROM dd_settings LIMIT 1;");
 $title = $titleinit->fetch_assoc();
+if (!empty($_GET['query'])){
+$value = " value='".$_GET['query']."'";
+} else {
+$value = '';
+}
 	
 	echo '<form method="post" id="search">';
-	echo "<input type='search' name='dbsearchbar' id='searchbar' placeholder='Search ".$title['site_name']."' value='".$_GET['query']."'>";
+	echo "<input type='search' name='dbsearchbar' id='searchbar' placeholder='Search ".$title['site_name']."'".$value.">";
 	echo "<div class='searchhint'>This searchbar can also search for specific describers as well as words... Here's a couple you can try.
 	<br />
 	<br />
@@ -231,20 +238,11 @@ $ifnavenabled = $ifnavenabled2->fetch_assoc();
 	if($lastpage > 1)
 	{	
 		$pagination .= "<div $display class=\"pagination\"";
-		if($margin || $padding)
-		{
-			$pagination .= " style=\"";
-			if($margin)
-				$pagination .= "margin: $margin;";
-			if($padding)
-				$pagination .= "padding: $padding;";
-			$pagination .= "\"";
-		}
 		$pagination .= ">";
 
 		//previous button
 		if ($page > 1) 
-			$pagination .= "<a href=\"".$symbol."page=$prev\">< prev</a>";
+			$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page=$prev\">< prev</a>";
 		else
 			$pagination .= "<span class=\"disabled\">< prev</span>";	
 		
@@ -256,7 +254,7 @@ $ifnavenabled = $ifnavenabled2->fetch_assoc();
 				if ($counter == $page)
 					$pagination .= "<span class=\"current\">$counter</span>";
 				else
-					$pagination .= "<a href=\"".$symbol."page=". $counter . "\">$counter</a>";					
+					$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page=". $counter . "\">$counter</a>";					
 			}
 		}
 		elseif($lastpage >= 7 + ($adjacents * 2))	//enough pages to hide some
@@ -269,41 +267,41 @@ $ifnavenabled = $ifnavenabled2->fetch_assoc();
 					if ($counter == $page)
 						$pagination .= "<span class=\"current\">$counter</span>";
 					else
-						$pagination .= "<a href=\"".$symbol."page". $counter . "\">$counter</a>";					
+						$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". $counter . "\">$counter</a>";					
 				}
 				$pagination .= "<span class=\"elipses\">...</span>";
-				$pagination .= "<a href=\"".$symbol."page" . $lpm1 . "\">$lpm1</a>";
-				$pagination .= "<a href=\"".$symbol."page". $lastpage . "\">$lastpage</a>";		
+				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page" . $lpm1 . "\">$lpm1</a>";
+				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". $lastpage . "\">$lastpage</a>";		
 			}
 			//in middle; hide some front and some back
 			elseif($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2))
 			{
-				$pagination .= "<a href=\"".$symbol."page". "1\">1</a>";
-				$pagination .= "<a href=\"".$symbol."page". "2\">2</a>";
+				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". "1\">1</a>";
+				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". "2\">2</a>";
 				$pagination .= "<span class=\"elipses\">...</span>";
 				for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++)
 				{
 					if ($counter == $page)
 						$pagination .= "<span class=\"current\">$counter</span>";
 					else
-						$pagination .= "<a href=\"".$symbol."page". $counter . "\">$counter</a>";					
+						$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". $counter . "\">$counter</a>";					
 				}
 				$pagination .= "...";
-				$pagination .= "<a href=\"".$symbol."page". $lpm1 . "\">$lpm1</a>";
-				$pagination .= "<a href=\"".$symbol."page". $lastpage . "\">$lastpage</a>";		
+				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". $lpm1 . "\">$lpm1</a>";
+				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". $lastpage . "\">$lastpage</a>";		
 			}
 			//close to end; only hide early pages
 			else
 			{
-				$pagination .= "<a href=\"".$symbol."page". "1\">1</a>";
-				$pagination .= "<a href=\"".$symbol."page". "2\">2</a>";
+				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". "1\">1</a>";
+				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". "2\">2</a>";
 				$pagination .= "<span class=\"elipses\">...</span>";
 				for ($counter = $lastpage - (1 + ($adjacents * 3)); $counter <= $lastpage; $counter++)
 				{
 					if ($counter == $page)
 						$pagination .= "<span class=\"current\">$counter</span>";
 					else
-						$pagination .= "<a href=\"".$symbol."page". $counter . "\">$counter</a>";					
+						$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". $counter . "\">$counter</a>";					
 				}
 			}
 		}
