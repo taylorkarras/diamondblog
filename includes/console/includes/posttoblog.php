@@ -11,6 +11,7 @@ pluginClass::initialize();
 $global = new DB_global;
 unset($GLOBALS['embedlink']);
 unset($_SESSION["errors"]);
+$embedlink = '';
     if (isset($_POST))
     {
 		if(trim($_POST['posttitle']) === '')  {
