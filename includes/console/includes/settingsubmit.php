@@ -14,7 +14,7 @@ if (isset($_POST['categorydelete'])){
 
 $global->sqlquery("DELETE FROM `dd_categories` WHERE `dd_categories`.`category_name` = '".$_POST['categorydelete']."'");
 	
-} else if ($_POST['storageenabled'] == '0'){
+} else if (isset($_POST['storageenabled']) && $_POST['storageenabled'] == '0'){
 		$global->sqlquery("UPDATE `dd_storage` SET `ftp_inuse` = '".$_POST['storageenabled']."'");
 						$resp = array();
 				$resp['resp'] = true;
@@ -22,7 +22,7 @@ $global->sqlquery("DELETE FROM `dd_categories` WHERE `dd_categories`.`category_n
 	<p>FTP info updated.</p>';
 			
                 echo json_encode($resp);
-		        exit;} else if($_POST['storageenabled'] == '1'){
+		        exit;} else if(isset($_POST['storageenabled']) && $_POST['storageenabled'] == '1'){
 	
 	if(trim($_POST['storageserver']) === '' && $_POST['storageenabled'] == '1')  {
 		$_SESSION['errors']['storageserver'] = "You cannot leave the server field blank.";
