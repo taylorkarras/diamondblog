@@ -2,8 +2,15 @@
 
 $global = new DB_global;
 $retrive = new DB_retrival;
+$haserror = '';
 
 $url = urldecode($_GET['query']);
+	  if (empty($_GET['query'])){
+$query='';
+}else{
+$query=$_GET['query'];
+define ('POSTPEND', 'Ban search results for "'.$query.'"');
+}
   if(empty($url)){
 echo consolemenu();
 echo '<div id="page"><div class="center">Add Ban</div>';
@@ -35,10 +42,14 @@ $ppp = $postsperpage['postsperpage'];
 
 $result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_banlist");
 $row2 = $result2->fetch_row();
-		if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
 	if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
-$start_from = ($page-1) * $ppp;
-	
+$start_from = ($page-1) * $ppp; 
+
+if ($page > '1'){
+define ("PAGE", ' (Page '.$_GET['page'].')');
+}
+
+		if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
 	if ($page == '1'){
 	$count = $page;
 	}
