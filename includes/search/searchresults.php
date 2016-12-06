@@ -8,6 +8,7 @@ $category = '';
 $tags = '';
 $date = '';
 $author = '';
+$haserror = '';
 
 $url = urldecode($_GET['query']);
 $urlstripped1 = preg_replace('/[^ ]*:"[^"]+"/', '', $url);
@@ -73,14 +74,16 @@ $tags7 = trim($tags6);
 $replace = array('"', '% ');
 $replace2 = array('', '%');
 $tags8 = str_replace($replace, $replace2, $tags7);
-$tags = " AND LOWER(content_tags) LIKE LOWER('%".$tags8."%')";
+$tags9 = str_replace(', ', '%', $tags8);
+$tags = " AND LOWER(content_tags) LIKE LOWER('%".$tags9."%')";
 } else {
 $replace = array('"', '% ');
 $replace2 = array('', '%');
 $replace3 = array('/, category:.*/im', '/, tags:.*/im', '/, author:.*/im', '/, date:.*/im');
 $tags5 = str_replace($replace, $replace2, $tags4);
 $tags6 = preg_replace($replace3, '', $tags5);
-$tags = " AND LOWER(content_tags) LIKE LOWER('%".$tags6."%')";
+$tags7 = str_replace(', ', '%', $tags6);
+$tags = " AND LOWER(content_tags) LIKE LOWER('%".$tags7."%')";
 }
   }
   }
