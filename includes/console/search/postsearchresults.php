@@ -5,9 +5,19 @@ $retrive = new DB_retrival;
 
 $url = urldecode($_GET['query']);
 $urlstripped1 = preg_replace('/[^ ]*:"[^"]+"/', '', $url);
-$urlstripped2 = preg_replace('/[^ ]*:\S+/im', '', $urlstripped1);
-$urlstripped3 = 
+$urlstripped2 = preg_replace('/[^ ]*:\S+/im', '', $urlstripped1); 
 $urlexploded = str_getcsv($urlstripped2, ", ", '"');
+$haserror = '';
+$category = '';
+$tags = '';
+$date = '';
+$author = '';
+	  if (empty($_GET['query'])){
+$query='';
+}else{
+$query=$_GET['query'];
+define ('POSTPEND', 'Post search results for "'.$query.'"');
+}
   if(empty($url)){
 	  echo consolemenu();
 echo "<div id='page'>
@@ -220,11 +230,13 @@ $postsperpage = $postsperpageinit->fetch_assoc();
 $ppp = $postsperpage['postsperpage'];
 
 		if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
-	
-        if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 $start_from = ($page-1) * $ppp;
 
-if ($page == '1'){
+if ($page > '1'){
+define ("PAGE", ' (Page '.$_GET['page'].')');
+}
+
+        if ($page == '1'){
         $count = $page;
         }
         else {
