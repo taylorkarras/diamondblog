@@ -1,5 +1,4 @@
 <?php
-define ("RSSHEAD", '<link rel="alternate" type="application/rss+xml" title="'.$postsperpage['site_name'].'" href="https://'.$_SERVER['HTTP_HOST'].'/feed" />');
 $global = new DB_global;
 $retrive = new DB_retrival;
 $postsperpageinit = $global->sqlquery("SELECT * FROM dd_settings;");
@@ -9,7 +8,7 @@ $ppp = $postsperpage['postsperpage'];
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
 $start_from = ($page-1) * $ppp; 
 
-if ($_GET["page"] > '1'){
+if ($page > '1'){
 define ("PREPEND", 'Page '.$_GET['page'].'');
 }
 
