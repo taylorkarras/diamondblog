@@ -38,7 +38,7 @@ $total_pages = ceil($total_records / $cpp);
 	$count = $page + $start_from - $page + '1';
 	}
 	
-	if ($_GET["page"] > '1'){
+	if ($page > '1'){
 define ("PAGE", ' (Page '.$_GET['page'].')');
 }
 echo '<div class="contentpostscroll">';
