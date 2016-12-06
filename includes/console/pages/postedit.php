@@ -10,13 +10,14 @@ echo '<div id="page"><div class="center">You are not authorized to perform this 
 	if (!empty($_GET["postid"])){
 		$editpost1 = $global->sqlquery("SELECT * FROM dd_content WHERE content_id = '".$_GET["postid"]."';");
 		$editpost2 = $editpost1->fetch_assoc();
+		define ('POSTPEND', 'Edit Post: '.$editpost2['content_title']);
 	}
 	if (!empty($_GET["draftid"])){
 		$editpost1 = $global->sqlquery("SELECT * FROM dd_drafts WHERE draft_id = '".$_GET["draftid"]."';");
 		$editpost2 = $editpost1->fetch_assoc();
+		define ('POSTPEND', 'Edit Post: '.$editpost2['content_title']);
 	}
 echo consolemenu();
-define ('POSTPEND', 'Edit Post: '.$editpost2['content_title']);
 echo '<div id="page"><div class="center">';
 	if (empty($_GET["postid"])){
 echo 'Create New Post';
