@@ -12,6 +12,7 @@ $category = '';
 $tags = '';
 $date = '';
 $author = '';
+$haserror = '';
 	  if (empty($_GET['query'])){
 $query='';
 }else{
@@ -64,7 +65,7 @@ $category = " AND content_category = '".$category4."' ";
   }
 //Tags
 if (preg_match('/^tag:.*/', $url) or preg_match('/, tag:.*/', $url)){
-preg_match_all ('/tag:"[^"]+"/im', $url, $singletag2);
+preg_match_all ('/tag:.*/im', $url, $singletag2);
 if(empty($singletag2[0])){
 	echo consolemenu();
 echo "<div id='page'>
@@ -77,11 +78,11 @@ echo dbsearchbar();
 $singletag3 = implode(':',$singletag2[0]);
 $replace = array('tag:', ',', '"');
 $singletag4 = str_replace($replace, '', $singletag3);
-$tags = " AND LOWER(content_tags) LIKE LOWER('%".$singletag5."%') ";
+$tags = " AND LOWER(content_tags) LIKE LOWER('%".$singletag4."%') ";
   }
 }  else if (preg_match('/^tags:.*/', $url) or preg_match('/, tags:.*/', $url)){
-preg_match_all ('/tags:.*/im', $url, $tags2);
-if(empty($singletag2[0])){
+preg_match_all ('/tags:"[^"]+"/im', $url, $tags2);
+if(empty($tags2[0])){
 	echo consolemenu();
 echo "<div id='page'>
 <div class='center'>There are "; echo $retrive->numberofposts(); echo " posts on this blog.</div>
@@ -99,14 +100,16 @@ $tags7 = trim($tags6);
 $replace = array('"', '% ');
 $replace2 = array('', '%');
 $tags8 = str_replace($replace, $replace2, $tags7);
-$tags = " AND LOWER(content_tags) LIKE LOWER('%".$tags8."%')";
+$tags9 = str_replace(', ', '%', $tags8);
+$tags = " AND LOWER(content_tags) LIKE LOWER('%".$tags9."%')";
 } else {
 $replace = array('"', '% ');
 $replace2 = array('', '%');
 $replace3 = array('/, category:.*/im', '/, tags:.*/im', '/, author:.*/im', '/, date:.*/im');
 $tags5 = str_replace($replace, $replace2, $tags4);
 $tags6 = preg_replace($replace3, '', $tags5);
-$tags = " AND LOWER(content_tags) LIKE LOWER('%".$tags6."%')";
+$tags7 = str_replace(', ', '%', $tags6);
+$tags = " AND LOWER(content_tags) LIKE LOWER('%".$tags7."%')";
 }
   }
   }
@@ -310,5 +313,6 @@ echo "<div id='page'>
 echo dbsearchbar();
     echo "<h1>No search results found.</h1>";
 	echo '</div>';
+	echo $newstring;
 }
 }
