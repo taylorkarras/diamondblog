@@ -36,6 +36,7 @@ pluginClass::hook( "page_top" );
 	
 	echo '</div>';
 } else if($userinfo2['user_username'] == $link && $userinfo2['user_isadmin'] == '1' or $userinfo2['user_iscontributor'] == '1'){
+define ("PREPEND", $userinfo2['user_realname']);
 header("X-Robots-Tag: noindex", true);
 echo '<div id="userinfo"><h1>'.$userinfo2['user_realname'].'</h1>
 <small>(';
