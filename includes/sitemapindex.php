@@ -1,14 +1,14 @@
 <?php
 header("Content-type: text/xml");
 echo '<?xml version="1.0" encoding="UTF-8"?>';
-  echo '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+  echo '<sitemapindex xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">';
   $global = new DB_global;
   $postcount = $global->sqlquery("SELECT * FROM dd_content LIMIT 0, 50000");
   $lastmodified = $global->sqlquery("SELECT content_date FROM dd_content LIMIT 1, 50000");
   $lastmodifieddate = $lastmodified->fetch_assoc();
   if ($postcount->num_rows < '50000') {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/1</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/1</loc>';
 	$dateTime = date_create($lastmodifieddate['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W3C).'</lastmod>';
 echo '</sitemap>';
@@ -19,7 +19,7 @@ echo '</sitemap>';
   $lastmodifieddate2 = $lastmodified2->fetch_assoc();
     if ($postcount2->num_rows > '50000') {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/2</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/2</loc>';
 	$dateTime = date_create($lastmodifieddate2['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W3C).'</lastmod>';
 echo '</sitemap>';
@@ -30,7 +30,7 @@ echo '</sitemap>';
   $lastmodifieddate3 = $lastmodified2->fetch_assoc();
     if ($postcount3->num_rows > '50000' * 2) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/3</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/3</loc>';
 	$dateTime = date_create($lastmodifieddate3['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W3C).'</lastmod>';
 echo '</sitemap>';
@@ -41,7 +41,7 @@ echo '</sitemap>';
   $lastmodifieddate4 = $lastmodified3->fetch_assoc();
     if ($postcount4->num_rows > '50000' * 3) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/4</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/4</loc>';
 	$dateTime = date_create($lastmodifieddate4['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W4C).'</lastmod>';
 echo '</sitemap>';
@@ -52,7 +52,7 @@ echo '</sitemap>';
   $lastmodifieddate5 = $lastmodified4->fetch_assoc();
     if ($postcount5->num_rows > '50000' * 4) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/5</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/5</loc>';
 	$dateTime = date_create($lastmodifieddate5['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W5C).'</lastmod>';
 echo '</sitemap>';
@@ -63,7 +63,7 @@ echo '</sitemap>';
   $lastmodifieddate6 = $lastmodified5->fetch_assoc();
     if ($postcount6->num_rows > '50000' * 5) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/6</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/6</loc>';
 	$dateTime = date_create($lastmodifieddate6['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W6C).'</lastmod>';
 echo '</sitemap>';
@@ -74,7 +74,7 @@ echo '</sitemap>';
   $lastmodifieddate7 = $lastmodified6->fetch_assoc();
     if ($postcount7->num_rows > '50000' * 6) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/7</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/7</loc>';
 	$dateTime = date_create($lastmodifieddate7['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W7C).'</lastmod>';
 echo '</sitemap>';
@@ -85,7 +85,7 @@ echo   $times8 = '50000' * 8;
   $lastmodifieddate8 = $lastmodified7->fetch_assoc();
     if ($postcount8->num_rows > '50000' * 7) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/8</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/8</loc>';
 	$dateTime = date_create($lastmodifieddate8['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W8C).'</lastmod>';
 echo '</sitemap>';
@@ -96,7 +96,7 @@ echo '</sitemap>';
   $lastmodifieddate9 = $lastmodified8->fetch_assoc();
     if ($postcount9->num_rows > '50000' * 8) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/9</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/9</loc>';
 	$dateTime = date_create($lastmodifieddate9['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W9C).'</lastmod>';
 echo '</sitemap>';
@@ -107,7 +107,7 @@ echo '</sitemap>';
   $lastmodifieddate10 = $lastmodified9->fetch_assoc();
     if ($postcount10->num_rows > '50000' * 9) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/10</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/10</loc>';
 	$dateTime = date_create($lastmodifieddate10['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W10C).'</lastmod>';
 echo '</sitemap>';
@@ -118,7 +118,7 @@ echo '</sitemap>';
   $lastmodifieddate11 = $lastmodified10->fetch_assoc();
     if ($postcount11->num_rows > '50000' * 10) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/11</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/11</loc>';
 	$dateTime = date_create($lastmodifieddate11['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W11C).'</lastmod>';
 echo '</sitemap>';
@@ -129,7 +129,7 @@ echo '</sitemap>';
   $lastmodifieddate12 = $lastmodified11->fetch_assoc();
     if ($postcount12->num_rows > '50000' * 11) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/12</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/12</loc>';
 	$dateTime = date_create($lastmodifieddate12['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W12C).'</lastmod>';
 echo '</sitemap>';
@@ -140,7 +140,7 @@ echo '</sitemap>';
   $lastmodifieddate13 = $lastmodified12->fetch_assoc();
     if ($postcount13->num_rows > '50000' * 12) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/13</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/13</loc>';
 	$dateTime = date_create($lastmodifieddate13['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W13C).'</lastmod>';
 echo '</sitemap>';
@@ -151,7 +151,7 @@ echo '</sitemap>';
   $lastmodifieddate14 = $lastmodified13->fetch_assoc();
     if ($postcount14->num_rows > '50000' * 13) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/14</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/14</loc>';
 	$dateTime = date_create($lastmodifieddate14['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W14C).'</lastmod>';
 echo '</sitemap>';
@@ -162,7 +162,7 @@ echo '</sitemap>';
   $lastmodifieddate15 = $lastmodified14->fetch_assoc();
     if ($postcount15->num_rows > '50000' * 14) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/15</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/15</loc>';
 	$dateTime = date_create($lastmodifieddate15['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W15C).'</lastmod>';
 echo '</sitemap>';
@@ -173,7 +173,7 @@ echo '</sitemap>';
   $lastmodifieddate16 = $lastmodified15->fetch_assoc();
     if ($postcount16->num_rows > '50000' * 15) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/16</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/16</loc>';
 	$dateTime = date_create($lastmodifieddate16['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W16C).'</lastmod>';
 echo '</sitemap>';
@@ -184,7 +184,7 @@ echo '</sitemap>';
   $lastmodifieddate17 = $lastmodified15->fetch_assoc();
     if ($postcount17->num_rows > '50000' * 16) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/17</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/17</loc>';
 	$dateTime = date_create($lastmodifieddate17['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W17C).'</lastmod>';
 echo '</sitemap>';
@@ -195,7 +195,7 @@ echo '</sitemap>';
   $lastmodifieddate18 = $lastmodified15->fetch_assoc();
     if ($postcount18->num_rows > '50000' * 17) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/18</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/18</loc>';
 	$dateTime = date_create($lastmodifieddate18['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W18C).'</lastmod>';
 echo '</sitemap>';
@@ -206,7 +206,7 @@ echo '</sitemap>';
   $lastmodifieddate19 = $lastmodified15->fetch_assoc();
     if ($postcount19->num_rows > '50000' * 18) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/19</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/19</loc>';
 	$dateTime = date_create($lastmodifieddate19['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W19C).'</lastmod>';
 echo '</sitemap>';
@@ -217,7 +217,7 @@ echo '</sitemap>';
   $lastmodifieddate20 = $lastmodified15->fetch_assoc();
     if ($postcount20->num_rows > '50000' * 19) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/20</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/20</loc>';
 	$dateTime = date_create($lastmodifieddate20['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W20C).'</lastmod>';
 echo '</sitemap>';
@@ -228,7 +228,7 @@ echo '</sitemap>';
   $lastmodifieddate21 = $lastmodified15->fetch_assoc();
     if ($postcount21->num_rows > '50000' * 20) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/21</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/21</loc>';
 	$dateTime = date_create($lastmodifieddate21['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W21C).'</lastmod>';
 echo '</sitemap>';
@@ -239,7 +239,7 @@ echo '</sitemap>';
   $lastmodifieddate22 = $lastmodified15->fetch_assoc();
     if ($postcount22->num_rows > '50000' * 21) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/22</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/22</loc>';
 	$dateTime = date_create($lastmodifieddate22['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W22C).'</lastmod>';
 echo '</sitemap>';
@@ -250,7 +250,7 @@ echo '</sitemap>';
   $lastmodifieddate23 = $lastmodified15->fetch_assoc();
     if ($postcount23->num_rows > '50000' * 22) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/23</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/23</loc>';
 	$dateTime = date_create($lastmodifieddate23['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W23C).'</lastmod>';
 echo '</sitemap>';
@@ -261,7 +261,7 @@ echo '</sitemap>';
   $lastmodifieddate24 = $lastmodified15->fetch_assoc();
     if ($postcount24->num_rows > '50000' * 23) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/24</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/24</loc>';
 	$dateTime = date_create($lastmodifieddate24['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W24C).'</lastmod>';
 echo '</sitemap>';
@@ -272,7 +272,7 @@ echo '</sitemap>';
   $lastmodifieddate25 = $lastmodified15->fetch_assoc();
     if ($postcount25->num_rows > '50000' * 23) {
 echo '<sitemap>';
-	echo '<loc>http://'.$_SERVER['HTTP_HOST'].'/sitemap/25</loc>';
+	echo '<loc>https://'.$_SERVER['HTTP_HOST'].'/sitemap/25</loc>';
 	$dateTime = date_create($lastmodifieddate25['content_date']);
     echo '<lastmod>'.$dateTime->format(DateTime::W25C).'</lastmod>';
 echo '</sitemap>';
