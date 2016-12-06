@@ -6,21 +6,21 @@ unset($_SESSION["errors"]);
     // user is not logged in.
     if (isset($_POST))
     {
-		if(trim($_POST['usernamelogin']) === '')  {
+		if(isset($_POST['usernamelogin']) && trim($_POST['usernamelogin']) === '')  {
 		$_SESSION['errors']['usernamelogin'] = "Forgot to enter in your username.";
 		$hasError = true;	
 	} else {
 		$usernamelogin = trim($_POST['usernamelogin']);
 	}
 	
-	if(trim($_POST['passwordlogin']) === '')  {
+	if(isset($_POST['passwordlogin']) && trim($_POST['passwordlogin']) === '')  {
 		$_SESSION['errors']['passwordlogin'] = "Forgot to enter in your password.";
 		$hasError = true;
 	} else {
 		$passwordlogin = trim($_POST['passwordlogin']);
 	}	
 	
-	if($_POST['remember'] == '1'){
+	if(isset($_POST['remember']) && $_POST['remember'] == '1'){
 		$remember = '1';
 	} else {
 		$remember = '0';
