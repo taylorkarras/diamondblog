@@ -86,7 +86,7 @@ unset($_SESSION["errors"]);
 		else if (strpos($_POST['postmedialink'], 'mixcloud') == true){
 			$embedlink = '<iframe width="100%" height="120" src="https://www.mixcloud.com/widget/iframe/?feed='.$_POST['postmedialink'].'&hide_cover=1&light=1" frameborder="0"></iframe>';
 		}
-		else if (strpos($_POST['postmedialink'], jpg) == true or strpos($_POST['postmedialink'], jpeg) == true or strpos($_POST['postmedialink'], png) == true or strpos($_POST['postmedialink'], gif) == true or strpos($_POST['postmedialink'], gifv) == true ){
+		else if (strpos($_POST['postmedialink'], 'jpg') == true or strpos($_POST['postmedialink'], 'jpeg') == true or strpos($_POST['postmedialink'], 'png') == true or strpos($_POST['postmedialink'], 'gif') == true or strpos($_POST['postmedialink'], 'gifv') == true ){
 			$embedlink = '<img src="'.$_POST['postmedialink'].'" alt="External Image" title="External Image"></img>';
 			$GLOBALS['embedlink'] = $_POST['postmedialink'];
 		}
