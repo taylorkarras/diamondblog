@@ -52,9 +52,6 @@ $global->sqlquery("DELETE FROM `dd_mailtree` WHERE `dd_mailtree`.`mailtree_name`
                 echo json_encode($_SESSION['errors']);
                 exit;
 	}} else {
-		
-		$mailcheckinit = $global->sqlquery("SELECT * FROM dd_mail");
-		$mailcheck = $mailcheckinit->fetch_assoc();
 
 		if(!$global->sqlquery("SELECT * FROM dd_mail WHERE EXISTS (SELECT mail_password FROM dd_mail);")){
 			$global->sqlquery("INSERT INTO `dd_mail` (`mail_server`, `mail_user`, `mail_password`, `mail_inuse`) VALUES ('".$mailserver."', '".$mailuser."', '".$mailpassword."', '".$_POST['mailenabled']."')");
@@ -71,7 +68,7 @@ $global->sqlquery("DELETE FROM `dd_mailtree` WHERE `dd_mailtree`.`mailtree_name`
 
 		} else {
 			
-			$global->sqlquery("UPDATE `dd_mail` SET `mail_server` = '".$mailserver."', `mail_user` = '".$mailuser."', `mail_password` = '".$mailpassword."', `mail_inuse` = '".$_POST['storageenabled']."'");
+			$global->sqlquery("UPDATE `dd_mail` SET `mail_server` = '".$mailserver."', `mail_user` = '".$mailuser."', `mail_password` = '".$mailpassword."', `mail_inuse` = '".$_POST['mailenabled']."'");
 			        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			
 				$resp = array();
@@ -86,9 +83,26 @@ $global->sqlquery("DELETE FROM `dd_mailtree` WHERE `dd_mailtree`.`mailtree_name`
 		}
 	}
 	
-}
+} else if ($_POST['mailenabled'] == '0'){
+		$mailserver = $_POST['mailserver'];
+		$mailuser = $_POST['mailuser'];
+		$mailpassword = $_POST['mailpassword'];
+			
+			$global->sqlquery("UPDATE `dd_mail` SET `mail_server` = '".$mailserver."', `mail_user` = '".$mailuser."', `mail_password` = '".$mailpassword."', `mail_inuse` = '".$_POST['mailenabled']."'");
+			        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+			
+				$resp = array();
+				$resp['resp'] = true;
+				$resp['message'] = '
+	<p>Mail server info updated.</p>';
+			
+                echo json_encode($resp);
+		        exit;
 	}
-} else {
+
+	}
+	
+} } else {
  header("HTTP/1.0 403 Forbidden");
  die();
 	}
