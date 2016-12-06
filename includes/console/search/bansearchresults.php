@@ -29,7 +29,7 @@ echo '<div class="sitescrolling">
 	});</script>";
 echo '<input class="postsubmit" name="bansubmit" type="submit" value="Submit">';
 echo '</form>';
-echo dbsearchbar();
+echo dbsearchbar('shdisabled');
 echo '<h1 style="display:table; margin:0;">No search terms entered, please enter search terms above.</h1>';
 $haserror = true;
   }
