@@ -4,7 +4,6 @@ $(function() {
 $('.menu2 > ul').mousewheel(function(event, delta) {
 	event.preventDefault();
 	this.scrollLeft -= (delta * 50);
-	console.log(this.scrollLeft + event.deltaFactor);
 });
 
    $('.menu2 > ul').mousedown(function(e) {
@@ -36,7 +35,6 @@ $('.menu2 > ul').mousewheel(function(event, delta) {
 	}else{
 		this.scrollLeft = (this.scrollLeft - currentX / 9.9);
 	}
-	 console.log(this.scrollLeft);
 });
 
 $("#loading").empty();
@@ -100,6 +98,8 @@ return false;
 $('body').on('click', 'input[type="submit"]', function() {
       resetErrors();
 	  var myinstances = [];
+	  $("input, button, select, textarea").not("#searchbar").prop('disabled', true);
+	  $('body').append('<div class="message"><div class="successmessage" style="background-color:#f0f0f0">Please wait...</div></div>');
 
 //this is the foreach loop
 for(var i in CKEDITOR.instances) {
@@ -119,7 +119,7 @@ for(var i in CKEDITOR.instances) {
    /* this retrieve the data of each instances and store it into an associative array with
        the names of the textareas as keys... */
    myinstances[CKEDITOR.instances[i].name] = CKEDITOR.instances[i].getData(); 
-
+	CKEDITOR.instances[i].setReadOnly(true);
 }
       var url = $(this).closest("form").attr('id');
 	  var form_id = $("#" + $(this).closest("form").attr('id'));
@@ -148,19 +148,25 @@ for(var i in CKEDITOR.instances) {
           success: function(resp) {
               if (resp.resp === true) {
                   	//successful validation
-					$('body').append('<div class="successmessage">'+resp.message+'</div>')
+					$(".successmessage").remove();
+					$('body').append('<div class="message"><div class="successmessage">'+resp.message+'</div></div>')
 					$('.successmessage').delay(5000).fadeOut('fast');
+					$("input").prop('disabled', false);
 			  } else if (resp.resprefresh === true) {
                   	//successful validation
-					$('.menu2').append('<div class="successmessage">'+resp.message+'</div>')
+					$(".successmessage").remove();
+					$('body').append('<div class="message"><div class="successmessage">'+resp.message+'</div></div>')
 					$('.successmessage').delay(5000).fadeOut('fast');
 					window.setTimeout(function(){
 					window.location.href = resp.url;
 					}, 5000);
 			  } else if (resp.formrefresh === true) {
+				  $(".successmessage").remove();
 				  form_id.submit().location.reload();
 			  } else if (resp.divsubmit === true) {
+				  $(".successmessage").remove();
 				  div_id.html(resp.message);
+				  $("input").prop('disabled', false);
 			  } else if (resp.searchposts === true) {
                   	//successful validation
 					//var title = $(data).filter('title').text();
@@ -189,6 +195,11 @@ for(var i in CKEDITOR.instances) {
                       $('input[name="' + i + '"], select[name="' + i + '"], textarea[name="' + i + '"]').addClass('inputTxtError').after(msg);
                   });
                   var keys = Object.keys(resp);
+				  			  				  	  	  for(var i in CKEDITOR.instances) {
+	CKEDITOR.instances[i].setReadOnly(false);
+}
+	  $("input, button, select, textarea").prop('disabled', false);
+	  $(".successmessage").remove();
                   $('input[name="'+keys[0]+'"]').focus();
               }
           },
