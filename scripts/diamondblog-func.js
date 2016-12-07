@@ -1,7 +1,6 @@
 $('#menu > ul').mousewheel(function(event, delta) {
 	event.preventDefault();
 	this.scrollLeft -= (delta * 50);
-	console.log(this.scrollLeft + event.deltaFactor);
 });
 
    $('#menu > ul').mousedown(function(e) {
@@ -33,7 +32,6 @@ $('#menu > ul').mousewheel(function(event, delta) {
 	}else{
 		this.scrollLeft = (this.scrollLeft - currentX / 9.9);
 	}
-	 console.log(this.scrollLeft);
 });
 };
 
@@ -42,6 +40,7 @@ $(function() {
 $('body').on('click', 'input[type="submit"]', function() {
       resetErrors();
 	  var myinstances = [];
+	  $("input, button, select").not("#searchbar").prop('disabled', true);
 
 //this is the foreach loop
 for(var i in CKEDITOR.instances) {
@@ -61,7 +60,7 @@ for(var i in CKEDITOR.instances) {
    /* this retrieve the data of each instances and store it into an associative array with
        the names of the textareas as keys... */
    myinstances[CKEDITOR.instances[i].name] = CKEDITOR.instances[i].getData(); 
-
+CKEDITOR.instances[i].setReadOnly(true);
 }
       var url = $(this).closest("form").attr('id');
 	  var form_id = $("#" + $(this).closest("form").attr('id'));
@@ -92,12 +91,15 @@ for(var i in CKEDITOR.instances) {
                   	//successful validation
 					form_id.html(resp.message);
 			  } else if (resp.formrefresh === true) {
-				  form_id.submit().location.reload();
+				  form_id.submit();
+				  window.location.reload();
 			  } else if (resp.divsubmit === true) {
 				  div_id.html(resp.message);
 			  } else if (resp.search === true) {
                   	//successful validation
+					//var title = $(data).filter('title').text();
 					var url = "/search?" + form_id.serialize().replace("dbsearchbar", "query");
+					//History.pushState(null, title, url);
 					window.location.href = url;
 					event.preventDefault();
 			  } else {
@@ -107,6 +109,10 @@ for(var i in CKEDITOR.instances) {
                       $('input[name="' + i + '"], select[name="' + i + '"], textarea[name="' + i + '"]').addClass('inputTxtError').after(msg);
                   });
                   var keys = Object.keys(resp);
+				  	  	  for(var i in CKEDITOR.instances) {
+	CKEDITOR.instances[i].setReadOnly(false);
+}
+	  $("input, button, select").prop('disabled', false);
                   $('input[name="'+keys[0]+'"]').focus();
               }
           },
@@ -168,7 +174,7 @@ $(function() {
         else if (!shouldBeFixed && isFixed)
         {
             nav.css({
-                position: 'fixed',
+                position: 'static',
 				top: ''
             });
             isFixed = false;
