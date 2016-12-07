@@ -104,7 +104,7 @@ echo '<script>
 echo "<script>function savedraft() {
       resetErrors();
 	  var myinstances = [];
-
+	  
 //this is the foreach loop
 for(var i in CKEDITOR.instances) {
 
@@ -123,7 +123,7 @@ for(var i in CKEDITOR.instances) {
    /* this retrieve the data of each instances and store it into an associative array with
        the names of the textareas as keys... */
    myinstances[CKEDITOR.instances[i].name] = CKEDITOR.instances[i].getData(); 
-
+CKEDITOR.instances[i].setReadOnly(true);
 }
 var data = new FormData($('#post')[0]);
       $.each($('form input, form select'), function(i, v) {
@@ -137,6 +137,8 @@ var data = new FormData($('#post')[0]);
       }); //end each
       $.ajax({
 		  beforeSend:function(resp){
+		$('input, button, select, textarea').prop('disabled', true);
+	  $('body').append('<div class=\"message\"><div class=\"successmessage\" style=\"background-color:#f0f0f0\">Please wait...</div></div>');
         /* Before serialize */
         for ( instance in CKEDITOR.instances ) {
             CKEDITOR.instances[instance].updateElement();
@@ -152,7 +154,7 @@ var data = new FormData($('#post')[0]);
           success: function(resp) {
               if (resp.resprefresh === true) {
                   	//successful validation
-					$('.menu2').append('<div class=\"successmessage\">'+resp.message+'</div>')
+					$('.menu2').append('<div class=\"message\"><div class=\"successmessage\">'+resp.message+'</div></div>')
 					$('.successmessage').delay(5000).fadeOut('fast');
 					window.setTimeout(function(){
 					window.location.href = resp.url;
@@ -166,6 +168,11 @@ var data = new FormData($('#post')[0]);
                   });
                   var keys = Object.keys(resp);
                   $('input[name=\"'+keys[0]+'\"]').focus();
+				  				  	  for(var i in CKEDITOR.instances) {
+	CKEDITOR.instances[i].setReadOnly(false);
+}
+$('input, button, select, textarea').prop('disabled', false);
+	  $('.successmessage').remove();
               }
           },
           error: function(xhr, status, error) {
