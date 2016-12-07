@@ -10,7 +10,7 @@ unset($GLOBALS['embedlink']);
 unset($_SESSION["errors"]);
     if (isset($_POST))
     {
-		if(trim($_POST['posttitle']) === '')  {
+		if(isset($_POST['posttitle']) && trim($_POST['posttitle']) === '')  {
 		$_SESSION['errors']['posttitle'] = "Please enter a post title.";
 		$hasError = true;	
 	} else {
