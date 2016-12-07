@@ -12,6 +12,7 @@ $global = new DB_global;
 unset($GLOBALS['embedlink']);
 unset($_SESSION["errors"]);
 $embedlink = '';
+$threedots = '';
     if (isset($_POST))
     {
 		if(trim($_POST['posttitle']) === '')  {
@@ -118,7 +119,9 @@ $embedlink = '';
 			$shortlink = $global->generate_code(10);
 			$GLOBALS['shortlink'] = $shortlink;
 			$global->sqlquery("INSERT INTO `dd_content` (`content_id`, `content_link`, `content_embedcode`, `content_description`, `content_summary`, `content_title`, `content_category`, `content_tags`, `content_permalink`, `content_shortlink`, `content_date`, `content_author`, `content_pinned`, `content_commentsclosed`) VALUES (NULL, '".$postmedialink."', '".$embedlink."', '".$postcontent."', '".$postsummary."', '".$posttitle."', '".$_POST['category']."', '".$_POST['tags']."', '".$permalink4."', '".$shortlink."', NOW(), '".$_COOKIE['userID']."', '0', '0')");
-			
+			if (isset($_POST['draftidtoedit']) && !empty($_POST['draftidtoedit'])){
+			$global->sqlquery("DELETE FROM `dd_drafts` WHERE `dd_drafts`.`draft_id` = '".$_POST['draftidtoedit']."';");
+			}
 		if (str_word_count($tags) == '1'){
 		$global->sqlquery("INSERT INTO `dd_tags` (`tag_number`, `tag_name`) VALUES (NULL, '".$tags."')");
 		} else {		
