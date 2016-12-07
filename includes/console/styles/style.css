@@ -234,12 +234,19 @@ text-decoration: none;
 	position:absolute;
 }
 
-.successmessage {
-    position: fixed;
-    left: 48%;
-    right: 54%;
-    text-align: center;
+.message {
+position:fixed;
     top: 50px;
+width: 100%;
+height: auto;
+z-index: 2;
+white-space: nowrap;
+}
+
+.successmessage {
+	font-size: 22px;
+    text-align: center;
+	margin:auto;
     background-color: rgb(74, 253, 0);
     display: table;
     padding-left: 15px;
