@@ -4,22 +4,18 @@ $check = new DB_check;
 $retrive = new DB_retrival;
 $postsperpageinit = $global->sqlquery("SELECT * FROM dd_settings;");
 $postsperpage = $postsperpageinit->fetch_assoc();
-
 $pattern = '/data-oembed-url=*("(.*?)")/';
-
 $link = explode("/", $_SERVER['REQUEST_URI']);
 $resultpost = $global->sqlquery("SELECT * FROM dd_content WHERE content_permalink = '".$link[1]."' LIMIT 1");
 $resultpostint = $resultpost->fetch_assoc();
 preg_match_all($pattern, $resultpostint['content_description'], $oembedvalues);
 $date=date_create($resultpostint['content_date']);
-
 $ampembedcode = $resultpostint['content_embedcode'];
 $ampdescription = $resultpostint['content_description'];
 $ampsearcharray = array();
 $ampreplacementarray = array();
 preg_match('/[^< *img*src *= *>"\']?(http[^"\']*)+(png|jpg|gif)/' , $resultpostint['content_description'], $image);
 if($resultpostint['content_permalink'] == $link[1]){
-
 echo '<!doctype html>
 <html amp lang="en">
   <head>
@@ -27,13 +23,10 @@ echo '<!doctype html>
     <title>'.$resultpostint['content_title'].' - '.$postsperpage['site_name'].'</title>
     <link rel="canonical" href="https://'.$_SERVER['HTTP_HOST'].'/'.$link[1].'" />
 <style amp-custom>';
-
 			pluginClass::hook( "amp_style" );
-
 echo file_get_contents("https://".$_SERVER['HTTP_HOST']."/themes/".THEME."/styles/ampstyle.css");
   
 echo '
-
   .title-bar amp-img{
 	      display:table;
 		  margin:auto;
@@ -45,13 +38,12 @@ echo '
     font-size: 22px;
 	max-width: 350px;
 }
-
 	.title {
 	    text-align: center;
 	}
   
 ul.meta li {
-    list-style: none;
+    list-styla: none;
     display: inline-block;
     line-height: 24px;
     white-space: nowrap;
@@ -64,7 +56,6 @@ ul.meta li {
     padding: 24px 0 0 0;
     margin: 0 0 24px 0;
 }
-
 	.unsupported {
     background-color: #ff0000;
     padding: 30px;
@@ -279,7 +270,6 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampreplacementarray, $soundcloudamp);
 		}
 		}
-
 		if(preg_grep('/dailymotion/', $oembedvalues[1])){
 		$dailymotionconvert = preg_grep('/dailymotion/', $oembedvalues[1]);
 		foreach ($dailymotionconvert as $value){
@@ -424,9 +414,20 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		echo '<div class="unsupported">This type of embed is unsupported on AMP pages (not by us), please visit the page on the regular website to see the embed.)</div>';
 		}
 		}
-			array_push($ampsearcharray, '/style="*.*?"/');
-		array_push($ampreplacementarray, '');
-		echo $replace1 = preg_replace($ampsearcharray, $ampreplacementarray, $resultpostint['content_description']);
+		$replace1 = preg_replace($ampsearcharray, $ampreplacementarray, $resultpostint['content_description']);
+		preg_match_all($pattern, $replace1, $oembedvalues2);
+		$ampsearcharray2 = array();
+		$ampreplacearray2 = array();
+		foreach ($oembedvalues2[1] as $value){
+		$value2 = str_replace ('"', '', $value);
+		$embed = file_get_contents("https://iframe.ly/api/oembed?url=".$value2."&iframe=amp&api_key=dcfb3943c025e9e7b8f24e");
+		$embed2 = json_decode($embed, true);
+		$restregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?(div>)([^\s]+.?){1,3}(>)/';
+		array_push($ampsearcharray2, $restregex);
+		array_push($ampreplacearray2, $embed2['html']);
+		}
+		echo preg_replace($ampsearcharray2, $ampreplacearray2, $replace1);
+		
 		//echo preg_replace('/<div data-oembed-url=.*?(div>)([^\s]+.?){1,3}(>)/', '<div class="unsupported">This type of embed is unsupported on AMP pages (not by us), please visit the page on the regular website to see the embed.)</div>', $replace1);
 			pluginClass::hook( "amp_post_bottom" );
 			pluginClass::hook( "amp_bottom" );
