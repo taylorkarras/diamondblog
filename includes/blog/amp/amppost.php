@@ -420,11 +420,23 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		$ampreplacearray2 = array();
 		foreach ($oembedvalues2[1] as $value){
 		$value2 = str_replace ('"', '', $value);
-		$embed = file_get_contents("https://iframe.ly/api/oembed?url=".$value2."&iframe=amp&api_key=dcfb3943c025e9e7b8f24e");
+		$options = array(
+    "http"=>array(
+        "header"=>"User-Agent: Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.102011-10-16 20:23:10\r\n" // i.e. An iPad
+    )
+);
+
+		$context = stream_context_create($options);
+		$embed = file_get_contents("https://iframe.ly/api/oembed?url=".$value2."&iframe=amp&api_key=dcfb3943c025e9e7b8f24e", false, $context);
 		$embed2 = json_decode($embed, true);
 		$restregex = '/<div data-oembed-url=\"'.preg_quote($value2, '/').'\">.*?(div>)([^\s]+.?){1,3}(>)/';
 		array_push($ampsearcharray2, $restregex);
 		array_push($ampreplacearray2, $embed2['html']);
+		}
+		preg_match_all('/style=".*?"/', $replace1, $stylevalues);
+		foreach ($stylevalues[0] as $value){
+		array_push($ampsearcharray2, '/<p style=".*?">/');
+		array_push($ampreplacearray2, '<p>');
 		}
 		echo preg_replace($ampsearcharray2, $ampreplacearray2, $replace1);
 		
