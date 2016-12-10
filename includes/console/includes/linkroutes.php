@@ -321,6 +321,12 @@ $templates->addFolder('consolesearch', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/c
     return $templates->render('consolesearch::search');;
 });
 
+$router->post('console/console/search', function(){
+$templates = new League\Plates\Engine();
+$templates->addFolder('consolesearch', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/search');
+    return $templates->render('consolesearch::search');;
+});
+
 $router->post('console/users/console/search', function(){
 $templates = new League\Plates\Engine();
 $templates->addFolder('consolesearch', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/search');
@@ -527,6 +533,9 @@ $templates = new League\Plates\Engine();
 $templates->addFolder('consoleincludes', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/includes');
     return $templates->render('consoleincludes::commentsstatus');;
 });
+
+pluginClass::hook( "console_link_routes" );
+
 // Lazy load autoloaded route handling classes using strings for classnames
 // Calls the Controllers\User::displayUser($id) method with {id} parameter as an argument
 //$router->any('/users/{id}', function(){;
