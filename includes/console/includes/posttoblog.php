@@ -37,6 +37,8 @@ $threedots = '';
 		$hasError = true;
 	}
 	
+	    pluginClass::hook( "inc_post_form_bottom_error" );
+			
 		if(isset($hasError)){
 		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
                 echo json_encode($_SESSION['errors']);
