@@ -63,7 +63,10 @@ $date=date_create($row['content_date']);
 		';
 		$fix = str_replace("&nbsp;", "&#160;", $row['content_summary']);
 		$fix2 = str_replace ("&Delta", "&#916", $fix);
-		echo '<description>'.strip_tags($fix2).'</description>
+		$fixarrayquery = array("&quot.", "&#39.");
+		$fixarrayreplace = array("&quot;.", "&#39;.");
+		$fix3 = str_replace ($fixarrayquery, $fixarrayreplace, $fix2);
+		echo '<description>'.strip_tags($fix3).'</description>
 		';
 		echo '</item>
 		';
