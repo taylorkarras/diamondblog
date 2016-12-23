@@ -1,5 +1,4 @@
 <?php
-pluginClass::initialize();
 	$global = new DB_global;
 	$retrive = new DB_retrival;
 if ($retrive->isLoggedIn() == true){
@@ -154,7 +153,8 @@ var data = new FormData($('#post')[0]);
           success: function(resp) {
               if (resp.resprefresh === true) {
                   	//successful validation
-					$('.menu2').append('<div class=\"message\"><div class=\"successmessage\">'+resp.message+'</div></div>')
+					$('.successmessage').remove();
+					$('body').append('<div class=\"message\"><div class=\"successmessage\">'+resp.message+'</div></div>')
 					$('.successmessage').delay(5000).fadeOut('fast');
 					window.setTimeout(function(){
 					window.location.href = resp.url;
