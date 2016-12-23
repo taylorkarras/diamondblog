@@ -235,7 +235,7 @@ $ifnavenabled = $ifnavenabled2->fetch_assoc();
 
 		//previous button
 		if ($page > 1) 
-			$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page=$prev\">< prev</a>";
+			$pagination .= "<a href=\"".$symbol."page=$prev\">< prev</a>";
 		else
 			$pagination .= "<span class=\"disabled\">< prev</span>";	
 		
@@ -247,7 +247,7 @@ $ifnavenabled = $ifnavenabled2->fetch_assoc();
 				if ($counter == $page)
 					$pagination .= "<span class=\"current\">$counter</span>";
 				else
-					$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page=". $counter . "\">$counter</a>";					
+					$pagination .= "<a href=\"".$symbol."page=". $counter . "\">$counter</a>";					
 			}
 		}
 		elseif($lastpage >= 7 + ($adjacents * 2))	//enough pages to hide some
@@ -263,14 +263,14 @@ $ifnavenabled = $ifnavenabled2->fetch_assoc();
 						$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". $counter . "\">$counter</a>";					
 				}
 				$pagination .= "<span class=\"elipses\">...</span>";
-				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page" . $lpm1 . "\">$lpm1</a>";
-				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". $lastpage . "\">$lastpage</a>";		
+				$pagination .= "<a href=\"".$symbol."page" . $lpm1 . "\">$lpm1</a>";
+				$pagination .= "<a href=\"".$symbol."page". $lastpage . "\">$lastpage</a>";		
 			}
 			//in middle; hide some front and some back
 			elseif($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2))
 			{
-				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". "1\">1</a>";
-				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". "2\">2</a>";
+				$pagination .= "<a href=\"".$symbol."page". "1\">1</a>";
+				$pagination .= "<a href=\"".$symbol."page". "2\">2</a>";
 				$pagination .= "<span class=\"elipses\">...</span>";
 				for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++)
 				{
@@ -280,21 +280,21 @@ $ifnavenabled = $ifnavenabled2->fetch_assoc();
 						$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". $counter . "\">$counter</a>";					
 				}
 				$pagination .= "...";
-				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". $lpm1 . "\">$lpm1</a>";
-				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". $lastpage . "\">$lastpage</a>";		
+				$pagination .= "<a href=\"".$symbol."page". $lpm1 . "\">$lpm1</a>";
+				$pagination .= "<a href=\"".$symbol."page". $lastpage . "\">$lastpage</a>";		
 			}
 			//close to end; only hide early pages
 			else
 			{
-				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". "1\">1</a>";
-				$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". "2\">2</a>";
+				$pagination .= "<a href=\"".$symbol."page". "1\">1</a>";
+				$pagination .= "<a href=\"".$symbol."page". "2\">2</a>";
 				$pagination .= "<span class=\"elipses\">...</span>";
 				for ($counter = $lastpage - (1 + ($adjacents * 3)); $counter <= $lastpage; $counter++)
 				{
 					if ($counter == $page)
 						$pagination .= "<span class=\"current\">$counter</span>";
 					else
-						$pagination .= "<a rel=\"nofolow\" href=\"".$symbol."page". $counter . "\">$counter</a>";					
+						$pagination .= "<a href=\"".$symbol."page". $counter . "\">$counter</a>";					
 				}
 			}
 		}
