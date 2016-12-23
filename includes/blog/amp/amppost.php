@@ -66,6 +66,10 @@ ul.meta li {
 		max-width: 350px;
 		margin:auto;
 	}
+	
+.textalign {
+	text-align:center;
+}
 </style>
 	    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
     <script type="application/ld+json">
@@ -328,7 +332,7 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		foreach ($imgsrcvalues[2] as $value){
 		$value2 = str_replace ('"', '', $value);
 		$imgsize = getimagesize($value2);
-		$imgregex = '/<img.*? \s*(src="(.*'.preg_quote($value2, '/').')").* \/>/';
+		$imgregex = '/<img.*? \s*(src="(.*'.preg_quote($value2, '/').')").*? \/>/';
 		$imageamp = '<amp-img src="'.$value2.'"
       width="'.$imgsize[0].'"
       height="'.$imgsize[1].'"
@@ -433,10 +437,10 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampsearcharray2, $restregex);
 		array_push($ampreplacearray2, $embed2['html']);
 		}
-		preg_match_all('/style=".*?"/', $replace1, $stylevalues);
+		preg_match_all('/style="text-align:center"/', $replace1, $stylevalues);
 		foreach ($stylevalues[0] as $value){
-		array_push($ampsearcharray2, '/<p style=".*?">/');
-		array_push($ampreplacearray2, '<p>');
+		array_push($ampsearcharray2, '/style="text-align:center"/');
+		array_push($ampreplacearray2, 'class="textalign"');
 		}
 		echo preg_replace($ampsearcharray2, $ampreplacearray2, $replace1);
 		
