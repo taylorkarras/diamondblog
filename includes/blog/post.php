@@ -309,7 +309,6 @@ echo '<div class="contentpostscroll">';
 }
 echo pagebar($page, $total_pages, $cpp, '5');
 echo '</div>';
-amp();
 } else {
 header("HTTP/2.0 404 Not Found");
 define ("PREPEND", '404 Not Found');
