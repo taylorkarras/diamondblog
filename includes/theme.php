@@ -98,6 +98,9 @@ if (!empty($resultpost2['content_summary'])){
 echo '<meta property="og:description" content="'.strip_tags($resultpost2['content_summary']).'">';
 echo '<meta property="og:site_name" content="'.$settings2['site_name'].'">';
 }
+if (strpos($_SERVER['REQUEST_URI'], $resultpost2['content_permalink'])){
+echo '<link rel="amphtml" href="https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'/amp">';
+}
 }
 
 function themestyle()
@@ -149,16 +152,6 @@ $title = $titleinit->fetch_assoc();
 echo $title['site_title'];
 }
 
-function amp()
-{
-$url = str_replace('/', '', $_SERVER['REQUEST_URI']);
-$global = new DB_global;
-$linkinit = $global->sqlquery("SELECT * FROM dd_content WHERE content_permalink = '".$url."'");
-$link = $linkinit->fetch_assoc();
-if (strpos($_SERVER['REQUEST_URI'], $link['content_permalink'])){
-echo '<link rel="amphtml" href="https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'/amp">';
-}
-}
 function dbsearchbar()
 {
 	$global = new DB_global;
