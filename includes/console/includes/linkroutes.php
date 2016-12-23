@@ -1,7 +1,9 @@
 <?php
+pluginClass::initialize();
 use Phroute\Phroute\RouteCollector;
 
 $router = new RouteCollector();
+$GLOBALS['router'] = new RouteCollector();
 
 //$router->any('/example', function(){
 //    return 'This route responds to any method (POST, GET, DELETE etc...) at the URI /example';
@@ -427,6 +429,14 @@ $url = explode('/', $_SERVER['REQUEST_URI']);
 $templates = new League\Plates\Engine();
 $templates->addFolder('plugin', ''.$_SERVER['DOCUMENT_ROOT'].'/plugins/'.$url[3]);
    return $templates->render('plugin::settings_submit3');
+});
+
+$router->post('console/plugins/{id}/console/pluginsettings4', function(){
+
+$url = explode('/', $_SERVER['REQUEST_URI']);
+$templates = new League\Plates\Engine();
+$templates->addFolder('plugin', ''.$_SERVER['DOCUMENT_ROOT'].'/plugins/'.$url[3]);
+   return $templates->render('plugin::settings_submit4');
 });
 
 $router->get('console/settings/plugins/{id}/install', function(){
