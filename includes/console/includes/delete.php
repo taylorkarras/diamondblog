@@ -43,7 +43,7 @@ $global = new DB_global;
 	
 	if (!empty($_GET['commentid'])){
 		$global->sqlquery("DELETE FROM `dd_comments` WHERE `comment_id` = '".$_GET['commentid']."'");
-		header("Location: ".$_SERVER['HTTP_REFERER']);
+		header("Location: ".$_SESSION['referral_url']['comments']);
 	}
 	
 	if (!empty($_GET['userid'])){
