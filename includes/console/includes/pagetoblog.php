@@ -27,7 +27,8 @@ unset($_SESSION["errors"]);
 	}
 				$contactform = $global->sqlquery("SELECT * FROM `dd_pages` WHERE `page_contactform` = '1';");
 				$contactform2 = $contactform->fetch_assoc();
-		
+
+	if(isset($_POST['contactform']) && $_POST['contactform'] == '1'){			
 		if (!empty($_POST['pageidtoedit']) && $contactform2['page_number'] == $_POST['pageidtoedit']){
 			$cf = $_POST['contactform'];
 		} else if (!empty($_POST['pageidtoedit']) && $contactform2['page_number'] !== $_POST['pageidtoedit']){
@@ -39,7 +40,7 @@ unset($_SESSION["errors"]);
 		} else {
 			$cf = $_POST['contactform'];
 		}
-	
+	}
 	
 		if(isset($hasError)){
 		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
