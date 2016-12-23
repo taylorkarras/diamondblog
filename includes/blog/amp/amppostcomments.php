@@ -4,8 +4,6 @@ $check = new DB_check;
 $retrive = new DB_retrival;
 $templateinit = $global->sqlquery("SELECT * FROM dd_templates;");
 $template = $templateinit->fetch_assoc();
-$userinfo3 = $global->sqlquery("SELECT * FROM dd_users WHERE user_id = '".$_COOKIE['userID']."' LIMIT 1");
-$userinfo4 = $userinfo3->fetch_assoc();
 	echo '<head>';
 themestyle();
 echo '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -29,6 +27,10 @@ background-color: transparent !important;
 color: #000000 !important;
 font-family: "Arial" !important;
 }
+
+.postcomment {
+float:initial !important;
+}
 </style>';
 echo '</head>';
 	navigation();
@@ -48,10 +50,6 @@ echo '<script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/diamondblog-func.js
 	$comments2 = $global->sqlquery("SELECT COUNT(*) FROM dd_comments WHERE comment_postid LIKE '".$_GET['postid']."'");
 	$row2 = $comments2->fetch_row(); 
 	$total_records = $row2[0];
-	
-	$result = $global->sqlquery("SELECT * FROM dd_content ORDER BY content_date ASC LIMIT $start_from, $ppp;");
-$result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_content");
-$row2 = $result2->fetch_row(); 
 $total_records = $row2[0];
 $total_pages = ceil($total_records / $cpp);
 
@@ -158,7 +156,6 @@ echo '<div class="contentpostscroll">';
 		$count++;
 	}
 }
-echo $totalpages;
 echo pagebar($page, $total_pages, $cpp, '5', '1');
 echo '</div>';
 exit;
