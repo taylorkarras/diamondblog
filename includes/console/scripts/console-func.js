@@ -98,7 +98,7 @@ return false;
 $('body').on('click', 'input[type="submit"]', function() {
       resetErrors();
 	  var myinstances = [];
-	  $("input, button, select, textarea").not("#searchbar").prop('disabled', true);
+	  $("input, button, select, textarea").not("#searchbar, #twitterexample").prop('disabled', true);
 	  $('body').append('<div class="message"><div class="successmessage" style="background-color:#f0f0f0">Please wait...</div></div>');
 
 //this is the foreach loop
@@ -151,7 +151,7 @@ for(var i in CKEDITOR.instances) {
 					$(".successmessage").remove();
 					$('body').append('<div class="message"><div class="successmessage">'+resp.message+'</div></div>')
 					$('.successmessage').delay(5000).fadeOut('fast');
-					$("input").prop('disabled', false);
+					$("input, button, select, textarea").prop('disabled', false);
 			  } else if (resp.resprefresh === true) {
                   	//successful validation
 					$(".successmessage").remove();
@@ -166,7 +166,7 @@ for(var i in CKEDITOR.instances) {
 			  } else if (resp.divsubmit === true) {
 				  $(".successmessage").remove();
 				  div_id.html(resp.message);
-				  $("input").prop('disabled', false);
+				  $("input, button, select, textarea").prop('disabled', false);
 			  } else if (resp.searchposts === true) {
                   	//successful validation
 					//var title = $(data).filter('title').text();
@@ -198,7 +198,7 @@ for(var i in CKEDITOR.instances) {
 				  			  				  	  	  for(var i in CKEDITOR.instances) {
 	CKEDITOR.instances[i].setReadOnly(false);
 }
-	  $("input, button, select, textarea").prop('disabled', false);
+	  $("input, button, select, textarea").not("#twitterexample").prop('disabled', false);
 	  $(".successmessage").remove();
                   $('input[name="'+keys[0]+'"]').focus();
               }
