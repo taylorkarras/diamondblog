@@ -437,9 +437,9 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		array_push($ampsearcharray2, $restregex);
 		array_push($ampreplacearray2, $embed2['html']);
 		}
-		preg_match_all('/style="text-align:center"/', $replace1, $stylevalues);
+		preg_match_all('/style="text-align: center;"/', $replace1, $stylevalues);
 		foreach ($stylevalues[0] as $value){
-		array_push($ampsearcharray2, '/style="text-align:center"/');
+		array_push($ampsearcharray2, '/style="text-align: center;"/');
 		array_push($ampreplacearray2, 'class="textalign"');
 		}
 		echo preg_replace($ampsearcharray2, $ampreplacearray2, $replace1);
