@@ -1,4 +1,5 @@
 <?php
+$_SESSION['referral_url']['comments'] = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 $global = new DB_global;
 $retrive = new DB_retrival;
 	if ($retrive->isLoggedIn() == true){
