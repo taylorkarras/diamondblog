@@ -30,6 +30,11 @@ return false;
 } 
 }
 
+public function isactive($page){
+	if(strpos($_SERVER['REQUEST_URI'], $page)){
+		return 'class="active"';
+	}
+}
 
 public function ifvotedpositive($id) {
 		$global = new DB_global;
