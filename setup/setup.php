@@ -92,6 +92,11 @@ ALTER TABLE `dd_banlist`
 ");
 
 	$sql->query("
+ALTER TABLE `dd_banlist`
+  MODIFY `banlist_no` int(255) NOT NULL AUTO_INCREMENT;
+");
+	
+	$sql->query("
 CREATE TABLE `dd_categories` (
   `category_id` int(255) NOT NULL,
   `category_name` text NOT NULL
@@ -108,6 +113,11 @@ INSERT INTO `dd_categories` (`category_id`, `category_name`) VALUES
 (2, 'Opinion');
 ");
 
+	$sql->query("
+ALTER TABLE `dd_categories`
+  MODIFY `category_id` int(255) NOT NULL AUTO_INCREMENT;
+");
+	
 	$sql->query("
 CREATE TABLE `dd_comments` (
   `comment_id` int(255) NOT NULL,
@@ -131,6 +141,11 @@ ALTER TABLE `dd_comments`
 ");
 
 	$sql->query("
+ALTER TABLE `dd_comments`
+  MODIFY `comment_id` int(255) NOT NULL AUTO_INCREMENT;
+");
+	
+	$sql->query("
 CREATE TABLE `dd_content` (
   `content_id` int(255) UNSIGNED NOT NULL,
   `content_link` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -152,6 +167,12 @@ CREATE TABLE `dd_content` (
 ALTER TABLE `dd_content`
   ADD PRIMARY KEY (`content_id`);
 ");
+	
+	$sql->query("
+ALTER TABLE `dd_content`
+  MODIFY `content_id` int(255) NOT NULL AUTO_INCREMENT;
+");
+	
 	$sql->query("
 INSERT INTO `dd_content` (`content_id`, `content_link`, `content_embedcode`, `content_description`, `content_summary`, `content_title`, `content_category`, `content_tags`, `content_permalink`, `content_shortlink`, `content_date`, `content_author`, `content_pinned`, `content_commentsclosed`) VALUES
 (1, '', '', 'Congratulations, you have successfully set up DiamondBlog, now get to bloggin\' by entering \"/console\" in your address bar. Feel free to delete this post anytime.', 'Congratulations, you have successfully set up DiamondBlog, now get to bloggin\' by entering \"/console\" in your address bar. Feel free to delete this post anytime.', 'My First DiamondBlog post!', 'Site News', '', 'my_first_diamondblog_post', '', NOW(), 1, 0, 0);
@@ -174,6 +195,12 @@ CREATE TABLE `dd_drafts` (
 ALTER TABLE `dd_drafts`
   ADD PRIMARY KEY (`draft_id`);
 ");
+	
+	$sql->query("
+ALTER TABLE `dd_drafts`
+  MODIFY `draft_id` int(255) NOT NULL AUTO_INCREMENT;
+");
+	
 	$sql->query("
 CREATE TABLE `dd_mail` (
   `mail_server` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -195,6 +222,11 @@ ALTER TABLE `dd_mailtree`
 ");
 
 	$sql->query("
+ALTER TABLE `dd_mailtree`
+  MODIFY `mailtree_id` int(11) NOT NULL AUTO_INCREMENT;
+");
+	
+	$sql->query("
 CREATE TABLE `dd_pages` (
   `page_number` int(255) NOT NULL,
   `page_title` text NOT NULL,
@@ -212,6 +244,10 @@ ALTER TABLE `dd_pages`
   ADD PRIMARY KEY (`page_number`);
 ");
 	$sql->query("
+ALTER TABLE `dd_pages`
+  MODIFY `page_number` int(255) NOT NULL AUTO_INCREMENT;
+");
+	$sql->query("
 CREATE TABLE `dd_reports` (
   `report_id` int(11) NOT NULL,
   `report_commentid` varchar(11) NOT NULL,
@@ -225,6 +261,11 @@ CREATE TABLE `dd_reports` (
 ALTER TABLE `dd_reports`
   ADD PRIMARY KEY (`report_id`);
 ");
+	$sql->query("
+ALTER TABLE `dd_reports`
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT;
+");
+
 	$sql->query("
 CREATE TABLE `dd_settings` (
   `site_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -269,6 +310,12 @@ CREATE TABLE `dd_tags` (
 ALTER TABLE `dd_tags`
   ADD PRIMARY KEY (`tag_number`);
 ");
+
+	$sql->query("
+ALTER TABLE `dd_tags`
+  MODIFY `tag_number` int(7) NOT NULL AUTO_INCREMENT;
+");
+
 	$sql->query("
 CREATE TABLE `dd_templates` (
   `404_message` mediumtext NOT NULL,
@@ -323,6 +370,11 @@ CREATE TABLE `dd_votes` (
 ALTER TABLE `dd_votes`
   ADD PRIMARY KEY (`cvote_id`);");
 
+	$sql->query("
+ALTER TABLE `dd_votes`
+  MODIFY `cvote_id` int(11) NOT NULL AUTO_INCREMENT;
+");
+	
 $globalblog = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/includes/global.php');
 $globalconsole = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/includes/console/includes/global.php');
 $globalreplace = array('hostnamereplacesql', 'dbuserreplacesql', 'dbpassreplacesql', 'dbreplacesql');
