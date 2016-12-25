@@ -135,6 +135,15 @@ public function numberofposts()
 	$nop = $nopinit->num_rows;
 	return $nop;}
 	
+public function numberofreports()
+{
+	$global = new DB_global;
+		$query = "SELECT * FROM dd_reports;";
+	$norinit = $global->sqlquery($query);
+		
+	$nor = $norinit->num_rows;
+	return $nor;}
+	
 public function numberofusers()
 {
 	$global = new DB_global;
