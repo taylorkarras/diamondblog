@@ -292,6 +292,7 @@ CREATE TABLE `dd_users` (
   `user_isadmin` int(1) NOT NULL,
   `user_iscontributor` int(1) NOT NULL,
   `user_ismod` int(1) NOT NULL,
+  `user_closedaccount` int(1) NOT NULL DEFAULT '0',
   `user_email` varchar(256) NOT NULL,
   `user_datejoined` date NOT NULL
 ) DEFAULT CHARSET=utf8mb4;
@@ -305,8 +306,8 @@ ALTER TABLE `dd_users`
   MODIFY `user_id` int(255) NOT NULL AUTO_INCREMENT;
 ");
 	$sql->query("
-INSERT INTO `dd_users` (`user_id`, `user_username`, `user_realname`, `user_password`, `user_picture`, `user_description`, `user_subtext`, `user_location`, `user_isadmin`, `user_iscontributor`, `user_ismod`, `user_email`, `user_datejoined`) VALUES
-(NULL, 'admin', 'Admin', '".$password."', '', 'Just the default DiamondBlog account created during setup.', 'Just the default DiamondBlog account created during setup.', '', 1, 0, 0, '".$adminemail."', NOW());
+INSERT INTO `dd_users` (`user_id`, `user_username`, `user_realname`, `user_password`, `user_picture`, `user_description`, `user_subtext`, `user_location`, `user_isadmin`, `user_iscontributor`, `user_ismod`, `user_closedaccount`, `user_email`, `user_datejoined`) VALUES
+(NULL, 'admin', 'Admin', '".$password."', '', 'Just the default DiamondBlog account created during setup.', 'Just the default DiamondBlog account created during setup.', '', 1, 0, 0, NULL, '".$adminemail."', NOW());
 ");
 	$sql->query("
 CREATE TABLE `dd_votes` (
