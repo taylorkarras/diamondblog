@@ -14,7 +14,13 @@ $usercheck2 = $usercheck1->fetch_assoc();
     }
 }
 }
- 
+
+public function isactive($page){
+	if(strpos($_SERVER['REQUEST_URI'], $page)){
+		return 'class="active"';
+	}
+}
+
 public function checkLogin($u, $p, $rv)
 {
  $global = new DB_global;
