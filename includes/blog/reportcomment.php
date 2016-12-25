@@ -8,43 +8,27 @@ $_SESSION['info']['comment_id'] = $_GET['commentid'];
 $reported1 = $global->sqlquery("SELECT * FROM `dd_reports` WHERE report_ip = '".$_SERVER['REMOTE_ADDR']."'");
 $reported2 = $global->sqlquery("SELECT * FROM `dd_comments` WHERE comment_reported = '1' AND comment_id = '".$_SESSION['info']['comment_id']."'");
 
-if (isset($_POST) && isset($_SESSION['info']['comment_id']) && $reported1->num_rows === 0 && $reported2->num_rows === 0){
-	
-		if(trim($_POST['rcname']) === '')  {
-		$_SESSION['errors']['rcname'] = "You must enter a name.";
-		$hasError = true;	
-	}
-	
-		if(empty($_POST['rcemailaddress']))  {	
-		$_SESSION['errors']['rcemailaddress'] = "You must enter an email.";
-		$hasError = true;	
-	}
-	
-		if(empty($_POST['rcmessage']))  {	
-		$_SESSION['errors']['emailmessage'] = "You must enter a message.";
-		$hasError = true;	
-	}
-	
-if (!isset($_COOKIE["userID"])){
-pluginClass::hook( "captcha" );
+if (isset($_GET['commentid']) && $reported1->num_rows > 0 && $reported2->num_rows > 0){
+echo '<h2>Comment already reported!</h2>';
 }
-	
-		if(isset($hasError)){
-		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-                echo json_encode($_SESSION['errors']);
-                exit;
-	}} else {
-$global->sqlquery("INSERT INTO `dd_reports` (`report_id`, `report_commentid`, `report_ip`, `report_name`, `report_email`, `report_text`) VALUES (NULL, '".$_SESSION['info']['comment_id']."', '".$_SERVER['REMOTE_ADDR']."', '".$_POST['rcname']."', '".$_POST['rcemailaddress']."', '".$_POST['rcmessage']."')");
-$global->sqlquery("UPDATE `dd_comments` SET `comment_reported` = '1' WHERE `comment_id` = '".$_SESSION['info']['comment_id']."'");
-        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-			
-				$resp = array();
-				$resp['resp'] = true;
-				$resp['message'] = '
-	<p>Comment reported; if urgent, we will get back with you shortly.</p>';
-			
-                echo json_encode($resp);
-		        exit;
-	}
+else if (isset($_GET['commentid'])){
+header("X-Robots-Tag: noindex", true);
+$_SESSION['info']['comment_id'] = $_GET['commentid'];
+echo '<h1>Report Comment</h1>';
+echo '<form id="reportcomment2" method="post">
+	<label name="rcname">Name:</label>
+	<br><input type="text" name="rcname"/>
+	<br><br><label name="rcemailaddress">Email address:</label>
+	<br><input type="email" name="rcemailaddress"/>
+	<br><br><label name="rcmessage">Message:</label>
+	<br><textarea id="rcmessage" name="rcmessage"></textarea>';
+	if (!isset($_COOKIE["userID"])){
+pluginClass::hook( "comment_captcha" );
 }
+	echo '<br><input type="reset" value="Reset"><input name="rcsubmit" type="submit" value="Submit">';
+echo '</form>';
+} else {
+header("HTTP/2.0 404 Not Found");
+define ("PREPEND", '404 Not Found');
+echo '<div class="notfoundpage">'.$template['404_message'].'</div>';
 }
