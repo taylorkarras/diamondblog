@@ -6,11 +6,15 @@ unset($_SESSION["errors"]);
     // user is not logged in.
     if (isset($_POST))
     {
+		
 		if(isset($_POST['usernamelogin']) && trim($_POST['usernamelogin']) === '')  {
 		$_SESSION['errors']['usernamelogin'] = "Forgot to enter in your username.";
 		$hasError = true;	
 	} else {
 		$usernamelogin = trim($_POST['usernamelogin']);
+		$global = new DB_global;
+		$usercheck1 = $global->sqlquery("SELECT * FROM dd_users WHERE user_username = '".$usernamelogin."';");
+		$usercheck2 = $usercheck1->fetch_assoc();
 	}
 	
 	if(isset($_POST['passwordlogin']) && trim($_POST['passwordlogin']) === '')  {
@@ -24,6 +28,12 @@ unset($_SESSION["errors"]);
 		$remember = '1';
 	} else {
 		$remember = '0';
+	}
+	
+	if(isset($usercheck2) && $usercheck2['user_closedaccount'] == '1'){
+		$_SESSION['errors']['loginstatus'] = "Account is closed.";
+        echo json_encode($_SESSION['errors']);
+        exit;
 	}
 	
 	if(isset($usernamelogin) && isset($passwordlogin) && $retrive->checkLogin($usernamelogin, $passwordlogin, $remember) == false && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
