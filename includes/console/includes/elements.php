@@ -1,19 +1,19 @@
 <?php
 function consolemenu(){
 $retrive = new DB_retrival;
-echo "<div id='menu'><div class='menu2'><ul><li><a href='/console/posts/' alt='Posts' title='Posts'>Posts</a></li>";
-echo "<li><a href='/console/reports/' alt='Reports' title='Reports'>Reports</a></li>";
+echo "<div id='menu'><div class='menu2'><ul><li><a ".$retrive->isactive('posts')." href='/console/posts/' alt='Posts' title='Posts'>Posts</a></li>";
+echo "<li><a ".$retrive->isactive('reports')." href='/console/reports/' alt='Reports' title='Reports'>Reports</a></li>";
 if ($retrive->restrictpermissionlevel('3')){
-echo "<li><a href='/console/users/' alt='Users' title='Users'>User</a></li>";
+echo "<li><a ".$retrive->isactive('users')." href='/console/users/' alt='Users' title='Users'>User</a></li>";
 }else {
-echo "<li><a href='/console/users/' alt='Users' title='Users'>Users</a></li>";
+echo "<li><a ".$retrive->isactive('users')." href='/console/users/' alt='Users' title='Users'>Users</a></li>";
 }
-echo "<li><a href='/console/ban/' alt='Ban' title='Ban'>Ban</a></li>";
+echo "<li><a ".$retrive->isactive('ban')."href='/console/ban/' alt='Ban' title='Ban'>Ban</a></li>";
 pluginClass::hook( "console_menu" );
 if ($retrive->restrictpermissionlevel('3')){
 	
 }else {
-echo "<li><a href='/console/settings/' alt='Settings' title='Settings'>Settings</a></li>";
+echo "<li><a ".$retrive->isactive('settings')." href='/console/settings/' alt='Settings' title='Settings'>Settings</a></li>";
 } echo "<li><a href='/console/logout/' alt='Logout' title='Logout'>Logout</a></li></ul></div></div>";
 }
 
