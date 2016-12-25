@@ -62,7 +62,7 @@ if ($result->num_rows > 0) {
 	{
 	$reportip1 = $global->sqlquery("SELECT * FROM `dd_reports` where report_commentid = '".$row['comment_id']."'");
 	$reportip2 = $reportip1->fetch_assoc();
-	echo ' <b>(Comment reported by '.$reportip2['report_ip'].')</b> - <a href="/console/posts/comments/unreport?id='.$reportip2['report_id'].'&commentid='.$row['comment_id'].'" alt="Unreport" title="Unreport">Unreport</a>';
+	echo ' <b>(Comment reported by '.$reportip2['report_ip'].')</b> - <a href="/console/reports?reportid='.$reportip2['report_id'].'" alt="View Report" title="View Report">View</a>';
 	}
 	echo '</div>';
 	echo '<div class="postcategory">'.$row['comment_content'].'</div>';
