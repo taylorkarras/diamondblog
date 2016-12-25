@@ -86,6 +86,13 @@ $templates->addFolder('consolepages', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/co
     return $templates->render('consolepages::comments');;
 });
 
+$router->get('/console/reports', function(){
+define ('POSTPEND', 'Comments');
+$templates = new League\Plates\Engine();
+$templates->addFolder('consolepages', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/pages');
+    return $templates->render('consolepages::reports');;
+});
+
 $router->get('/console/posts/comments/delete', function(){
 $templates = new League\Plates\Engine();
 $templates->addFolder('consolepages', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/pages');
