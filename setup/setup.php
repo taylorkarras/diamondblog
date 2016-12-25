@@ -108,9 +108,9 @@ ALTER TABLE `dd_categories`
 ");
 	$sql->query("
 INSERT INTO `dd_categories` (`category_id`, `category_name`) VALUES
-(1, 'Site News'),
-(3, 'Other'),
-(2, 'Opinion');
+(NULL, 'Site News'),
+(NULL, 'Opinion'),
+(NULL, 'Other');
 ");
 
 	$sql->query("
@@ -175,7 +175,7 @@ ALTER TABLE `dd_content`
 	
 	$sql->query("
 INSERT INTO `dd_content` (`content_id`, `content_link`, `content_embedcode`, `content_description`, `content_summary`, `content_title`, `content_category`, `content_tags`, `content_permalink`, `content_shortlink`, `content_date`, `content_author`, `content_pinned`, `content_commentsclosed`) VALUES
-(1, '', '', 'Congratulations, you have successfully set up DiamondBlog, now get to bloggin\' by entering \"/console\" in your address bar. Feel free to delete this post anytime.', 'Congratulations, you have successfully set up DiamondBlog, now get to bloggin\' by entering \"/console\" in your address bar. Feel free to delete this post anytime.', 'My First DiamondBlog post!', 'Site News', '', 'my_first_diamondblog_post', '', NOW(), 1, 0, 0);
+(NULL, '', '', 'Congratulations, you have successfully set up DiamondBlog, now get to bloggin\' by entering \"/console\" in your address bar. Feel free to delete this post anytime.', 'Congratulations, you have successfully set up DiamondBlog, now get to bloggin\' by entering \"/console\" in your address bar. Feel free to delete this post anytime.', 'My First DiamondBlog post!', 'Site News', '', 'my_first_diamondblog_post', '', NOW(), 1, 0, 0);
 
 ");
 
