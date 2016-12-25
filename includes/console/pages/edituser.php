@@ -63,11 +63,25 @@ if (!empty($_GET["userid"])){
 	echo '<script>window.onload = function(){document.getElementById("userlevel").value = "'.$retrive->permissionlevel($_GET['userid']).'";
 	}</script>';
 }
+echo '<div class="sitescrolling">
+<br /><input type="checkbox" name="closedaccount"';
+if ($edituser2['user_closedaccount'] == '1')
+{ echo' value="1" checked';}
+else { echo ' value="0"';}echo '> Closed account';
+echo '</div>';
 }
 echo '<br /><br /><label name="userpasswordchange1"><b>Change password:</b></label>
 <br /><input type="password" name="userpasswordchange1">
 <br /><br /><label name="userpasswordchange2"><b>Repeat password:</b></label>
 <br /><input type="password" name="userpasswordchange2"><br />';
+if ($_GET['userid'] !== '1'){
+echo '<div class="sitescrolling">
+<br /><input type="checkbox" name="sendpassword"> Send new password to email.<br>';
+	echo '<script>$(';echo"'";echo'input[type="checkbox"]';echo"').change(function(){
+    this.value = (Number(this.checked));
+	});</script>";
+echo '</div>';
+}
 echo '<input type="hidden" name="useridtoedit" value="'.$_GET["userid"].'"';
 echo '<br /><br /><input class="postsubmit" name="usersubmit" type="submit" value="Submit">';
 echo '</form>';
