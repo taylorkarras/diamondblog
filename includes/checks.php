@@ -34,7 +34,7 @@ return false;
 public function ifvotedpositive($id) {
 		$global = new DB_global;
 	
-	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_votes` WHERE cvote_commentid = '".$id."'");
+	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_votes` WHERE cvote_commentid = '".$id."' AND cvote_ip = '".$_SERVER['REMOTE_ADDR']."'");
 	$ipcheck2 = $ipcheck1->fetch_assoc();
 	
 	$commentid1 = $global->sqlquery("SELECT * FROM `dd_comments` WHERE comment_id = '".$id."'");
@@ -51,7 +51,7 @@ public function ifvotedpositive($id) {
 public function ifvotednegative($id) {
 		$global = new DB_global;
 	
-	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_votes` WHERE cvote_commentid = '".$id."'");
+	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_votes` WHERE cvote_commentid = '".$id."' AND cvote_ip = '".$_SERVER['REMOTE_ADDR']."'");
 	$ipcheck2 = $ipcheck1->fetch_assoc();
 	
 	$commentid1 = $global->sqlquery("SELECT * FROM `dd_comments` WHERE comment_id = '".$id."'");
