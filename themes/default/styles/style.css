@@ -2,6 +2,10 @@ html {
 height: 100%
 }
 
+.active {
+	background-color: #a3a3a3;
+}
+
 body {
     font-family: Arial;
     background-color: #f1f1f1;
