@@ -9,6 +9,10 @@ $result2 = $result->fetch_assoc();
 $comment = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_id = '".$result2['report_commentid']."'");
 $comment2 = $comment->fetch_assoc();
 
+if($result2['report_id'] == NULL){
+header("Location: /console/reports");
+}
+
 echo consolemenu();
 echo "<div id='page'>";
 echo "<div class='center'>The specified report is provided below.</div>";
