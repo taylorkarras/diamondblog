@@ -179,6 +179,7 @@ $value = '';
 function dbmenu1()
 {
 	$global = new DB_global;
+	$check = new DB_check;
 $settingsinit = $global->sqlquery("SELECT * FROM dd_settings;");
 $settings = $settingsinit->fetch_assoc();
 	$menuinit = $global->sqlquery("SELECT * FROM dd_pages ORDER BY page_menu_pos ASC;");
@@ -188,9 +189,9 @@ if ($menuinit->num_rows > 0) {
     // output data of each row
     while($menurow = $menuinit->fetch_assoc()) {
 		if ($menurow['page_is_link'] == '1'){
-	echo' <li><a href="'.$menurow['page_external_link'].'" title="'.$menurow['page_title'].'." alt="'.$menurow['page_title'].'" ">'.$menurow['page_title'].'</a></li>';
+	echo' <li><a '.$check->isactive($menurow['page_external_link']).' href="'.$menurow['page_external_link'].'" title="'.$menurow['page_title'].'." alt="'.$menurow['page_title'].'" ">'.$menurow['page_title'].'</a></li>';
 		} else {
-	echo' <li><a href="/'.$menurow['page_link'].'" title="'.$menurow['page_title'].'" alt="'.$menurow['page_title'].'" ">'.$menurow['page_title'].'</a></li>';
+	echo' <li><a '.$check->isactive($menurow['page_link']).' href="/'.$menurow['page_link'].'" title="'.$menurow['page_title'].'" alt="'.$menurow['page_title'].'" ">'.$menurow['page_title'].'</a></li>';
 		}
 }
 }
