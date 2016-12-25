@@ -215,7 +215,10 @@ ALTER TABLE `dd_pages`
 CREATE TABLE `dd_reports` (
   `report_id` int(11) NOT NULL,
   `report_commentid` varchar(11) NOT NULL,
-  `report_ip` varchar(256) NOT NULL
+  `report_ip` varchar(256) NOT NULL,
+  `report_name` varchar(256) NOT NULL,
+  `report_email` varchar(256) NOT NULL,
+  `report_text` text NOT NULL
 ) DEFAULT CHARSET=utf8mb4;
 ");
 	$sql->query("
@@ -307,6 +310,7 @@ INSERT INTO `dd_users` (`user_id`, `user_username`, `user_realname`, `user_passw
 ");
 	$sql->query("
 CREATE TABLE `dd_votes` (
+  `cvote_id` int(11) NOT NULL,
   `cvote_ip` varchar(255) NOT NULL,
   `cvote_commentid` int(255) NOT NULL,
   `cvote_p_id` int(11) NOT NULL,
@@ -316,7 +320,7 @@ CREATE TABLE `dd_votes` (
 ) DEFAULT CHARSET=utf8mb4;
 ");	$sql->query("
 ALTER TABLE `dd_votes`
-  ADD PRIMARY KEY (`cvote_commentid`);");
+  ADD PRIMARY KEY (`cvote_id`);");
 
 $globalblog = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/includes/global.php');
 $globalconsole = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/includes/console/includes/global.php');
