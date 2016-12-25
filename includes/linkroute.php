@@ -125,6 +125,12 @@ $templates->addFolder('blog', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog');
     return $templates->render('blog::reportcomment');;
 });
 
+$router->post('/reportcomment2', function(){
+$templates = new League\Plates\Engine();
+$templates->addFolder('blog', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog');
+    return $templates->render('blog::reportcomment2');;
+});
+
 $router->get('/manifest.json', function(){
 $templates = new League\Plates\Engine();
 $templates->addFolder('includes', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/');
