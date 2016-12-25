@@ -250,7 +250,7 @@ echo '<div class="contentpostscroll">';
 			echo ' - <b>Comment Reported</b> | ';}
 			else {
 			echo
-		' - <a href="/reportcomment?id='.$rowcomments['comment_id'].'&ip='.$_SERVER['REMOTE_ADDR'].'" rel="nofollow" alt="Report Comment" title="Report Comment">Report</a> | ';
+		' - <a href="/reportcomment?commentid='.$rowcomments['comment_id'].'" rel="nofollow" alt="Report Comment" title="Report Comment">Report</a> | ';
 		} echo '<a href="#postcomment" rel="nofollow" onclick="document.getElementById(';echo "'"; echo 'cr-v'; echo"'"; echo').value = 1; document.getElementById(';echo "'"; echo 'crt-id'; echo"'"; echo').value = '.$rowcomments['comment_id'].';document.getElementById('; echo "'";echo '#postcomment';echo "'"; echo').scrollIntoView();" alt="Reply" title="Reply to this comment.">Reply</a></div>';
 		}
 		echo '<div class="commentcontent2">'.$rowcomments['comment_content'].'</div>';
