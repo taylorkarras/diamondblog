@@ -2,12 +2,14 @@
 function consolemenu(){
 $retrive = new DB_retrival;
 echo "<div id='menu'><div class='menu2'><ul><li><a href='/console/posts/' alt='Posts' title='Posts'>Posts</a></li>";
+echo "<li><a href='/console/reports/' alt='Reports' title='Reports'>Reports</a></li>";
 if ($retrive->restrictpermissionlevel('3')){
 echo "<li><a href='/console/users/' alt='Users' title='Users'>User</a></li>";
 }else {
 echo "<li><a href='/console/users/' alt='Users' title='Users'>Users</a></li>";
 }
 echo "<li><a href='/console/ban/' alt='Ban' title='Ban'>Ban</a></li>";
+pluginClass::hook( "console_menu" );
 if ($retrive->restrictpermissionlevel('3')){
 	
 }else {
