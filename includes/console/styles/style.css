@@ -3,6 +3,10 @@ body {
 	margin: auto;
 }
 
+.active {
+	background-color: #505050;
+}
+
 .autocomplete-suggestion {
     background-color: #f3f3f3;
     border: 1px solid #909090;
