@@ -1,5 +1,6 @@
 <?php
 $global = new DB_global;
+$check = new DB_check;
 $templateinit = $global->sqlquery("SELECT * FROM dd_templates;");
 $template = $templateinit->fetch_assoc();
 if (isset($_GET['commentid'])){
@@ -23,6 +24,16 @@ unset($_SESSION["errors"]);
 	
 		if(empty($_POST['rcmessage']))  {	
 		$_SESSION['errors']['emailmessage'] = "You must enter a message.";
+		$hasError = true;	
+	}
+	
+		if($check->ifemailbanned($_POST['rcemailaddress']))  {	
+		$_SESSION['errors']['commentemail'] = "Email is banned. Reason: \"".BANREASONEMAIL."\"";
+		$hasError = true;	
+	}
+	
+		if($check->ifnamebanned($_POST['rcname']))  {	
+		$_SESSION['errors']['commentname'] = "Name is banned. Reason: \"".BANREASONNAME."\"";
 		$hasError = true;	
 	}
 	
