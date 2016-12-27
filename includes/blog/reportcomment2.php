@@ -9,6 +9,7 @@ $reported1 = $global->sqlquery("SELECT * FROM `dd_reports` WHERE report_ip = '".
 $reported2 = $global->sqlquery("SELECT * FROM `dd_comments` WHERE comment_reported = '1' AND comment_id = '".$_SESSION['info']['comment_id']."'");
 
 if (isset($_POST) && isset($_SESSION['info']['comment_id']) && $reported1->num_rows === 0 && $reported2->num_rows === 0){
+unset($_SESSION["errors"]);
 	
 		if(trim($_POST['rcname']) === '')  {
 		$_SESSION['errors']['rcname'] = "You must enter a name.";
