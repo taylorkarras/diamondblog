@@ -125,6 +125,18 @@ $templates->addFolder('blog', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog');
     return $templates->render('blog::reportcomment');;
 });
 
+$router->get('/dynamicload', function(){
+$templates = new League\Plates\Engine();
+$templates->addFolder('dynamicloading', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog/dynamicloading');
+    return $templates->render('dynamicloading::dynamic');;
+});
+
+$router->get('/commentreplies', function(){
+$templates = new League\Plates\Engine();
+$templates->addFolder('dynamicloading', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog/dynamicloading');
+    return $templates->render('dynamicloading::commentreplies');;
+});
+
 $router->post('/reportcomment2', function(){
 $templates = new League\Plates\Engine();
 $templates->addFolder('blog', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/blog');
