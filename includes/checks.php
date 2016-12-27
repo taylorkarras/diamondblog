@@ -249,4 +249,14 @@ if ($commentsclosed['content_commentsclosed'] == '1'){
 }
 }
 
+public function ispagingdynamic(){
+$global = new DB_global;
+$ifnavenabled2 = $global->sqlquery("SELECT navigation_select FROM dd_settings");
+$ifnavenabled = $ifnavenabled2->fetch_assoc();
+
+	if ($ifnavenabled['navigation_select'] == '1'){
+		return true;
+	}
+}
+
 }
