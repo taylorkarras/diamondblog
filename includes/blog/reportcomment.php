@@ -1,5 +1,6 @@
 <?php
 $global = new DB_global;
+$check = new DB_check;
 $templateinit = $global->sqlquery("SELECT * FROM dd_templates;");
 $template = $templateinit->fetch_assoc();
 if (isset($_GET['commentid'])){
@@ -10,7 +11,9 @@ $reported2 = $global->sqlquery("SELECT * FROM `dd_comments` WHERE comment_report
 
 if (isset($_GET['commentid']) && $reported1->num_rows > 0 && $reported2->num_rows > 0){
 echo '<h2>Comment already reported!</h2>';
-} else if ($check->ifbanned()){
+} else if($check->isLoggedIn()) {
+echo '<h2>You cannot report comments while logged in!</h2>';
+}	else if ($check->ifbanned()){
 		echo '<div id="scommentbox">
 		You have been blocked from reporting comments.
 		<br />
