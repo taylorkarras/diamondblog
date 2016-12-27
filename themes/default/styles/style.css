@@ -363,19 +363,29 @@ img {
 text-align: center;
 }
 
-#commentreplies {
+.commentreplies {
     float: right;
     width: 90%;
 }
 
-#commentreplies h2 {
+.commentreplies h2 {
 margin-bottom: 5px;
 }
 
-#commentreplies .commentboxreply{
+.commentboxreply{
     background-color: #c1c1c1;
     padding: 15px;
     margin-bottom: 20px;
+}
+
+.commentreplynumber {
+		    float: right;
+    font-weight: bold;
+	font-size:24.5px;
+}
+
+.morereplies a {
+	color: #fff;
 }
 
 .plugintheme {
