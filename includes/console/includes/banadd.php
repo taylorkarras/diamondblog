@@ -43,8 +43,8 @@ header("Location: /console/ban");
 			}
 		}
 		
-		if (!preg_match('/[^!#$%^&*()_+|}{"?><,.;\=-`~]/', $_POST['addthree'])) {
-		$_SESSION['errors']['addthree'] = "Names can only have Uppercase letters & lowercase numbers!";
+		if (!preg_match('/[^!#$%^&*()_+|}{"?><,;\=-`~]/', $_POST['addthree'])) {
+		$_SESSION['errors']['addthree'] = "Names can only have letters & numbers!";
 		$hasError = true;
 		} else {
 			if (filter_var($_POST['addthree'], FILTER_VALIDATE_IP) or $user->valid_email($_POST['addthree'])){
