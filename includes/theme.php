@@ -43,7 +43,6 @@ echo '<meta name="viewport" content="width=device-width, initial-scale=1.0, maxi
 echo'<script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/jquery-2.2.3.min.js"></script>
 <script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/ckeditor/ckeditor.js"></script>
 <script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/ckeditor/adapters/jquery.js"></script>
-<script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/jquery.jscroll.min.js"></script>
 <script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/jquery.mousewheel.min.js"></script>
 <script>
     var CKEDITOR_BASEPATH = "/scripts/ckeditor/";
@@ -118,21 +117,6 @@ function themejs($script)
 echo '<script src="https://'.$_SERVER['HTTP_HOST'].'/themes/'.THEME.'/js/'.$script.'"></script>';
 }
 
-function navigation()
-{
-$global = new DB_global;
-$navigationinit = $global->sqlquery("SELECT navigation_select FROM dd_settings LIMIT 1;");
-$navigation = $navigationinit->fetch_assoc();
-if ($navigation['navigation_select']){
-echo "<script>
-$('#blog').jscroll({
-    nextSelector: 'a.dbnext:last',
-    contentSelector: '.contentpostscroll'
-})
-</script>";
-}
-}
-
 function sitename()
 {
 $global = new DB_global;
@@ -203,8 +187,6 @@ echo' </ul></div>';
 function pagebar($page, $totalitems, $limit = 15, $adjacents = 1, $andsign = 0)
 {
 $global = new DB_global;
-$ifnavenabled2 = $global->sqlquery("SELECT navigation_select FROM dd_settings");
-$ifnavenabled = $ifnavenabled2->fetch_assoc();	
 	//defaults
 	if(!$adjacents) $adjacents = 1;
 	if(!$limit) $limit = 15;
@@ -226,12 +208,10 @@ $ifnavenabled = $ifnavenabled2->fetch_assoc();
 		We're actually saving the code to a variable in case we want to draw it more than once.
 	*/
 	$pagination = "";
-	if ($ifnavenabled['navigation_select'] == '1'){
-		$display = 'style="display:none"';
-	}
+	
 	if($lastpage > 1)
 	{	
-		$pagination .= "<div $display class=\"pagination\"";
+		$pagination .= "<div class=\"pagination\"";
 		$pagination .= ">";
 
 		//previous button
