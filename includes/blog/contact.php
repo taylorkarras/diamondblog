@@ -4,7 +4,8 @@
 	$retrive = new DB_retrival;
 
 if (isset($_POST)){
-		
+unset($_SESSION["errors"]);
+	
 		if(trim($_POST['emailname']) === '')  {
 		$_SESSION['errors']['emailname'] = "You must enter a name.";
 		$hasError = true;	
