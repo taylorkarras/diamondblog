@@ -10,7 +10,14 @@ $reported2 = $global->sqlquery("SELECT * FROM `dd_comments` WHERE comment_report
 
 if (isset($_GET['commentid']) && $reported1->num_rows > 0 && $reported2->num_rows > 0){
 echo '<h2>Comment already reported!</h2>';
-}
+} else if ($check->ifbanned()){
+		echo '<div id="scommentbox">
+		You have been blocked from reporting comments.
+		<br />
+		<br /><b>Reason:</b> <I>'.BANREASON.'</i>
+		<br />
+		<br /><b>Ban will expire on</b> '.BANEXPIRATION.'</div>';
+	}
 else if (isset($_GET['commentid'])){
 header("X-Robots-Tag: noindex", true);
 $_SESSION['info']['comment_id'] = $_GET['commentid'];
