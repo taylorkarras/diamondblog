@@ -43,6 +43,6 @@ max-height: 420px !important;
     width: 475px;
 }
 
-#commentreplies {
+.commentreplies {
     margin-right: 12px !important;
 }
