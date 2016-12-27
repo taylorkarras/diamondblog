@@ -10,7 +10,6 @@ $start_from = ($page-1) * $ppp;
 
 if ($page > '1'){
 define ("PREPEND", 'Page '.$_GET['page'].'');
-header("X-Robots-Tag: noindex", true);
 }
 
 $result = $global->sqlquery("SELECT * FROM dd_content WHERE content_pinned = '0' ORDER BY content_date DESC LIMIT $start_from, $ppp;");
@@ -101,6 +100,22 @@ if ($result->num_rows > 0) {
 } else {
     echo "This blog currently has no posts.";
 }
+if ($check->ispagingdynamic() && $result->num_rows == $ppp){
+	echo "<div id='replace'><script>
 
+	var scrolleddown = false;
+	var ppp = ".$ppp.";
+$(window).scroll(function() {
+		var window_scrolled = ($(document).height()/100)*95;
+        if($(this).scrollTop() + $(this).innerHeight() >= window_scrolled) {
+			if (scrolleddown == false){
+			scrolleddown = true;
+		$.get('/dynamicload?type=content&ppp=' + ppp, function(data) {
+	$('#replace').replaceWith(data) });
+			}
+        }
+    })</script></div>";
+} else {
 echo pagebar($page, $total_pages, $ppp, '5');
+}
 		echo '</div>';
