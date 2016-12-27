@@ -1,6 +1,6 @@
 <?php 
 if (isset($_POST)){
-
+unset($_SESSION["errors"]);
 	$global = new DB_global;
 	$check = new DB_check;
 	if ($check->ifbanned()){
@@ -9,6 +9,8 @@ if (isset($_POST)){
 				if(trim($_POST['commentname']) === '')  {
 		$_SESSION['errors']['commentname'] = "You must enter a name.";
 		$hasError = true;	
+	} else if (!preg_match('/[^!#$%^&*()_+|}{"?><,;\=-`~]/', $_POST['commentname'])){
+		$_SESSION['errors']['commentname'] = "Names can only have letters & numbers!";
 	} else {
 		$commentname = $global->real_escape_string($_POST['commentname']);
 	}
@@ -25,6 +27,16 @@ if (isset($_POST)){
 		$hasError = true;	
 	} else {
 		$commentcontent = $_POST['commentcontent'];
+	}
+	
+		if(isset($commentemail) && $check->ifemailbanned($commentemail))  {	
+		$_SESSION['errors']['commentemail'] = "Email is banned. Reason: \"".BANREASONEMAIL."\"";
+		$hasError = true;	
+	}
+	
+		if(isset($commentname) && $check->ifnamebanned($commentname))  {	
+		$_SESSION['errors']['commentname'] = "Name is banned. Reason: \"".BANREASONNAME."\"";
+		$hasError = true;	
 	}
 if (!$check->isLoggedIn()){
 pluginClass::hook( "captcha" );
