@@ -56,7 +56,7 @@ $check = new DB_check;
 	}
 			if ($commentreplies->num_rows == $cpp) {
 		echo '<div id="replyreplace'.$rowcomments['comment_id'].'">';
-		echo '<a class="morereplies" href="javascript:void(0)" alt="Load More Replies" title="Load More Replies">Load More Replies</a>';
+		echo '<a class="morereplies" href="javascript:void(0)" alt="Load More Replies" title="Load More Replies"><div class="commentboxreply" style="font-size:40px; text-align: center; font-weight:bold;">Load More Replies</div></a>';
 		echo "<script>
 
 	var scrolleddown = false;
@@ -66,7 +66,7 @@ $('#replyreplace".$rowcomments['comment_id']." .morereplies').on('click', functi
 var clicked = false;
 			if (clicked == false){
 			clicked = true;
-			$('#replyreplace".$rowcomments['comment_id']." .morereplies').text('Please Wait');
+			$('#replyreplace".$rowcomments['comment_id']." .commentboxreply').text('Please Wait');
 		$.get('/commentreplies?commentid=".$rowcomments['comment_id']."&ppp=' + cpp, function(data) {
 	$('#replyreplace".$rowcomments['comment_id']."').replaceWith(data) });
 			}
