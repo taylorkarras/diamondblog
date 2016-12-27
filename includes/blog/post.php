@@ -313,7 +313,7 @@ $('#replyreplace".$rowcomments['comment_id']." .morereplies').on('click', functi
 var clicked = false;
 			if (clicked == false){
 			clicked = true;
-			$('#replyreplace".$rowcomments['comment_id']." .morereplies').text('Please Wait');
+			$('#replyreplace".$rowcomments['comment_id']." .commentboxreply').text('Please Wait');
 		$.get('/commentreplies?commentid=".$rowcomments['comment_id']."&ppp=' + cpp, function(data) {
 	$('#replyreplace".$rowcomments['comment_id']."').replaceWith(data) });
 			}
