@@ -196,24 +196,17 @@ pluginClass::hook( "comment_captcha" );
 	$commentsperpageinit = $global->sqlquery("SELECT commentsperpage FROM dd_settings LIMIT 1;");
 	$commentsperpage = $commentsperpageinit->fetch_assoc();
 	$cpp = $commentsperpage['commentsperpage'];
-	$start_from = ($page-1) * $cpp;
-	
-	$comments = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_isreply = '0' AND comment_postid LIKE '$the_post_id' ORDER BY comment_date ASC LIMIT $start_from, $cpp");
-	$comments2 = $global->sqlquery("SELECT COUNT(*) FROM dd_comments WHERE comment_postid LIKE '$the_post_id'");
-	$row2 = $comments2->fetch_row(); 
-	$total_records = $row2[0];
-$total_pages = ceil($total_records / $cpp);
 
+if ($check->ispagingdynamic()){	
+	$comments = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_isreply = '0' AND comment_postid LIKE '$the_post_id' ORDER BY comment_date ASC LIMIT 0, $cpp");
+} else {
+	$comments = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_isreply = '0' AND comment_postid LIKE '$the_post_id' ORDER BY comment_date ASC");
+}
+	$count = '1';
 echo '<div class="contentpostscroll">';
 	
 	if ($comments->num_rows > 0) {
     // output data of each row
-	if ($page == '1'){
-	$count = $page;
-	}
-	else {
-	$count = $page + $cpp - '1';
-	}
     while($rowcomments = $comments->fetch_assoc()) {
 		// Comments
 		echo '<div id="comment_'.$rowcomments['comment_id'].'" class="commentbox">';
@@ -256,9 +249,15 @@ echo '<div class="contentpostscroll">';
 		echo '<div class="commentcontent2">'.$rowcomments['comment_content'].'</div>';
 		echo '</div>';
 		// Replies //
+		if ($check->ispagingdynamic()){
+		$commentreplies = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_isreply = '1' AND comment_replyto LIKE '".$rowcomments['comment_id']."' ORDER BY comment_date DESC LIMIT 0, 5;");
+		} else {
 		$commentreplies = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_isreply = '1' AND comment_replyto LIKE '".$rowcomments['comment_id']."' ORDER BY comment_date DESC;");
+		}
+		echo '<div class="commentreplies">';
+		echo '</div>';
 	if ($commentreplies->num_rows > 0) {
-		echo '<div id="commentreplies">';
+		echo '<div class="commentreplies">';
 		echo '<h2>Replies to this comment:</h2>';
 		$replycount = '1';
 		    while($rowcommentreplies = $commentreplies->fetch_assoc()) {
@@ -302,12 +301,49 @@ echo '<div class="contentpostscroll">';
 		echo '<div class="commentcontent2">'.$rowcommentreplies['comment_content'].'</div>';
 		echo '</div>';
 			$replycount++;}
+			if ($check->ispagingdynamic() && $commentreplies->num_rows == 5){
+				echo '<div id="replyreplace'.$rowcomments['comment_id'].'">';
+		echo '<a class="morereplies" style="color:#fff;" href="javascript:void(0)" alt="Load More Replies" title="Load More Replies"><div class="commentboxreply" style="font-size:40px; text-align: center; font-weight:bold;">Load More Replies</div></a>';
+		echo "<script>
+
+	var scrolleddown = false;
+	var cpp = ".$cpp.";
+	
+$('#replyreplace".$rowcomments['comment_id']." .morereplies').on('click', function() {
+var clicked = false;
+			if (clicked == false){
+			clicked = true;
+			$('#replyreplace".$rowcomments['comment_id']." .morereplies').text('Please Wait');
+		$.get('/commentreplies?commentid=".$rowcomments['comment_id']."&ppp=' + cpp, function(data) {
+	$('#replyreplace".$rowcomments['comment_id']."').replaceWith(data) });
+			}
+    })</script></div>";
+		}
+			echo '</div>';
+		
 	}
 				
 		$count++;
 	}
 }
-echo pagebar($page, $total_pages, $cpp, '5');
+
+if ($check->ispagingdynamic() && $comments->num_rows == $cpp){
+echo "<div id='replace'><script>
+
+	var scrolleddown = false;
+	var ppp = ".$cpp."
+
+$(window).scroll(function() {
+	var window_scrolled = ($(document).height()/100)*95;
+        if($(this).scrollTop() + $(this).innerHeight() >= window_scrolled) {
+			if (scrolleddown == false){
+			scrolleddown = true;
+		$.get('/dynamicload?type=comments&pageid=".$_GET['pageid']."&ppp=' + ppp, function(data) {
+	$('#replace').replaceWith(data) });
+			}
+        }
+    })</script></div>";
+}
 echo '</div>';
 } else {
 header("HTTP/2.0 404 Not Found");
