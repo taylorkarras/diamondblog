@@ -46,3 +46,8 @@ max-height: 420px !important;
 .commentreplies {
     margin-right: 12px !important;
 }
+
+#searchbar:focus {
+position:fixed !important;
+top: 0px !important:
+}
