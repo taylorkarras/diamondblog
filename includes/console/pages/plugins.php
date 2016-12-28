@@ -8,11 +8,18 @@ echo '<div id="page"><div class="center">Plugin Settings</div>
 $pluginsdirsinit = scandir($_SERVER["DOCUMENT_ROOT"].'/plugins/');
 unset($pluginsdirsinit[0]);
 unset($pluginsdirsinit[1]);
+if (!empty($pluginsdirsinit)){
 foreach ($pluginsdirsinit as $option){
 	$plugindirs = parse_ini_file($_SERVER["DOCUMENT_ROOT"].'/plugins/'.$option.'/info.ini');
+if ($plugindirs['settingsdisabled'] == '1'){
+} else {
 echo'
 <li><a href="/console/plugins/'.$option.'/settings" "title="'.$plugindirs['pluginname'].' settings" "alt="'.$plugindirs['pluginname'].' settings">'.$plugindirs['pluginname'].' settings</a></li>
 <div class="smalltext">'.$plugindirs['settingdescription'].'</div>';
+}
+}
+} else {
+echo '<div class="center">No plugins are installed!</div>';
 }
 echo '</div></div>';}else{ echo consolemenu();
 echo '<div id="page"><div class="center">Plugins</div>
@@ -20,6 +27,7 @@ echo '<div id="page"><div class="center">Plugins</div>
 $pluginsdirsinit = scandir($_SERVER["DOCUMENT_ROOT"].'/plugins/');
 unset($pluginsdirsinit[0]);
 unset($pluginsdirsinit[1]);
+if (!empty($pluginsdirsinit)){
 foreach ($pluginsdirsinit as $option){
 	$ss3 = $global->sqlquery("SELECT * FROM ddp_".$option."");
 	echo '<div class="postbox">';
@@ -43,6 +51,9 @@ foreach ($pluginsdirsinit as $option){
 	echo '<br /><div class="themedescription">'.$plugindirs[description].'</div>';
 	echo '</div>';
 	}
+} else {
+echo '<div class="center">No plugins are installed!</div>';
+}
 echo '</div>';
 }
 ?>
