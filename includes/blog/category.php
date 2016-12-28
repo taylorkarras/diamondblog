@@ -2,11 +2,15 @@
 
 $global = new DB_global;
 $retrive = new DB_retrival;
+$check = new DB_check;
 $postsperpageinit = $global->sqlquery("SELECT postsperpage FROM dd_settings LIMIT 1;");
 $postsperpage = $postsperpageinit->fetch_assoc();
 $ppp = $postsperpage['postsperpage'];
 
 $ctq = $_GET['name'];
+$_SESSION['info']['category'] = $_GET['name'];
+unset($_SESSION['info']['tag']);
+unset($_SESSION['info']['author']);
 
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
 $start_from = ($page-1) * $ppp; 
@@ -56,5 +60,22 @@ echo '<div class="contentpostscroll">';
 	}
 }
 
+if ($check->ispagingdynamic() && $result->num_rows == $ppp){
+	echo "<div id='replace'><script>
+
+	var scrolleddown = false;
+	var ppp = ".$ppp.";
+$(window).scroll(function() {
+		var window_scrolled = ($(document).height()/100)*95;
+        if($(this).scrollTop() + $(this).innerHeight() >= window_scrolled) {
+			if (scrolleddown == false){
+			scrolleddown = true;
+		$.get('/dynamicresults?type=specific&ppp=' + ppp, function(data) {
+	$('#replace').replaceWith(data) });
+			}
+        }
+    })</script></div>";
+} else {
 echo pagebar($page, $total_pages, $ppp, '5', '1');
+}
 		echo '</div>';
