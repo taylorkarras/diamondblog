@@ -61,7 +61,7 @@ echo '<a href="/console/posts/comments?postid='.$row['content_id'].'"  title="Co
         echo '</div>';
         echo '<div class="postinfobox">';
         echo '<div class="posttitle">';
-        echo '<a href="/'.$row['content_permalink'].'" alt="View post '.$countpinned.'", title="View post '.$count.'">'.$row['content_title'].'</a>';
+        echo '<a href="/'.$row['content_permalink'].'" alt="View pinned post '.$countpinned.'", title="View pinned post '.$countpinned.'">'.$row['content_title'].'</a>';
         echo '</div>';
         echo '<div class="postdate">Posted on '.$row['content_date'].' by '.$retrive->realname($row['content_author']).'</div>';
         echo '<div class="postcategory">Category: '.$row['content_category'].'</div>';
