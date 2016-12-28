@@ -3,6 +3,8 @@ $global = new DB_global;
 $check = new DB_check;
 $templateinit = $global->sqlquery("SELECT * FROM dd_templates;");
 $template = $templateinit->fetch_assoc();
+define ("PREPEND", 'Report Comment');
+header("X-Robots-Tag: noindex", true);
 if (isset($_GET['commentid'])){
 $_SESSION['info']['comment_id'] = $_GET['commentid'];
 }
