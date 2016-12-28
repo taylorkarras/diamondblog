@@ -8,7 +8,10 @@
 <link rel="stylesheet" media="screen and (max-width : 535px)" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/styles/style-540px.css">
 <link rel="stylesheet" media="screen and (max-width : 482px)" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/styles/style-480px.css">
 <title>DiamondBlog Console<?php if (defined('POSTPEND')){
-	echo ' - '.POSTPEND.''.PAGE.'';
+	echo ' - '.POSTPEND;
+	if (defined('PAGE')){
+	echo  PAGE;
+	}
 } ?></title>
 <script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/jquery-2.2.3.min.js"></script>
 <script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/ckeditor/ckeditor.js"></script>
