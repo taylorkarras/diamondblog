@@ -101,3 +101,8 @@ img {
 .commentreplies {
 margin-right: -5px !important;
 }
+
+#searchbar:focus {
+position:fixed !important;
+top: 0px !important:
+}
