@@ -51,6 +51,8 @@ echo'<br \\><br \\><input type="submit" name="setupsubmit" value="Finish Setup">
 echo'<script>var data = {};
 $(\'body\').on(\'click\', \'input[type="submit"]\', function() {
       resetErrors();
+      $("input, button, select, textarea").prop('disabled', true);
+      $(\'body\').append(\'<div class="message"><div class="successmessage" style="background-color:#f0f0f0">Please wait...</div></div>\');
 	  var myinstances = [];
 
       $.each($(\'form input, form select\'), function(i, v) {
@@ -70,7 +72,7 @@ $(\'body\').on(\'click\', \'input[type="submit"]\', function() {
           success: function(resp) {
               if (resp.resprefresh === true) {
                   	//successful validation
-					$(\'body\').append(\'<div class="successmessage">\'+resp.message+\'</div>\')
+					$(\'body\').append(\'<div class="message"><div class="successmessage">\'+resp.message+\'</div></div>\')
 					$(\'.successmessage\').delay(5000).fadeOut(\'fast\');
 					window.setTimeout(function(){
 					window.location.href = resp.url;
