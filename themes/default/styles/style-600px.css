@@ -82,3 +82,8 @@ iframe {
 .commentrelies {
     margin-right: 15px !important;
 }
+
+#searchbar:focus {
+position:fixed !important;
+top: 0px !important:
+}
