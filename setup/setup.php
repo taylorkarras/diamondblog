@@ -71,7 +71,7 @@ if(isset($_POST)){
 		$sql = mysqli_connect($sqlserver, $sqlusername, $sqlpassword, $sqldatabase);
 		$password = password_hash($_POST['adminpassword'], PASSWORD_DEFAULT);
 if ($sql->connect_errno) {
-    $_SESSION['errors']['sqlpassword'] = "Error connecting to server! ".$mysqli->connect_error;
+    $_SESSION['errors']['sqlpassword'] = "Error connecting to server! ".$sql->connect_error;
 	                echo json_encode($_SESSION['errors']);
                 exit;
 }
@@ -106,16 +106,17 @@ CREATE TABLE `dd_categories` (
 ALTER TABLE `dd_categories`
   ADD PRIMARY KEY (`category_id`);
 ");
+
+	$sql->query("
+ALTER TABLE `dd_categories`
+  MODIFY `category_id` int(255) NOT NULL AUTO_INCREMENT;
+");
+	
 	$sql->query("
 INSERT INTO `dd_categories` (`category_id`, `category_name`) VALUES
 (NULL, 'Site News'),
 (NULL, 'Opinion'),
 (NULL, 'Other');
-");
-
-	$sql->query("
-ALTER TABLE `dd_categories`
-  MODIFY `category_id` int(255) NOT NULL AUTO_INCREMENT;
 ");
 	
 	$sql->query("
@@ -158,7 +159,7 @@ CREATE TABLE `dd_content` (
   `content_permalink` text NOT NULL,
   `content_shortlink` varchar(12) NOT NULL,
   `content_date` datetime NOT NULL,
-  `content_author` int(255) NOT NULL
+  `content_author` int(255) NOT NULL,
   `content_pinned` int(11) NOT NULL DEFAULT '0',
   `content_commentsclosed` int(1) NOT NULL DEFAULT '0'
 ) DEFAULT CHARSET=utf8mb4;
@@ -289,7 +290,7 @@ CREATE TABLE `dd_settings` (
 ");
 	$sql->query("
 INSERT INTO `dd_settings` (`site_url`, `site_name`, `site_title`, `admin_email`, `site_metadescription`, `date_format`, `time_format`, `site_color`, `postsperpage`, `commentsperpage`, `default_theme`, `navigation_select`, `pages_on`, `menu_on`, `subtext_on`, `contact_users_on`, `logo_on`) VALUES
-('".$siteurl."', '".$sitename."', '".$sitetitle."', '".$adminemail."', '".$metadescription."', 'F j, Y', 'g:i a', '#ffffff', 20, 10, 'default', 0, 0, 0, 1, 1, 0);
+('".$sql->real_escape_string($siteurl)."', '".$sitename."', '".$sitetitle."', '".$adminemail."', '".$metadescription."', 'F j, Y', 'g:i a', '#ffffff', 20, 10, 'default', 0, 0, 0, 1, 1, 0);
 ");
 	$sql->query("
 CREATE TABLE `dd_storage` (
@@ -354,7 +355,7 @@ ALTER TABLE `dd_users`
 ");
 	$sql->query("
 INSERT INTO `dd_users` (`user_id`, `user_username`, `user_realname`, `user_password`, `user_picture`, `user_description`, `user_subtext`, `user_location`, `user_isadmin`, `user_iscontributor`, `user_ismod`, `user_closedaccount`, `user_email`, `user_datejoined`) VALUES
-(NULL, 'admin', 'Admin', '".$password."', '', 'Just the default DiamondBlog account created during setup.', 'Just the default DiamondBlog account created during setup.', '', 1, 0, 0, NULL, '".$adminemail."', NOW());
+(NULL, 'admin', 'Admin', '".$password."', '', 'Just the default DiamondBlog account created during setup.', 'Just the default DiamondBlog account created during setup.', '', 1, 0, 0, 0, '".$adminemail."', NOW());
 ");
 	$sql->query("
 CREATE TABLE `dd_votes` (
@@ -382,6 +383,7 @@ $globalreplace2 = array($sqlserver, $sqlusername, $sqlpassword, $sqldatabase);
 $globalblogreplace = str_replace($globalreplace, $globalreplace2, $globalblog);
 $globalconsolereplace = str_replace($globalreplace, $globalreplace2, $globalconsole);
 file_put_contents($_SERVER['DOCUMENT_ROOT'].'/includes/console/includes/global.php', $globalconsolereplace);
+file_put_contents($_SERVER['DOCUMENT_ROOT'].'/includes/global.php', $globalblogreplace);
 $index = "<?php
 define( \"INPROCESS\", true );
 /** PHP version check **/
