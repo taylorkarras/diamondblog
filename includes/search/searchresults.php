@@ -211,18 +211,20 @@ if ($pos !== false) {
 }
 $results = $global->sqlquery($newstring);
 $results2 = $global->sqlquery($newstring2);
+$_SESSION['info']['search'] = $newstring;
 }
 else {
 $results = $global->sqlquery($query);
 $results2 = $global->sqlquery($query2);
+$_SESSION['info']['search'] = $query;
 }
 $searchresultnumbers = $results2->fetch_row();
 $total_records = $searchresultnumbers[0];
 $total_pages = ceil($total_records / $ppp);
 
 if ($results->num_rows > 0) {
-echo '<div class="contentpostscroll">';
 echo '<h1>There are '.number_format($searchresultnumbers[0]).' results.</h1>';
+echo '<div class="contentpostscroll">';
     // output data of each row
     while($row = $results->fetch_assoc()) {
 $date=date_create($row['content_date']);
@@ -256,7 +258,24 @@ $date=date_create($row['content_date']);
 		}
 		echo '</div>';
     }
+if ($check->ispagingdynamic() && $results->num_rows == $ppp){
+	echo "<div id='replace'><script>
+
+	var scrolleddown = false;
+	var ppp = ".$ppp.";
+$(window).scroll(function() {
+		var window_scrolled = ($(document).height()/100)*95;
+        if($(this).scrollTop() + $(this).innerHeight() >= window_scrolled) {
+			if (scrolleddown == false){
+			scrolleddown = true;
+		$.get('/dynamicresults?type=search&ppp=' + ppp, function(data) {
+	$('#replace').replaceWith(data) });
+			}
+        }
+    })</script></div>";
+} else {
 echo pagebar($page, $total_pages, $ppp, '5', '1');
+}
 echo '</div>';
 } else {
     echo "<h1>No search results found.</h1>";
