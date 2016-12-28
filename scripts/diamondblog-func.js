@@ -33,7 +33,6 @@ $('#menu > ul').mousewheel(function(event, delta) {
 		this.scrollLeft = (this.scrollLeft - currentX / 9.9);
 	}
 });
-};
 
 var data = {};
 $(function() {
@@ -166,16 +165,14 @@ $(function() {
         var shouldBeFixed = scrollTop > navHomeY;
         if (shouldBeFixed && !isFixed) {
             nav.css({
-                position: 'fixed',
-                top: '40px',
+                top: $('#searchbar').outerHeight(true),
             });
             isFixed = true;
         }
-        else if (!shouldBeFixed && isFixed)
+        else if (!shouldBeFixed)
         {
             nav.css({
-                position: 'static',
-				top: ''
+				top: $('#searchbar').offset().top + $('#searchbar').outerHeight(true) - $(window).scrollTop()
             });
             isFixed = false;
         }
