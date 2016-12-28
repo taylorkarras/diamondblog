@@ -59,8 +59,8 @@ echo '<h2>Pinned</h2>';
 		}
 		echo '</div>';
     }
-}
 echo '</div>';
+}
 
 echo '<div class="contentpostscroll">';
 if ($result->num_rows > 0) {
