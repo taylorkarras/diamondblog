@@ -290,7 +290,7 @@ CREATE TABLE `dd_settings` (
 ");
 	$sql->query("
 INSERT INTO `dd_settings` (`site_url`, `site_name`, `site_title`, `admin_email`, `site_metadescription`, `date_format`, `time_format`, `site_color`, `postsperpage`, `commentsperpage`, `default_theme`, `navigation_select`, `pages_on`, `menu_on`, `subtext_on`, `contact_users_on`, `logo_on`) VALUES
-('".$sql->real_escape_string($siteurl)."', '".$sitename."', '".$sitetitle."', '".$adminemail."', '".$metadescription."', 'F j, Y', 'g:i a', '#ffffff', 20, 10, 'default', 0, 0, 0, 1, 1, 0);
+('".$sql->real_escape_string($siteurl)."', '".$sql->real_escape_string($sitename)."', '".$sql->real_escape_string($sitetitle)."', '".$adminemail."', '".$sql->real_escape_string($metadescription)."', 'F j, Y', 'g:i a', '#ffffff', 20, 10, 'default', 0, 0, 0, 1, 1, 0);
 ");
 	$sql->query("
 CREATE TABLE `dd_storage` (
