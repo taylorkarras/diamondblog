@@ -40,6 +40,7 @@ body a:visited {
     height: 189px;
     display: table-cell;
     vertical-align: middle;
+    word-break: break-word;
 }
 
 .logo img {
