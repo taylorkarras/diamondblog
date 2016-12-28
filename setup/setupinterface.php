@@ -51,7 +51,7 @@ echo'<br \\><br \\><input type="submit" name="setupsubmit" value="Finish Setup">
 echo'<script>var data = {};
 $(\'body\').on(\'click\', \'input[type="submit"]\', function() {
       resetErrors();
-      $("input, button, select, textarea").prop('disabled', true);
+      $("input, button, select, textarea").prop(\'disabled\', true);
       $(\'body\').append(\'<div class="message"><div class="successmessage" style="background-color:#f0f0f0">Please wait...</div></div>\');
 	  var myinstances = [];
 
