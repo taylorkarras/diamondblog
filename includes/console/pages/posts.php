@@ -36,7 +36,7 @@ $total_pages = ceil($total_records / $ppp);
 	$count = $page + $start_from - $page + '1';
 	}
 echo dbsearchbar();
-if ($result->num_rows > 0) {
+if ($resultpinned->num_rows > 0) {
     // output data of each row
 echo '<div id="pinned">';
 echo '<h2>Pinned</h2>';
@@ -70,8 +70,8 @@ echo '<a href="/console/posts/comments?postid='.$row['content_id'].'"  title="Co
         echo '</div>';
         $countpinned++;
         }
-}
 echo '</div>';
+}
 
 echo '<div class="contentpostscroll">';
 if ($result->num_rows > 0) {
