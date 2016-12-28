@@ -76,7 +76,7 @@ unset($_SESSION["errors"]);
 			
 				$resp = array();
 				$resp['resprefresh'] = true;
-				$resp['url'] = 'https://vapourban.com/console/settings/categoriesandpages/2';
+				$resp['url'] = 'https://'.$_SERVER['HTTP_HOST'].'/console/settings/categoriesandpages/2';
 				$resp['message'] = '
 	<p>Page created sucessfully.</p>';
 			
