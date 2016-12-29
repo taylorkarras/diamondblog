@@ -176,7 +176,7 @@ $userlevel = "'0', '0', '1'";
                 exit;
 	}} else {
 		$passwordencrypt = password_hash($_POST['userpassword'], PASSWORD_DEFAULT);
-		$global->sqlquery("INSERT INTO `dd_users` (`user_id`, `user_username`, `user_realname`, `user_password`, `user_picture`, `user_description`, `user_subtext`, `user_location`, `user_isadmin`, `user_iscontributor`, `user_ismod`, `user_closedaccount`, `user_email`, `user_datejoined`) VALUES (NULL, '".$username."', '', '".$passwordencrypt."', '', '', '', '', ".$userlevel.", NULL, '".$useremail."', CURRENT_DATE())");
+		$global->sqlquery("INSERT INTO `dd_users` (`user_id`, `user_username`, `user_realname`, `user_password`, `user_picture`, `user_description`, `user_subtext`, `user_location`, `user_isadmin`, `user_iscontributor`, `user_ismod`, `user_closedaccount`, `user_email`, `user_datejoined`) VALUES (NULL, '".$username."', '', '".$passwordencrypt."', '', '', '', '', ".$userlevel.", '0', '".$useremail."', CURRENT_DATE())");
 
 // Create the message
 if ($retrive->ismailenabled() == true){
