@@ -276,7 +276,49 @@ echo '</select>
 <br /><input type=text name="categoryadd">
 <br /><br /><input class="postsubmit" name="categoryaddsubmit" type="submit" value="Submit"></form>
 ';
-} else {
+} else if (strpos($_SERVER['REQUEST_URI'], "importexport")) {
+echo consolemenu();
+echo '<div id="page"><div class="center"><h2>Export</h2>
+<br /><a href="/console/export" title="Export" alt="Export">Click here to export database in DiamondBlog XML format.</a></div>
+<br />
+<form id="import" method="post">
+<br /><div class="center"><h2 name="importfile">Import</h2>
+<br /><input type="file" accept=".xml" id="importfile" name="importfile"></div>
+<br /><br /><input class="importsubmit" name="importsubmit" type="submit" value="Submit"></form>
+';
+echo '<script>
+$(\'#import\').on(\'click\', \'input[type="submit"]\', function() {
+var formdata = new FormData($(this).parents(\'#import\')[0]);
+$(\'.error\').remove();
+event.preventDefault();
+$("input, button, select, textarea").prop(\'disabled\', true);
+$(\'body\').append(\'<div class="message"><div class="successmessage" style="background-color:#f0f0f0">Please wait...</div></div>\');
+	      $.ajax({
+          type: \'POST\',
+          url: \'/console/import\',
+          data: formdata,
+		  cache: false,
+		  contentType: false,
+		  processData: false, 
+          success: function(data) {
+              if (data == \'Success\') {
+                  	//successful validation
+					$("input, button, select, textarea").prop(\'disabled\', false);
+					$(".successmessage").remove();
+					$(\'body\').append(\'<div class="message"><div class="successmessage">Database Imported!</div></div>\')
+					$(\'.successmessage\').delay(5000).fadeOut(\'fast\');
+			  } else {
+	        console.log(\'Error: \' + data); // view in console for error messages
+                      $(\'.importsubmit\').after(\'<label class="error">\'+data+\'</label>\');
+	  $("input, button, select, textarea").prop(\'disabled\', false);
+	  $(".successmessage").remove();
+                  $(\'.importsubmit\').focus();
+              }
+          }
+      });
+});</script>';
+
+}else {
 echo consolemenu();
 echo '<div id="page"><div class="center">Settings</div>
 <br />
@@ -291,6 +333,8 @@ echo '<div id="page"><div class="center">Settings</div>
 <div class="smalltext">Adjust the sites informative side, all information management functions here.</div>
 <li><a href="/console/settings/templates" "title="Templates" "alt="Templates">Templates</a></li>
 <div class="smalltext">Configure what your visitors will see.</div>
+<li><a href="/console/settings/importexport" "title="Import/Export" "alt="Import/Export">Import/Export</a></li>
+<div class="smalltext">Export a/import an DiamondBlog XML database file.</div>
 <li><a href="/console/settings/plugins" "title="Plugins" "alt="Plugins">Plugins</a></li>
 <div class="smalltext">Enable and disable them here.</div>
 <li><a href="/console/settings/pluginsettings" "title="Plugin Settings" "alt="Plugin Settings">Plugin Settings</a></li>
