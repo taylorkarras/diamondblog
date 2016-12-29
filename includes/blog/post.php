@@ -338,7 +338,7 @@ $(window).scroll(function() {
         if($(this).scrollTop() + $(this).innerHeight() >= window_scrolled) {
 			if (scrolleddown == false){
 			scrolleddown = true;
-		$.get('/dynamicload?type=comments&pageid=".$_GET['postid']."&ppp=' + ppp, function(data) {
+		$.get('/dynamicload?type=comments&pageid=".$the_post_id."&ppp=' + ppp, function(data) {
 	$('#replace').replaceWith(data) });
 			}
         }
