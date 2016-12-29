@@ -213,6 +213,13 @@ $templates->addFolder('consolepages', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/co
     return $templates->render('consolepages::settings');;
 });
 
+$router->get('/console/settings/importexport', function(){
+	define ('POSTPEND', 'Import/Export');
+$templates = new League\Plates\Engine();
+$templates->addFolder('consolepages', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/pages');
+    return $templates->render('consolepages::settings');;
+});
+
 $router->get('/console/settings/site', function(){
 	define ('POSTPEND', 'Site Settings');
 $templates = new League\Plates\Engine();
@@ -549,6 +556,18 @@ $router->get('/console/posts/comments/open', function(){
 $templates = new League\Plates\Engine();
 $templates->addFolder('consoleincludes', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/includes');
     return $templates->render('consoleincludes::commentsstatus');;
+});
+
+$router->any('/console/export', function(){
+$templates = new League\Plates\Engine();
+$templates->addFolder('consoleincludes', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/includes');
+    return $templates->render('consoleincludes::export');;
+});
+
+$router->post('/console/import', function(){
+$templates = new League\Plates\Engine();
+$templates->addFolder('consoleincludes', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/includes');
+    return $templates->render('consoleincludes::import');;
 });
 
 pluginClass::hook( "console_link_routes" );
