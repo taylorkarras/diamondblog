@@ -159,6 +159,15 @@ var data = new FormData($('#post')[0]);
 					window.setTimeout(function(){
 					window.location.href = resp.url;
 					}, 5000);
+			  } else if (resp.resp === true) {
+                  	//successful validation
+					$('input, button, select, textarea').prop('disabled', false);
+				  				  	  for(var i in CKEDITOR.instances) {
+	CKEDITOR.instances[i].setReadOnly(false);
+}
+					$('.successmessage').remove();
+					$('body').append('<div class=\"message\"><div class=\"successmessage\">'+resp.message+'</div></div>')
+					$('.successmessage').delay(5000).fadeOut('fast');
 			  } else {
                   $.each(resp, function(i, v) {
 	        console.log(i + ' => ' + v); // view in console for error messages
