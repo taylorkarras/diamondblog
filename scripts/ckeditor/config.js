@@ -35,11 +35,7 @@ CKEDITOR.editorConfig = function( config ) {
 	
 	config.extraPlugins = 'wysiwygarea,notification,blockquote,panelbutton,find,removeformat,selectall,a11yhelp,widget,notificationaggregator,lineutils';
 	config.toolbarCanCollapse = true;
-	config.filebrowserBrowseUrl = 'https://' + window.location.host + '/includes/console/scripts/kcfinder/browse.php?opener=ckeditor&type=files';
-	config.filebrowserImageBrowseUrl = 'https://' + window.location.host + '/includes/console/scripts/kcfinder/browse.php?opener=ckeditor&type=images';
-	config.filebrowserUploadUrl = 'https://' + window.location.host + '/includes/console/scripts/kcfinder/upload.php?opener=ckeditor&type=files';
-	config.filebrowserImageUploadUrl = 'https://' + window.location.host + '/includes/console/scripts/kcfinder/upload.php?opener=ckeditor&type=images';
-	
+
 	// For inline style definition.
 config.skin = 'flat';
 };
