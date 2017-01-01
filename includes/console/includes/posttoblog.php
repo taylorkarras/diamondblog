@@ -6,8 +6,6 @@ if ($retrive->isLoggedIn() == true){
  header("HTTP/1.0 403 Forbidden");
  die();
 	}
-require_once $_SERVER['DOCUMENT_ROOT'].'/includes/plugins.php';
-pluginClass::initialize();
 $global = new DB_global;
 unset($GLOBALS['embedlink']);
 unset($_SESSION["errors"]);
@@ -96,9 +94,9 @@ $threedots = '';
 		}
 		
 		$GLOBALS['category'] = $_POST['category'];
-		$plarray1 = array(',', '!', "'", '@', '(', ')', '[', ']', '+', '#', '%', '/', ':', '*', ';', '&', '=', '?', '~', ':', '.');
+		$plarray1 = array(',', '$', '#', '\\', '!', "'", '@', '(', ')', '[', ']', '+', '#', '%', '/', ':', '*', ';', '&', '=', '?', '~', ':', '.', '-');
 		$permalink1 = str_replace($plarray1, '', $posttitle);
-		$permalink2 = str_replace(' ', '_', $permalink1);
+		$permalink2 = preg_replace('!\s+!', '_', $permalink1);
 		$permalink3 = strtolower($permalink2);
 		$permalink4 = urlencode($permalink3);
 		$tags = strtolower($_POST['tags']);
@@ -143,7 +141,7 @@ $threedots = '';
 			
 				$resp = array();
 				$resp['resprefresh'] = true;
-				$resp['url'] = 'https://'.$_SERVER['HTTP_HOST'].'/console/posts';
+				$resp['url'] = 'https://'.$_SERVER['HTTP_HOST'].'/console/posts/';
 				$resp['message'] = '
 	<p>Post created sucessfully.</p>';
 			
