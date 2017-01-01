@@ -13,19 +13,18 @@
 	echo  PAGE;
 	}
 } ?></title>
-<script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/jquery-2.2.3.min.js"></script>
-<script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/ckeditor/ckeditor.js"></script>
-<script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/ckeditor/adapters/jquery.js"></script>
+<script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/scripts/jquery-2.2.3.min.js"></script>
+<script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/scripts/ckeditor/ckeditor.js"></script>
+<script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/scripts/ckeditor/adapters/jquery.js"></script>
 <link href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/featherlight.min.css" rel="stylesheet" type="text/css" />
-<script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console//scripts/featherlight.min.js"></script>
+<script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/featherlight.min.js"></script>
 <script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/jquery.autocomplete.js"></script>
-<script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/jquery.mousewheel.min.js"></script>
-<script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/includes/console/scripts/jquery.jscroll.min.js"></script>
+<script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/scripts/jquery.mousewheel.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <script>
     var CKEDITOR_BASEPATH = '/scripts/ckeditor/';
+	CKEDITOR.config.customConfig = '/scripts/ckeditor/console-config.js';
 </script>
-<?php navigation();?>
 </head>
 <body>
 <?php phrouteresponse()?>
