@@ -66,7 +66,7 @@ if(ftp_chdir($conn_id, $directory) && ftp_put($conn_id, $Random_Number.$File_Ext
 } else {
 $_SESSION['errors']['uploaderror'] = "There was an error uploading one of the file to the FTP server.";
 echo json_encode($_SESSION['errors']);
-unlink $UploadDirectoryFTP.$Random_Number.$File_Ext;
+unlink($UploadDirectoryFTP.$Random_Number.$File_Ext);
 exit;
 	  }
 }else {
@@ -80,5 +80,5 @@ exit;
 $resp = array();
 				$resp['uploadsuccess'] = true;
                 echo json_encode($resp);
-				unlink $UploadDirectoryFTP.$Random_Number.$File_Ext;
+				unlink($UploadDirectoryFTP.$Random_Number.$File_Ext);
 		        exit;
