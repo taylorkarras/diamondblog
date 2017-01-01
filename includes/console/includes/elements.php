@@ -72,24 +72,9 @@ function retrieve_pages_status(){
 	}
 }
 
-function navigation()
-{
-$global = new DB_global;
-$navigationinit = $global->sqlquery("SELECT navigation_select FROM dd_settings LIMIT 1;");
-$navigation = $navigationinit->fetch_assoc();
-if ($navigation['navigation_select']){
-echo "<script>$('#page').jscroll({
-    nextSelector: 'a.dbnext:last',
-    contentSelector: '.contentpostscroll'
-})</script>";
-}
-}
-
 function pagebar($page, $totalitems, $limit = 15, $adjacents = 1, $andsign = 0)
 {		
 $global = new DB_global;
-$ifnavenabled2 = $global->sqlquery("SELECT navigation_select FROM dd_settings");
-$ifnavenabled = $ifnavenabled2->fetch_assoc();	
 	//defaults
 	if(!$adjacents) $adjacents = 1;
 	if(!$limit) $limit = 15;
@@ -111,12 +96,9 @@ $ifnavenabled = $ifnavenabled2->fetch_assoc();
 		We're actually saving the code to a variable in case we want to draw it more than once.
 	*/
 	$pagination = "";
-	if ($ifnavenabled['navigation_select'] == '1'){
-		$display = 'style="display:none;"';
-	}
 	if($lastpage > 1)
 	{	
-		$pagination .= "<div style=".$display." class=\"pagination\"";
+		$pagination .= "<div class=\"pagination\"";
 		$pagination .= ">";
 
 		//previous button
