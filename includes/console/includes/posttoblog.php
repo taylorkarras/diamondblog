@@ -94,7 +94,7 @@ $threedots = '';
 		}
 		
 		$GLOBALS['category'] = $_POST['category'];
-		$plarray1 = array(',', '$', '#', '\\', '!', "'", '@', '(', ')', '[', ']', '+', '#', '%', '/', ':', '*', ';', '&', '=', '?', '~', ':', '.', '-');
+		$plarray1 = array(',', '$', '#', '\\', '/', '!', "'", '@', '(', ')', '[', ']', '+', '#', '%', '/', ':', '*', ';', '&', '=', '?', '~', ':', '.', '-', '"');
 		$permalink1 = str_replace($plarray1, '', $posttitle);
 		$permalink2 = preg_replace('!\s+!', '_', $permalink1);
 		$permalink3 = strtolower($permalink2);
