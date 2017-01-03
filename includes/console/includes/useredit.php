@@ -110,7 +110,7 @@ $mailer->send($message);
 }
 }
 		
-$global->sqlquery("UPDATE `dd_users` SET `user_realname` = '".$_POST['userrealname']."', `user_description` = '".$_POST['userdescription']."', `user_subtext` = '".$_POST['usersubtext']."', `user_location` = '".$_POST['userlocation']."', `user_email` = '".$useremail."' ".$userlevel." WHERE `user_id` = '".$_SESSION['editid']['user']."'");
+$global->sqlquery("UPDATE `dd_users` SET `user_commentsnotify` = '".$_POST['commentsnotify']."', `user_reportsnotify` = '".$_POST['reportsnotify']."', `user_realname` = '".$_POST['userrealname']."', `user_description` = '".$_POST['userdescription']."', `user_subtext` = '".$_POST['usersubtext']."', `user_location` = '".$_POST['userlocation']."', `user_email` = '".$useremail."' ".$userlevel." WHERE `user_id` = '".$_SESSION['editid']['user']."'");
 
 if(isset($_POST['closedaccount']) && $_POST['closedaccount'] == '1'){
 
@@ -176,7 +176,7 @@ $userlevel = "'0', '0', '1'";
                 exit;
 	}} else {
 		$passwordencrypt = password_hash($_POST['userpassword'], PASSWORD_DEFAULT);
-		$global->sqlquery("INSERT INTO `dd_users` (`user_id`, `user_username`, `user_realname`, `user_password`, `user_picture`, `user_description`, `user_subtext`, `user_location`, `user_isadmin`, `user_iscontributor`, `user_ismod`, `user_closedaccount`, `user_email`, `user_datejoined`) VALUES (NULL, '".$username."', '', '".$passwordencrypt."', '', '', '', '', ".$userlevel.", '0', '".$useremail."', CURRENT_DATE())");
+		$global->sqlquery("INSERT INTO `dd_users` (`user_id`, `user_username`, `user_realname`, `user_password`, `user_picture`, `user_description`, `user_subtext`, `user_location`, `user_isadmin`, `user_iscontributor`, `user_ismod`, `user_closedaccount`, `user_email`, `user_datejoined`, `user_commentsnotify`, `user_reportsnotify`) VALUES (NULL, '".$username."', '', '".$passwordencrypt."', '', '', '', '', ".$userlevel.", '0', '".$useremail."', CURRENT_DATE(), 0, 0)");
 
 // Create the message
 if ($retrive->ismailenabled() == true){
