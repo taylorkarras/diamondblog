@@ -105,14 +105,6 @@ $threedots = '';
 		}
 		
 		$GLOBALS['category'] = $_POST['category'];
-<<<<<<< HEAD
-=======
-		$plarray1 = array(',', '$', '#', '\\', '/', '!', "'", '@', '(', ')', '[', ']', '+', '#', '%', '/', ':', '*', ';', '&', '=', '?', '~', ':', '.', '-', '"');
-		$permalink1 = str_replace($plarray1, '', $posttitle);
-		$permalink2 = preg_replace('!\s+!', '_', $permalink1);
-		$permalink3 = strtolower($permalink2);
-		$permalink4 = urlencode($permalink3);
->>>>>>> origin/master
 		$tags = strtolower($_POST['tags']);
 		if (!empty($_SESSION['editid']['post']) && $_SESSION['editid']['post'] !== 'new'){
 			$global->sqlquery("UPDATE `dd_content` SET `content_link` = '".$postmedialink."', `content_embedcode` = '".$embedlink."', `content_description` = '".$postcontent."', `content_summary` = '".$postsummary."', `content_title` = '".$posttitle."', `content_category` = '".$_POST['category']."', `content_tags` = '".$tags."', `content_permalink` = '".$permalink4."', comments_moderated = '".$_POST['moderatecomments']."' WHERE `dd_content`.`content_id` = '".$_SESSION['editid']['post']."'");	
