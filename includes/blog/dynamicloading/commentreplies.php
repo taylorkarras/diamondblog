@@ -9,7 +9,7 @@ $cpp = $_GET['ppp'] + 5;
 
 $check = new DB_check;
 
-		$commentreplies = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_isreply = '1' AND comment_replyto LIKE '".$_GET['commentid']."' ORDER BY comment_date ASC LIMIT $start_from, 5;");
+		$commentreplies = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_approved = '1' AND comment_isreply = '1' AND comment_replyto LIKE '".$_GET['commentid']."' ORDER BY comment_date ASC LIMIT $start_from, 5;");
 	if ($commentreplies->num_rows > 0) {
 		$replycount = '1' + $_GET['ppp'];
 		    while($rowcommentreplies = $commentreplies->fetch_assoc()) {

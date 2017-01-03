@@ -79,7 +79,7 @@ if ($_GET['type'] == 'comments' && isset($_GET['pageid'])){
 
 	$cpp = $_GET['ppp'] + $postsperpage['commentsperpage'];
 	$count = '1' + $_GET['ppp'];
-	$comments = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_isreply = '0' AND comment_postid LIKE '$the_post_id' ORDER BY comment_date ASC LIMIT $start_from, ".$postsperpage['commentsperpage']."");
+	$comments = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_approved = '1' AND comment_isreply = '0' AND comment_postid LIKE '$the_post_id' ORDER BY comment_date ASC LIMIT $start_from, ".$postsperpage['commentsperpage']."");
 
 	if ($comments->num_rows > 0) {
     // output data of each row
@@ -125,7 +125,7 @@ if ($_GET['type'] == 'comments' && isset($_GET['pageid'])){
 		echo '<div class="commentcontent2">'.$rowcomments['comment_content'].'</div>';
 		echo '</div>';
 		// Replies //
-		$commentreplies = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_isreply = '1' AND comment_replyto LIKE '".$rowcomments['comment_id']."' ORDER BY comment_date ASC LIMIT 0, 5;");
+		$commentreplies = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_approved = '1' AND comment_isreply = '1' AND comment_replyto LIKE '".$rowcomments['comment_id']."' ORDER BY comment_date ASC LIMIT 0, 5;");
 	if ($commentreplies->num_rows > 0) {
 		echo '<div class="commentreplies">';
 		echo '<h2>Replies to this comment:</h2>';
