@@ -98,7 +98,7 @@ $comment_id = $global->sqllastid("INSERT INTO `dd_comments` (`comment_id`, `comm
 	}
 
 	if ($approval == '0'){
-		$reports = $global->sqlquery("SELECT * FROM dd_users WHERE user_reportsnotify = '1'");
+		$reports = $global->sqlquery("SELECT * FROM dd_users WHERE user_reportsnotify = '1' AND user_closedaccount = '0'");
 if ($reports->num_rows > 0) {
 		$retrive = new DB_retrival;
 	$comment = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_id = '".$comment_id."'");
