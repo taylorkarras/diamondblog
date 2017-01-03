@@ -8,7 +8,7 @@ unset($_SESSION["errors"]);
     if (isset($_POST))
     {
 
-if (isset($_POST['useridtoedit'])){
+if (isset($_SESSION['editid']['user']) && $_SESSION['editid']['user'] !== 'new'){
 
 		if(trim($_POST['useremail']) === '')  {
 		$_SESSION['errors']['useremail'] = "You cannot leave this field blank.";
@@ -52,7 +52,7 @@ $userlevel = "`user_isadmin` = '0', `user_iscontributor` = '0', `user_ismod` = '
                 exit;
 	}} else {
 if(isset($usernewpassword1) && isset($usernewpassword2)){
-$userfunc->changePassword($_POST['useridtoedit'],$usernewpassword1,$usernewpassword2);
+$userfunc->changePassword($_SESSION['editid']['user'],$usernewpassword1,$usernewpassword2);
 
 if($_POST['sendpassword'] == '1'){
 
@@ -110,15 +110,15 @@ $mailer->send($message);
 }
 }
 		
-$global->sqlquery("UPDATE `dd_users` SET `user_realname` = '".$_POST['userrealname']."', `user_description` = '".$_POST['userdescription']."', `user_subtext` = '".$_POST['usersubtext']."', `user_location` = '".$_POST['userlocation']."', `user_email` = '".$useremail."' ".$userlevel." WHERE `user_id` = '".$_POST['useridtoedit']."'");
+$global->sqlquery("UPDATE `dd_users` SET `user_realname` = '".$_POST['userrealname']."', `user_description` = '".$_POST['userdescription']."', `user_subtext` = '".$_POST['usersubtext']."', `user_location` = '".$_POST['userlocation']."', `user_email` = '".$useremail."' ".$userlevel." WHERE `user_id` = '".$_SESSION['editid']['user']."'");
 
 if(isset($_POST['closedaccount']) && $_POST['closedaccount'] == '1'){
 
-$global->sqlquery("UPDATE `dd_users` SET `user_closedaccount` = '1' WHERE `user_id` = '".$_POST['useridtoedit']."'");
+$global->sqlquery("UPDATE `dd_users` SET `user_closedaccount` = '1' WHERE `user_id` = '".$_SESSION['editid']['user']."'");
 
 } else if(isset($_POST['closedaccount']) && $_POST['closedaccount'] == '0'){
 	
-$global->sqlquery("UPDATE `dd_users` SET `user_closedaccount` = '0' WHERE `user_id` = '".$_POST['useridtoedit']."'");
+$global->sqlquery("UPDATE `dd_users` SET `user_closedaccount` = '0' WHERE `user_id` = '".$_SESSION['editid']['user']."'");
 	
 }
 

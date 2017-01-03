@@ -20,7 +20,18 @@ $threedots = '';
 		$posttitle = $global->real_escape_string($_POST['posttitle']);
 		$GLOBALS['posttitle'] = $posttitle;
 	}
-	
+		$plarray1 = array(',', '$', '#', '\\', '/', '!', "'", '@', '(', ')', '[', ']', '+', '#', '%', '/', ':', '*', ';', '&', '=', '?', '~', ':', '.', '-', '"');
+		$permalink1 = str_replace($plarray1, '', $posttitle);
+		$permalink2 = preg_replace('!\s+!', '_', $permalink1);
+		$permalink3 = strtolower($permalink2);
+		$permalink4 = urlencode($permalink3);
+		$permalinkcheck = $global->sqlquery("SELECT * FROM dd_content WHERE content_permalink = '".$permalink4."'");
+		
+		if ($_SESSION['editid']['post'] == 'new' && $permalinkcheck->num_rows == 1){
+		$_SESSION['errors']['posttitle'] = "Title is the same as another post.";
+		$hasError = true;
+		}
+		
 		if(!empty($_POST['postmedialink']) or !empty($_POST['postcontent']))  {	
 		$postmedialink = $_POST['postmedialink'];
 		$postcontent = str_replace("'", '"', $_POST['postcontent']);
@@ -94,14 +105,9 @@ $threedots = '';
 		}
 		
 		$GLOBALS['category'] = $_POST['category'];
-		$plarray1 = array(',', '$', '#', '\\', '!', "'", '@', '(', ')', '[', ']', '+', '#', '%', '/', ':', '*', ';', '&', '=', '?', '~', ':', '.', '-');
-		$permalink1 = str_replace($plarray1, '', $posttitle);
-		$permalink2 = preg_replace('!\s+!', '_', $permalink1);
-		$permalink3 = strtolower($permalink2);
-		$permalink4 = urlencode($permalink3);
 		$tags = strtolower($_POST['tags']);
-		if (!empty($_POST['postidtoedit'])){
-			$global->sqlquery("UPDATE `dd_content` SET `content_link` = '".$postmedialink."', `content_embedcode` = '".$embedlink."', `content_description` = '".$postcontent."', `content_summary` = '".$postsummary."', `content_title` = '".$posttitle."', `content_category` = '".$_POST['category']."', `content_tags` = '".$tags."', `content_permalink` = '".$permalink4."' WHERE `dd_content`.`content_id` = '".$_POST['postidtoedit']."'");	
+		if (!empty($_SESSION['editid']['post']) && $_SESSION['editid']['post'] !== 'new'){
+			$global->sqlquery("UPDATE `dd_content` SET `content_link` = '".$postmedialink."', `content_embedcode` = '".$embedlink."', `content_description` = '".$postcontent."', `content_summary` = '".$postsummary."', `content_title` = '".$posttitle."', `content_category` = '".$_POST['category']."', `content_tags` = '".$tags."', `content_permalink` = '".$permalink4."', comments_moderated = '".$_POST['moderatecomments']."' WHERE `dd_content`.`content_id` = '".$_SESSION['editid']['post']."'");	
 			pluginClass::hook( "inc_post_form_bottom_edit" );
 			
 						        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
@@ -118,9 +124,10 @@ $threedots = '';
 			$GLOBALS['category'] = $_POST['category'];
 			$shortlink = $global->generate_code(10);
 			$GLOBALS['shortlink'] = $shortlink;
-			$global->sqlquery("INSERT INTO `dd_content` (`content_id`, `content_link`, `content_embedcode`, `content_description`, `content_summary`, `content_title`, `content_category`, `content_tags`, `content_permalink`, `content_shortlink`, `content_date`, `content_author`, `content_pinned`, `content_commentsclosed`) VALUES (NULL, '".$postmedialink."', '".$embedlink."', '".$postcontent."', '".$postsummary."', '".$posttitle."', '".$_POST['category']."', '".$_POST['tags']."', '".$permalink4."', '".$shortlink."', NOW(), '".$_COOKIE['userID']."', '0', '0')");
-			if (isset($_POST['draftidtoedit']) && !empty($_POST['draftidtoedit'])){
-			$global->sqlquery("DELETE FROM `dd_drafts` WHERE `dd_drafts`.`draft_id` = '".$_POST['draftidtoedit']."';");
+			$global->sqlquery("INSERT INTO `dd_content` (`content_id`, `content_link`, `content_embedcode`, `content_description`, `content_summary`, `content_title`, `content_category`, `content_tags`, `content_permalink`, `content_shortlink`, `content_date`, `content_author`, `content_pinned`, `content_commentsclosed`, `comments_moderated`) VALUES (NULL, '".$postmedialink."', '".$embedlink."', '".$postcontent."', '".$postsummary."', '".$posttitle."', '".$_POST['category']."', '".$_POST['tags']."', '".$permalink4."', '".$shortlink."', NOW(), '".$_COOKIE['userID']."', '0', '0', '".$_POST['moderatecomments']."')");
+			if (isset($_SESSION['editid']['draft'])){
+			$global->sqlquery("DELETE FROM `dd_drafts` WHERE `dd_drafts`.`draft_id` = '".$_SESSION['editid']['draft']."';");
+			unset($_SESSION['editid']['draft']);
 			}
 		if (str_word_count($tags) == '1'){
 		$global->sqlquery("INSERT INTO `dd_tags` (`tag_number`, `tag_name`) VALUES (NULL, '".$tags."')");

@@ -2,7 +2,7 @@
 session_start();
 
 /** Load Autoloader.php **/
-require 'includes/console/vendor/autoload.php';
+require 'vendor/autoload.php';
 /** Load DiamondBlog console include files **/
 include "includes/console/includes.php";
 

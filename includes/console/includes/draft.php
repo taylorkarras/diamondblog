@@ -32,8 +32,8 @@ unset($_SESSION["errors"]);
                 exit;
 	}}
 		
-		if (!empty($_POST['draftidtoedit'])){
-			$global->sqlquery("UPDATE `dd_drafts` SET `draft_link` = '".$postmedialink."', `draft_description` = '".$postcontent."', `draft_title` = '".$posttitle."', `draft_category` = '".$_POST['category']."', `draft_tags` = '".$_POST['tags']."', `draft_date` = NOW() WHERE `dd_drafts`.`draft_id` = '".$_POST['draftidtoedit']."'");	
+		if (!empty($_SESSION['editid']['draft'])){
+			$global->sqlquery("UPDATE `dd_drafts` SET `draft_link` = '".$postmedialink."', `draft_description` = '".$postcontent."', `draft_title` = '".$posttitle."', `draft_category` = '".$_POST['category']."', `draft_tags` = '".$_POST['tags']."', `draft_date` = NOW() WHERE `dd_drafts`.`draft_id` = '".$_SESSION['editid']['draft']."'");	
 			
 						        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			

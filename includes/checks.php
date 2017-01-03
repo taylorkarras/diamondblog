@@ -3,6 +3,18 @@
 class DB_check
 {
 
+	public function ismailenabled()
+{
+	$global = new DB_global;
+	$query = "SELECT * FROM dd_mail;";
+	
+	$mailinit = $global->sqlquery($query);
+	$mail = $mailinit->fetch_assoc();
+	if ($mail['mail_inuse'] == '1'){
+	return true;
+}
+	}
+
 public function ifbanned() {
 	
 	$global = new DB_global;
@@ -13,6 +25,30 @@ public function ifbanned() {
 	if ($ipcheck2['banlist_ip'] === $_SERVER['REMOTE_ADDR']) {
 	define ('BANREASON', $ipcheck2['banlist_reason']);
 	define ('BANEXPIRATION', $ipcheck2['banlist_duration']);
+	return true;
+	}
+}
+
+public function ifmoderated() {
+	
+	$global = new DB_global;
+	
+	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_banlist` WHERE banlist_ip = '".$_SERVER['REMOTE_ADDR']."' AND banlist_moderation = '1'");
+	$ipcheck2 = $ipcheck1->fetch_assoc();
+	
+	if ($ipcheck2['banlist_ip'] === $_SERVER['REMOTE_ADDR']) {
+	return true;
+	}
+}
+
+public function ifarticlemoderated($postid) {
+	
+	$global = new DB_global;
+	
+	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_content` WHERE content_id = '".$postid."'");
+	$ipcheck2 = $ipcheck1->fetch_assoc();
+	
+	if ($ipcheck2['comments_moderated'] == '1') {
 	return true;
 	}
 }
@@ -30,6 +66,18 @@ public function ifnamebanned($name) {
 	}
 }
 
+public function ifnamemoderated($name) {
+	
+	$global = new DB_global;
+	
+	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_banlist` WHERE banlist_name = '".$name."' AND banlist_moderation = '1'");
+	$ipcheck2 = $ipcheck1->fetch_assoc();
+	
+	if (strtolower($ipcheck2['banlist_name']) === strtolower($name)) {
+	return true;
+	}
+}
+
 public function ifemailbanned($email) {
 	
 	$global = new DB_global;
@@ -39,6 +87,18 @@ public function ifemailbanned($email) {
 	
 	if (strtolower($ipcheck2['banlist_email']) === ($email)) {
 	define ('BANREASONEMAIL', $ipcheck2['banlist_reason']);
+	return true;
+	}
+}
+
+public function ifemailmoderated($email) {
+	
+	$global = new DB_global;
+	
+	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_banlist` WHERE banlist_email = '".$email."' AND banlist_moderation = '1'");
+	$ipcheck2 = $ipcheck1->fetch_assoc();
+	
+	if (strtolower($ipcheck2['banlist_email']) === ($email)) {
 	return true;
 	}
 }
@@ -259,4 +319,13 @@ $ifnavenabled = $ifnavenabled2->fetch_assoc();
 	}
 }
 
+public function canrecievecommentemails($userid){
+$global = new DB_global;
+$ifemailable = $global->sqlquery("SELECT * FROM dd_users WHERE user_id = '".$userid."'");
+$ifemailable2 = $ifemailable->fetch_assoc();
+
+	if ($ifemailable2['user_commentsnotify'] == '1' && $ifemailable2['user_closedaccount'] !== '1'){
+		return true;
+	}
+}
 }

@@ -1,5 +1,6 @@
 <?php
 $retrive = new DB_retrival;
+$commentsmoderated = '';
 if ($retrive->isLoggedIn() == true){
 echo consolemenu();
 echo '<div id="page"><div class="center">Add Ban</div>';
@@ -12,7 +13,8 @@ echo '<br /><label title="banexpiration"><b>Expires In...:</b></label>';
 echo '<br /><div class="smalltext">Must be in "years, months, days, hours, minutes, seconds" format; for permabans, use "never" or "infinite".</div>';
 echo '<input type="text" name="banexpiration" >';
 echo '<div class="sitescrolling">
-<input type="checkbox" name="baneradicatecomments" value="0"> Eradicate comments</div>';
+<input type="checkbox" name="baneradicatecomments" value="0"> Eradicate comments
+<br><input type="checkbox" name="banmoderatecomments" value="0"> Force comments into moderation</div>';
 	echo '<script>$(';echo"'";echo'input[type="checkbox"]';echo"').change(function(){
     this.value = (Number(this.checked));
 	});</script>";
@@ -48,6 +50,11 @@ echo '<div class="contentpostscroll">';
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
+if($row['banlist_moderation'] == '1'){
+$commentsmoderated = 'Moderated';
+} else {
+$commentsmoderated = 'Ban';	
+}
 	echo '<div class="postbox">';
 	echo '<div class="postoptions">';
 	echo '<a href="/console/ban/unban?unbanid='.$row['banlist_no'].'" title="Unban" alt="Unban">Unban</a>';
@@ -58,11 +65,11 @@ if ($result->num_rows > 0) {
 	echo '<div class="postinfobox">';
 	echo '<div class="posttitle">';
 	if (!empty($row['banlist_ip'])){
-	echo $row['banlist_ip'].' (IP Ban)';
+	echo $row['banlist_ip'].' (IP '.$commentsmoderated.')';
 	} else if (!empty($row['banlist_name'])){
-	echo $row['banlist_name'].' (Name Ban)';
+	echo $row['banlist_name'].' (Name '.$commentsmoderated.')';
 	} else if (!empty($row['banlist_email'])){
-	echo $row['banlist_email'].' (Email Ban)';
+	echo $row['banlist_email'].' (Email '.$commentsmoderated.')';
 	}
 	echo '</div>';
 	echo '<div class="postcategory">Reason: <i>'.$row['banlist_reason'].'</i></div>';

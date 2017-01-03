@@ -64,4 +64,14 @@ class DB_retrival {
 	return true;
 }
 	}
+	public function email($userid)
+{
+	$global = new DB_global;
+	$query = "SELECT user_email FROM dd_users WHERE user_id = '".$userid."';";
+	
+	$mailinit = $global->sqlquery($query);
+	$mail = $mailinit->fetch_assoc();
+	return $mail['user_email'];
+}
+
 }

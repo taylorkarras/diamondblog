@@ -1,8 +1,0 @@
-{
-    "require": {
-        "phroute/phroute": "^2.1",
-        "league/plates": "^3.1",
-        "embed/embed": "^2.7",
-        "swiftmailer/swiftmailer": "^5.4"
-    }
-}

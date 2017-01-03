@@ -68,6 +68,11 @@ header("Location: /console/ban");
 		$banexpiration = $_POST['banexpiration'];
 	}
 	
+			if($_POST['banmoderatecomments'] == '1' && $_POST['baneradicatecomments'] == '1'){
+		$_SESSION['errors']['banmoderatecomments'] = "Cannot eradicate comments while enforcing moderation.";
+		$hasError = true;		
+			}
+	
 		if(isset($hasError)){
 		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
                 echo json_encode($_SESSION['errors']);
@@ -80,7 +85,7 @@ header("Location: /console/ban");
 		$banexpirationdate = date("Y-m-d h:i:s", strtotime(+$banexpiration));
 		}
 		
-		$id = $global->sqllastid("INSERT INTO `dd_banlist` (`banlist_no`, `banlist_ip`, `banlist_name`, `banlist_email`, `banlist_duration`, `banlist_reason`) VALUES (NULL, '".$banip."', '".$banname."', '".$banemail."', '".$banexpirationdate."', '".$banreason."')");
+		$id = $global->sqllastid("INSERT INTO `dd_banlist` (`banlist_no`, `banlist_ip`, `banlist_name`, `banlist_email`, `banlist_duration`, `banlist_reason`, `banlist_moderation`) VALUES (NULL, '".$banip."', '".$banname."', '".$banemail."', '".$banexpirationdate."', '".$banreason."', '".$_POST['banmoderatecomments']."')");
 		if ($_POST['banexpiration'] == 'infinite' or $_POST['banexpiration'] == 'never'){}
 		else{
 		$global->sqlquery("CREATE EVENT IF NOT EXISTS ban_autoexpire_".$id." ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL ".$banexpirationseconds." SECOND ON COMPLETION NOT PRESERVE DO DELETE FROM dd_banlist WHERE banlist_no = '".$id."'");
@@ -94,7 +99,7 @@ header("Location: /console/ban");
 						        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			
 				$resp = array();
-				$resp['resp'] = true;
+				$resp['respresprefresh'] = true;
 				$resp['message'] = '
 	<p>Ban successfully added.</p>';
 			

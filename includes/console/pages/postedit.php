@@ -20,6 +20,7 @@ echo consolemenu();
 echo '<div id="page"><div class="center">';
 	if (empty($_GET["postid"])){
 echo 'Create New Post';
+$_SESSION['editid']['post'] = 'new';
 	} else 
 	{
 echo 'Edit Post';
@@ -70,6 +71,11 @@ echo'<br /><br /><label title="postcategory"><b>Category:</b></label>
 	echo '<option value="'.$row['category_name'].'">'.$row['category_name'].'</option>';
 	}
 echo '</select>';
+        echo '<div class="sitescrolling">';
+		echo '<br><input type="checkbox" name="moderatecomments"';
+if (isset($editpost2) && $editpost2['comments_moderated'] == '1')
+{ echo' value="1" checked';}
+else { echo ' value="0"';}echo '> Comments on this post are moderated.</div>';
 
 if (!empty($_GET["postid"])){
 	echo '<script>window.onload = function(){document.getElementById("editcategory").value = "'.$editpost2['content_category'].'";
@@ -83,11 +89,14 @@ if (!empty($_GET["draftid"])){
 pluginClass::hook( "post_form_bottom" );
 
 if (!empty($_GET["postid"])){
-	echo '<input type="hidden" name="postidtoedit" value="'.$_GET["postid"].'"';
+$_SESSION['editid']['post'] = $_GET["postid"];
 }
 if (!empty($_GET["draftid"])){
-	echo '<input type="hidden" name="draftidtoedit" value="'.$_GET["draftid"].'"';
+$_SESSION['editid']['draft'] = $_GET["draftid"];
 }
+		echo '<script>$(';echo"'";echo'input[type="checkbox"]';echo"').change(function(){
+    this.value = (Number(this.checked));
+	});</script>";
 echo '<br /><br /><input class="postsubmit" name="postsubmit" type="submit" value="Submit"></form>';
 	if (empty($_GET["postid"]) or !empty($_GET["draftid"])){
 echo '<br /><button class="postsubmit" onClick="savedraft()">Save Draft</button>';

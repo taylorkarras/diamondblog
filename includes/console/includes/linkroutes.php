@@ -87,7 +87,14 @@ $templates->addFolder('consolepages', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/co
 });
 
 $router->get('/console/reports', function(){
-define ('POSTPEND', 'Comments');
+define ('POSTPEND', 'Reports');
+$templates = new League\Plates\Engine();
+$templates->addFolder('consolepages', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/pages');
+    return $templates->render('consolepages::reports');;
+});
+
+$router->get('/console/reports/approval', function(){
+define ('POSTPEND', 'Comment Approval');
 $templates = new League\Plates\Engine();
 $templates->addFolder('consolepages', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/pages');
     return $templates->render('consolepages::reports');;
@@ -104,6 +111,12 @@ define ('POSTPEND', 'Edit Comment');
 $templates = new League\Plates\Engine();
 $templates->addFolder('consolepages', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/pages');
     return $templates->render('consolepages::commentedit');;
+});
+
+$router->get('/console/comments/approve', function(){
+$templates = new League\Plates\Engine();
+$templates->addFolder('consoleincludes', ''.$_SERVER['DOCUMENT_ROOT'].'/includes/console/includes');
+    return $templates->render('consoleincludes::editcomment');;
 });
 
 $router->post('console/posts/comments/console/editcomment', function(){

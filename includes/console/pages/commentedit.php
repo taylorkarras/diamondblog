@@ -2,6 +2,7 @@
 	$global = new DB_global;
 	$retrive = new DB_retrival;
 if ($retrive->isLoggedIn() == true){
+$_SESSION['editid']['comment'] = $_GET["commentid"];
 		$editcomment1 = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_id = '".$_GET["commentid"]."';");
 		$editcomment2 = $editcomment1->fetch_assoc();
 		
@@ -16,7 +17,6 @@ echo '<form id="editcomment" method="post">
 <br /><textarea id="comment" name="commentcontent">';
 	echo $editcomment2['comment_content'];
 echo'</textarea>
-<input type="hidden" name="commentid" value="'.$_GET['commentid'].'">
 <br /><br /><input class="postsubmit" name="commenteditsubmit" type="submit" value="Submit">';
 echo '</form>';
 echo '</div>';

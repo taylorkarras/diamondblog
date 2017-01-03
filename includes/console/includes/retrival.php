@@ -150,6 +150,15 @@ public function numberofreports()
 	$nor = $norinit->num_rows;
 	return $nor;}
 	
+public function commentsawaitingapproval()
+{
+	$global = new DB_global;
+		$query = "SELECT * FROM dd_comments WHERE comment_approved = '0';";
+	$norinit = $global->sqlquery($query);
+		
+	$nor = $norinit->num_rows;
+	return $nor;}
+	
 public function numberofusers()
 {
 	$global = new DB_global;
@@ -243,5 +252,26 @@ public function userstatus($username)
 	return false;
 }
 	}
+	
+public function canrecievecommentemails($userid){
+$global = new DB_global;
+$ifemailable = $global->sqlquery("SELECT * FROM dd_users WHERE user_id = '".$userid."'");
+$ifemailable2 = $ifemailable->fetch_assoc();
+
+	if ($ifemailable2['user_commentsnotify'] == '1' && $ifemailable2['user_closedaccount'] !== '1'){
+		return true;
+	}
+}
+
+	public function email($userid)
+{
+	$global = new DB_global;
+	$query = "SELECT user_email FROM dd_users WHERE user_id = '".$userid."';";
+	
+	$mailinit = $global->sqlquery($query);
+	$mail = $mailinit->fetch_assoc();
+	return $mail['user_email'];
+}
+	
 }
 ?>

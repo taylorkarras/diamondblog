@@ -7,6 +7,7 @@ if ($retrive->isLoggedIn() == true){
 		$usercheck2 = $usercheck1->fetch_assoc();
 	if ($usercheck2['user_isadmin'] == '1'){
 	if (strpos($_SERVER['REQUEST_URI'], 'console/users/new')){
+$_SESSION['editid']['user'] = 'new';
 echo consolemenu();
 echo '<div id="page"><div class="center">Create New User';
 echo '<form id="createuser" method="post">
@@ -31,6 +32,7 @@ echo '</div>';
 	}
 	
 	if (!empty($_GET["userid"])){
+$_SESSION['editid']['user'] = $_GET["userid"];
 		$edituser1 = $global->sqlquery("SELECT * FROM dd_users WHERE user_id = '".$_GET["userid"]."';");
 		$edituser2 = $edituser1->fetch_assoc();
 		$edituser3 = $global->sqlquery("SELECT subtext_on FROM dd_settings");
@@ -82,7 +84,6 @@ echo '<div class="sitescrolling">
 	});</script>";
 echo '</div>';
 }
-echo '<input type="hidden" name="useridtoedit" value="'.$_GET["userid"].'"';
 echo '<br /><br /><input class="postsubmit" name="usersubmit" type="submit" value="Submit">';
 echo '</form>';
 echo '</div>';
@@ -96,6 +97,8 @@ echo "<script>    CKEDITOR.replace( 'comment', {
 </script>";
 }
 }else if ($_GET["userid"] == $_COOKIE['userID']){
+$_SESSION['editid']['user'] = $_GET["userid"];
+define ('POSTPEND', 'Edit User: '.$retrive->realname($_GET['userid']));
 			$edituser1 = $global->sqlquery("SELECT * FROM dd_users WHERE user_id = '".$_GET["userid"]."';");
 		$edituser2 = $edituser1->fetch_assoc();
 		$edituser3 = $global->sqlquery("SELECT subtext_on FROM dd_settings");
@@ -111,11 +114,8 @@ echo '<label title="userrealname"><b>Real name:</b></label>
 <br /><br /><label title="userlocation"><b>User location:</b></label>
 <br /><input type="text" name="userlocation" value="'.$edituser2['user_location'].'">';
 }
-if ($_COOKIE['userID'] == $_GET['userid']){
-define ('POSTPEND', 'Edit User: '.$retrive->realname($_GET['userid']));
 echo '<br /><br /><label title="useremail"><b>Your email:</b></label>
 <br /><input type="text" name="useremail" value="'.$edituser2['user_email'].'">';
-}
 if ($retrive->restrictpermissionlevel('1')){
 echo '<br /><br /><label title="userdescription"><b>Describe yourself:</b></label>
 <br /><textarea  class="ckeditor" name="userdescription">'.$edituser2['user_description'].'</textarea>';
@@ -124,26 +124,21 @@ echo '<br /><label title="usersubtext"><b>Describe yourself in a few words:</b><
 <br /><textarea  id="comment" name="usersubtext">'.$edituser2['user_subtext'].'</textarea>';
 }
 }
-if ($_GET['userid'] !== '1'){
-if ($retrive->restrictpermissionlevel('3')){
-	} else {
-echo '<br /><label title="userlevel"><b>User Level:</b></label>
-<br /><select id="userlevel" name="userlevel">';
-	echo '<option value="admin">Administrator</option>';
-	echo '<option value="contrib">Contributor</option>';
-	echo '<option value="mod">Moderator</option>';
-echo '</select>';
-if (!empty($_GET["userid"])){
-	echo '<script>window.onload = function(){document.getElementById("userlevel").value = "'.$retrive->permissionlevel($_GET['userid']).'";
-	}</script>';
+echo '<div class="sitescrolling">';
+if ($retrive->restrictpermissionlevel('1')){
+echo '<br /><input type="checkbox" name="commentsnotify"';
+if ($edituser2['user_commentsnotify'] == '1')
+{ echo' value="1" checked';}
+else { echo ' value="0"';}echo '> Notify of new comments on your posts';
 }
-}
-}
+echo '<br /><input type="checkbox" name="reportsnotify"';
+if ($edituser2['user_reportsnotify'] == '1')
+{ echo' value="1" checked';}
+else { echo ' value="0"';}echo '> Notify of new comment reports/approval requests</div>';
 echo '<br /><br /><label name="userpasswordchange1"><b>Change password:</b></label>
 <br /><input type="password" name="userpasswordchange1">
 <br /><br /><label name="userpasswordchange2"><b>Repeat password:</b></label>
 <br /><input type="password" name="userpasswordchange2"><br />';
-echo '<input type="hidden" name="useridtoedit" value="'.$_GET["userid"].'"';
 echo '<br /><br /><input class="postsubmit" name="usersubmit" type="submit" value="Submit">';
 echo '</form>';
 echo '</div>';

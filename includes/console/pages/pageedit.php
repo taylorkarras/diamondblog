@@ -11,7 +11,13 @@ echo consolemenu();
 echo '<div id="page"><div class="center">You are not authorized to view this section!</div></div>';
 	} else {
 echo consolemenu();
+if (!empty($_GET["pageid"])){
 define ('POSTPEND', 'Edit Page: '.$editpage2['page_title']);
+echo '<div id="page"><div class="center">Edit Page';
+} else {
+define ('POSTPEND', 'New Page');
+$_SESSION['editid']['page'] = 'new';
+}
 echo '<div id="page"><div class="center">Create New Page';
 echo '<form id="page" method="post">
 <label title="pagetitle"><b>Page title:</b></label>
@@ -47,7 +53,7 @@ if (!empty($_GET["pageid"])){
 }
 echo '>';
 if (!empty($_GET["pageid"])){
-	echo '<input type="hidden" name="pageidtoedit" value="'.$_GET["pageid"].'"';
+$_SESSION['editid']['page'] = $_GET["pageid"];
 }
 echo '<br /><br /><br />
 <div class="sitescrolling">

@@ -83,7 +83,8 @@ else {
   `banlist_name` varchar(256) NOT NULL,
   `banlist_email` varchar(256) NOT NULL,
   `banlist_duration` datetime NOT NULL,
-  `banlist_reason` text NOT NULL
+  `banlist_reason` text NOT NULL,
+  `banlist_moderation` int(1) NOT NULL DEFAULT '0'
 ) DEFAULT CHARSET=utf8mb4;
 ");
 	$sql->query("
@@ -133,7 +134,8 @@ CREATE TABLE `dd_comments` (
   `comment_reported` int(1) NOT NULL,
   `comment_isfromadmin` int(1) NOT NULL,
   `comment_isfromcontributor` int(1) NOT NULL,
-  `comment_userid` int(1) NOT NULL
+  `comment_userid` int(1) NOT NULL,
+  `comment_approved` int(1) NOT NULL DEFAULT '1'
 ) DEFAULT CHARSET=utf8mb4;
 ");
 	$sql->query("
@@ -161,7 +163,8 @@ CREATE TABLE `dd_content` (
   `content_date` datetime NOT NULL,
   `content_author` int(255) NOT NULL,
   `content_pinned` int(11) NOT NULL DEFAULT '0',
-  `content_commentsclosed` int(1) NOT NULL DEFAULT '0'
+  `content_commentsclosed` int(1) NOT NULL DEFAULT '0',
+  `comments_moderated` int(1) NOT NULL DEFAULT '0'
 ) DEFAULT CHARSET=utf8mb4;
 ");
 	$sql->query("
@@ -175,8 +178,8 @@ ALTER TABLE `dd_content`
 ");
 	
 	$sql->query("
-INSERT INTO `dd_content` (`content_id`, `content_link`, `content_embedcode`, `content_description`, `content_summary`, `content_title`, `content_category`, `content_tags`, `content_permalink`, `content_shortlink`, `content_date`, `content_author`, `content_pinned`, `content_commentsclosed`) VALUES
-(NULL, '', '', 'Congratulations, you have successfully set up DiamondBlog, now get to bloggin\' by entering \"/console\" in your address bar. Feel free to delete this post anytime.', 'Congratulations, you have successfully set up DiamondBlog, now get to bloggin\' by entering \"/console\" in your address bar. Feel free to delete this post anytime.', 'My First DiamondBlog post!', 'Site News', '', 'my_first_diamondblog_post', '', NOW(), 1, 0, 0);
+INSERT INTO `dd_content` (`content_id`, `content_link`, `content_embedcode`, `content_description`, `content_summary`, `content_title`, `content_category`, `content_tags`, `content_permalink`, `content_shortlink`, `content_date`, `content_author`, `content_pinned`, `content_commentsclosed`, `comments_moderated`) VALUES
+(NULL, '', '', 'Congratulations, you have successfully set up DiamondBlog, now get to bloggin\' by entering \"/console\" in your address bar. Feel free to delete this post anytime.', 'Congratulations, you have successfully set up DiamondBlog, now get to bloggin\' by entering \"/console\" in your address bar. Feel free to delete this post anytime.', 'My First DiamondBlog post!', 'Site News', '', 'my_first_diamondblog_post', '', NOW(), 1, 0, 0, 0);
 
 ");
 
@@ -342,7 +345,9 @@ CREATE TABLE `dd_users` (
   `user_ismod` int(1) NOT NULL,
   `user_closedaccount` int(1) NOT NULL DEFAULT '0',
   `user_email` varchar(256) NOT NULL,
-  `user_datejoined` date NOT NULL
+  `user_datejoined` date NOT NULL,
+  `user_commentsnotify` int(1) NOT NULL DEFAULT '0',
+  `user_reportsnotify` int(1) NOT NULL DEFAULT '0'
 ) DEFAULT CHARSET=utf8mb4;
 ");
 	$sql->query("
@@ -354,8 +359,8 @@ ALTER TABLE `dd_users`
   MODIFY `user_id` int(255) NOT NULL AUTO_INCREMENT;
 ");
 	$sql->query("
-INSERT INTO `dd_users` (`user_id`, `user_username`, `user_realname`, `user_password`, `user_picture`, `user_description`, `user_subtext`, `user_location`, `user_isadmin`, `user_iscontributor`, `user_ismod`, `user_closedaccount`, `user_email`, `user_datejoined`) VALUES
-(NULL, 'admin', 'Admin', '".$password."', '', 'Just the default DiamondBlog account created during setup.', 'Just the default DiamondBlog account created during setup.', '', 1, 0, 0, 0, '".$adminemail."', NOW());
+INSERT INTO `dd_users` (`user_id`, `user_username`, `user_realname`, `user_password`, `user_picture`, `user_description`, `user_subtext`, `user_location`, `user_isadmin`, `user_iscontributor`, `user_ismod`, `user_closedaccount`, `user_email`, `user_datejoined`, `user_commentsnotify`, `user_reportsnotify`) VALUES
+(NULL, 'admin', 'Admin', '".$password."', '', 'Just the default DiamondBlog account created during setup.', 'Just the default DiamondBlog account created during setup.', '', 1, 0, 0, 0, '".$adminemail."', NOW(), '0', '0');
 ");
 	$sql->query("
 CREATE TABLE `dd_votes` (

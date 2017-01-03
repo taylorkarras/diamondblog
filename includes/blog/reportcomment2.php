@@ -46,9 +46,80 @@ pluginClass::hook( "captcha" );
                 echo json_encode($_SESSION['errors']);
                 exit;
 	}} else {
-$global->sqlquery("INSERT INTO `dd_reports` (`report_id`, `report_commentid`, `report_ip`, `report_name`, `report_email`, `report_text`) VALUES (NULL, '".$_SESSION['info']['comment_id']."', '".$_SERVER['REMOTE_ADDR']."', '".$_POST['rcname']."', '".$_POST['rcemailaddress']."', '".$_POST['rcmessage']."')");
+$reportid = $global->sqllastid("INSERT INTO `dd_reports` (`report_id`, `report_commentid`, `report_ip`, `report_name`, `report_email`, `report_text`) VALUES (NULL, '".$_SESSION['info']['comment_id']."', '".$_SERVER['REMOTE_ADDR']."', '".$_POST['rcname']."', '".$_POST['rcemailaddress']."', '".$_POST['rcmessage']."')");
 $global->sqlquery("UPDATE `dd_comments` SET `comment_reported` = '1' WHERE `comment_id` = '".$_SESSION['info']['comment_id']."'");
-        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+ 
+		$reports = $global->sqlquery("SELECT * FROM dd_users WHERE user_reportsnotify = '1'");
+		
+		if ($reports->num_rows > 0) {
+$reportinit = $global->sqlquery("SELECT * FROM dd_reports WHERE report_id = '".$reportid."'");
+$report = $reportinit->fetch_assoc();
+		$retrive = new DB_retrival;
+		
+		if ($check->ismailenabled() == true){
+	$mailinit = $global->sqlquery("SELECT * FROM dd_mail");
+	$mail = $mailinit->fetch_assoc();
+	
+$transport = Swift_SmtpTransport::newInstance($mail['mail_server'], 25)
+  ->setUsername($mail['mail_user'])
+  ->setPassword($mail['mail_password'])
+  ;
+} else {
+$transport = Swift_SendmailTransport::newInstance('/usr/sbin/sendmail -bs');
+}
+	    while($row = $reports->fetch_assoc()) {
+$message = Swift_Message::newInstance()->setCharset('iso-8859-2')
+
+  // Give the message a subject
+  ->setSubject(''.sitename('internal').' - New comment report by "'.$report['report_name'].'" ('.$report['report_ip'].')')
+
+  // Set the From address with an associative array
+  ->setFrom(array('no-reply@'.$_SERVER['HTTP_HOST'].'' => sitename('internal')))
+
+  // Set the To addresses with an associative array
+  ->setTo($retrive->email($row['user_id']))
+
+  // Give it a body
+  ->setBody('Hi '.$retrive->realname($row['user_id']).',
+	
+	The site has recieved a new comment report.
+	
+	The report information is below.
+	
+	Name: '.$report['report_name'].'
+	Email: '.$report['report_email'].'
+	IP: '.$report['report_ip'].'
+	
+	Go to https://'.$_SERVER['HTTP_HOST'].'/console/reports?reportid='.$reportid.' to view detailed information and to take action.
+	
+	This is an automatically generated message, do not respond to it.
+	
+	-'.sitename('internal').'')
+
+  // And optionally an alternative body
+  ->addPart('<p>Hi '.$retrive->realname($row['user_id']).',</p>
+	
+	<p>The site has recieved a new comment report.</p>
+	
+	<p>The report information is below.</p>
+	
+	<p>Name: '.$report['report_name'].'
+	<br />Email: '.$report['report_email'].'
+	<br />IP: '.$report['report_ip'].'</p>
+	
+	<p><a href="https://'.$_SERVER['HTTP_HOST'].'/console/reports?reportid='.$reportid.'" title="View Report", alt="View Report">Click here to view detailed information and to take action.</a></p>
+
+	<p>This is an automatically generated message, do not respond to it.</p>
+	
+	<p>-'.sitename('internal').'</p>', 'text/html');
+
+$mailer = Swift_Mailer::newInstance($transport);
+
+$mailer->send($message);
+		}
+}
+ 
+       		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			
 				$resp = array();
 				$resp['resp'] = true;

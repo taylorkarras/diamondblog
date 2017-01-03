@@ -1,7 +1,62 @@
 <?php
 $retrive = new DB_retrival;
 if ($retrive->isLoggedIn() == true){
-if (isset($_GET['reportid']))
+if (strpos($_SERVER['REQUEST_URI'], "approval")){
+echo consolemenu();
+echo "<div id='page'>";
+echo '<div class="center"><a href="/console/reports/" title="Reports" alt="Reports">Reports</a> | Comment Approval</div><br />';
+echo "<div class='center'>There are "; echo number_format($retrive->commentsawaitingapproval()); echo " comments awaiting approval.</div>";
+
+$global = new DB_global;
+
+		$ss1 = $global->sqlquery("SELECT * FROM dd_settings");
+		$ss2 = $ss1->fetch_assoc();
+
+$ppp = $ss2['postsperpage'];
+
+if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
+$start_from = ($page-1) * $ppp; 
+
+if ($page > '1'){
+define ("PAGE", ' (Page '.$_GET['page'].')');
+}
+
+$result = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_approved = '0' ORDER BY comment_id DESC LIMIT $start_from, $ppp;");
+$result2 = $global->sqlquery("SELECT COUNT(*) FROM dd_comments WHERE comment_approved = '0'");
+$row2 = $result2->fetch_row(); 
+$total_records = $row2[0];
+$total_pages = ceil($total_records / $ppp);
+	if ($page == '1'){
+	$count = $page;
+	}
+	else {
+	$count = $page + $start_from - $page + '1';
+	}
+echo '<div class="contentpostscroll">';
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+	echo '<div class="postbox">';
+	echo '<div class="postoptions">';
+	echo '<a href="/console/comments/approve?commentid='.$row['comment_id'].'" title="Approve" alt="Approve">Approve</a> | <a href="/console/comments/delete?commentid='.$row['comment_id'].'" title="Delete" alt="Delete">Delete</a>';
+	echo '</div>';
+	echo '<div class="postnumber">';
+	echo $count;
+	echo '</div>';
+	echo '<div class="postinfobox">';
+	echo '<div class="posttitle">';
+	echo $row['comment_username']; echo' ('.$row['comment_ip'].') ('.$row['comment_email'].')';
+	echo '</div>';
+	echo '<div class="postcategory">'.$row['comment_content'].'</div>';
+	echo '</div>';
+	echo '</div>';
+	$count++;
+	}
+}
+echo pagebar($page, $total_pages, $ppp, '5');
+		echo '</div>';
+}
+else if (isset($_GET['reportid']))
 {
 $global = new DB_global;
 $result = $global->sqlquery("SELECT * FROM dd_reports WHERE report_id = '".$_GET['reportid']."'");
@@ -46,6 +101,7 @@ echo '</div>';
 $_SESSION['referral_url']['comments'] = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 echo consolemenu();
 echo "<div id='page'>";
+echo '<div class="center">Reports | <a href="/console/reports/approval/" title="Comment Approval" alt="Comment Approval">Comment Approval</a></div><br />';
 echo "<div class='center'>There are "; echo number_format($retrive->numberofreports()); echo " reports on this blog.</div>";
 
 $global = new DB_global;

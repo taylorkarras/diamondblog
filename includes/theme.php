@@ -117,7 +117,7 @@ function themejs($script)
 echo '<script src="https://'.$_SERVER['HTTP_HOST'].'/themes/'.THEME.'/js/'.$script.'"></script>';
 }
 
-function sitename()
+function sitename($internal = NULL)
 {
 $global = new DB_global;
 if (defined('PREPEND')){
@@ -125,7 +125,11 @@ if (defined('PREPEND')){
 }
 $titleinit = $global->sqlquery("SELECT site_name FROM dd_settings LIMIT 1;");
 $title = $titleinit->fetch_assoc();
+if ($internal == 'internal'){
+return $title['site_name'];
+} else {
 echo $title['site_name'];
+}
 }
 
 function sitetitle()

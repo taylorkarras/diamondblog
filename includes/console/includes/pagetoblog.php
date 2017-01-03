@@ -58,7 +58,7 @@ unset($_SESSION["errors"]);
 		
 		if (empty($_POST['pagelink'])) {
 		
-		if (!empty($_POST['pageidtoedit'])){
+		if (!empty($_SESSION['editid']['page']) && $_SESSION['editid']['page'] !== 'new'){
 			$global->sqlquery("UPDATE `dd_pages` SET `page_link` = '".$link2."', `page_content` = '".$postcontent."', `page_contactform` = '".$cf."', `page_title` = '".$pagetitle."', `page_menu_pos` = '".$_POST['pagemenupos']."' WHERE `dd_pages`.`page_number` = '".$_POST['pageidtoedit']."'");
 						        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			
@@ -76,7 +76,7 @@ unset($_SESSION["errors"]);
 			
 				$resp = array();
 				$resp['resprefresh'] = true;
-				$resp['url'] = 'https://'.$_SERVER['HTTP_HOST'].'/console/settings/categoriesandpages/2';
+				$resp['url'] = 'https://vapourban.com/console/settings/categoriesandpages/2';
 				$resp['message'] = '
 	<p>Page created sucessfully.</p>';
 			
@@ -85,7 +85,7 @@ unset($_SESSION["errors"]);
 	}
 		}
 		} else {
-			if (!empty($_POST['pageidtoedit'])){
+			if (!empty($_SESSION['editid']['page']) && $_SESSION['editid']['page'] !== 'new'){
 			$global->sqlquery("UPDATE `dd_pages` SET `page_link` = '', `page_external_link` = '".$_POST['pagelink']."', `page_contactform` = '".$cf."', `page_content` = '', `page_title` = '".$pagetitle."', `page_is_link` = '1', `page_menu_pos` = '".$_POST['pagemenupos']."' WHERE `dd_pages`.`page_number` = '".$_POST['pageidtoedit']."'");
 			        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			
