@@ -148,7 +148,10 @@ echo "<script>    CKEDITOR.replace( 'comment', {
     { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
     { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
 ]
-});
+});";
+echo '$(';echo"'";echo'input[type="checkbox"]';echo"').change(function(){
+    this.value = (Number(this.checked));
+	});
 </script>";
 }
 } else {
