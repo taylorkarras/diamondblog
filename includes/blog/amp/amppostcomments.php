@@ -47,7 +47,7 @@ echo '<script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/diamondblog-func.js
 if ($check->ispagingdynamic()){	
 	$comments = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_approved = '1' AND comment_isreply = '0' AND comment_postid LIKE '".$_GET['postid']."' ORDER BY comment_date ASC LIMIT 0, $cpp");
 } else {
-	$comments = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_approved = '1' comment_isreply = '0' AND comment_postid LIKE '".$_GET['postid']."' ORDER BY comment_date ASC");
+	$comments = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_approved = '1' AND comment_isreply = '0' AND comment_postid LIKE '".$_GET['postid']."' ORDER BY comment_date ASC");
 }
 	$count = '1';
 echo '<div class="contentpostscroll">';
@@ -99,7 +99,7 @@ echo '<div class="contentpostscroll">';
 		if ($check->ispagingdynamic()){
 		$commentreplies = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_approved = '1' AND comment_isreply = '1' AND comment_replyto LIKE '".$rowcomments['comment_id']."' ORDER BY comment_date DESC LIMIT 0, 5;");
 		} else {
-		$commentreplies = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_approved = '1' comment_isreply = '1' AND comment_replyto LIKE '".$rowcomments['comment_id']."' ORDER BY comment_date DESC;");
+		$commentreplies = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_approved = '1' AND comment_isreply = '1' AND comment_replyto LIKE '".$rowcomments['comment_id']."' ORDER BY comment_date DESC;");
 		}
 		echo '<div class="commentreplies">';
 		echo '</div>';
