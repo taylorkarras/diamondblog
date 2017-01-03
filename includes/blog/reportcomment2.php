@@ -49,7 +49,7 @@ pluginClass::hook( "captcha" );
 $reportid = $global->sqllastid("INSERT INTO `dd_reports` (`report_id`, `report_commentid`, `report_ip`, `report_name`, `report_email`, `report_text`) VALUES (NULL, '".$_SESSION['info']['comment_id']."', '".$_SERVER['REMOTE_ADDR']."', '".$_POST['rcname']."', '".$_POST['rcemailaddress']."', '".$_POST['rcmessage']."')");
 $global->sqlquery("UPDATE `dd_comments` SET `comment_reported` = '1' WHERE `comment_id` = '".$_SESSION['info']['comment_id']."'");
  
-		$reports = $global->sqlquery("SELECT * FROM dd_users WHERE user_reportsnotify = '1'");
+		$reports = $global->sqlquery("SELECT * FROM dd_users WHERE user_reportsnotify = '1' AND user_closedaccount = '0'");
 		
 		if ($reports->num_rows > 0) {
 $reportinit = $global->sqlquery("SELECT * FROM dd_reports WHERE report_id = '".$reportid."'");
