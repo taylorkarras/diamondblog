@@ -51,7 +51,7 @@ $global->sqlquery("UPDATE dd_templates SET 404_message = '".$templates['notfound
 
 $global->sqlquery("TRUNCATE TABLE dd_content; ALTER TABLE dd_content AUTO_INCREMENT = 1;");
 foreach ($contents['content']['posts']['post'] as $item){
-$global->sqlquery("INSERT INTO `dd_content` (`content_id`, `content_link`, `content_embedcode`, `content_description`, `content_summary`, `content_title`, `content_category`, `content_tags`, `content_permalink`, `content_shortlink`, `content_date`, `content_author`, `content_pinned`, `content_commentsclosed`) VALUES (NULL, '".$item['contentlink']."', '".$item['contentembedcode']."', '".$item['contentdescription']."', '".$item['contentsummary']."', '".$item['contenttitle']."', '".$item['contentcategory']."', '".$item['contenttags']."', '".$item['contentpermalink']."', '".$item['contentshortlink']."', '".$item['contentdate']."', '".$item['contentauthor']."', '".$item['contentpinned']."', '".$item['contentcommentsclosed']."')");
+$global->sqlquery("INSERT INTO `dd_content` (`content_id`, `content_link`, `content_embedcode`, `content_description`, `content_summary`, `content_title`, `content_category`, `content_tags`, `content_permalink`, `content_shortlink`, `content_date`, `content_author`, `content_pinned`, `content_commentsclosed`, `comments_moderated`) VALUES (NULL, '".$item['contentlink']."', '".$item['contentembedcode']."', '".$item['contentdescription']."', '".$item['contentsummary']."', '".$item['contenttitle']."', '".$item['contentcategory']."', '".$item['contenttags']."', '".$item['contentpermalink']."', '".$item['contentshortlink']."', '".$item['contentdate']."', '".$item['contentauthor']."', '".$item['contentpinned']."', '".$item['contentcommentsclosed']."', '".$item['commentsmoderated']."')");
 }
 $global->sqlquery("TRUNCATE TABLE dd_pages; ALTER TABLE dd_pages AUTO_INCREMENT = 1;");
 foreach ($contents['content']['pages']['page'] as $item){
@@ -63,7 +63,7 @@ $global->sqlquery("INSERT INTO `dd_reports` (`report_id`, `report_commentid`, `r
 }
 $global->sqlquery("TRUNCATE TABLE dd_comments; ALTER TABLE dd_comments AUTO_INCREMENT = 1;");
 foreach ($contents['content']['comments']['comment'] as $item){
-$global->sqlquery("INSERT INTO `dd_comments` (`comment_id`, `comment_postid`, `comment_isreply`, `comment_replyto`, `comment_username`, `comment_email`, `comment_date`, `comment_content`, `comment_ip`, `comment_reported`, `comment_isfromadmin`, `comment_isfromcontributor`, `comment_userid`) VALUES (NULL, '".$item['commentpostid']."', '".$item['commentisreply']."', '".$item['commentreplyto']."', '".$item['commentusername']."', '".$item['commentemail']."', '".$item['commentdate']."', '".$item['commentcontent']."', '".$item['commentip']."', '".$item['commentreported']."', '".$item['commentisfromadmin']."', '".$item['commentisfromcontributor']."', '".$item['commentuserid']."')");
+$global->sqlquery("INSERT INTO `dd_comments` (`comment_id`, `comment_postid`, `comment_isreply`, `comment_replyto`, `comment_username`, `comment_email`, `comment_date`, `comment_content`, `comment_ip`, `comment_reported`, `comment_isfromadmin`, `comment_isfromcontributor`, `comment_userid`, `comment_approved`) VALUES (NULL, '".$item['commentpostid']."', '".$item['commentisreply']."', '".$item['commentreplyto']."', '".$item['commentusername']."', '".$item['commentemail']."', '".$item['commentdate']."', '".$item['commentcontent']."', '".$item['commentip']."', '".$item['commentreported']."', '".$item['commentisfromadmin']."', '".$item['commentisfromcontributor']."', '".$item['commentuserid']."', '".$item['commentapproved']."')");
 }
 $global->sqlquery("TRUNCATE TABLE dd_drafts; ALTER TABLE dd_drafts AUTO_INCREMENT = 1;");
 foreach ($contents['content']['drafts']['draft'] as $item){
@@ -74,7 +74,7 @@ $global->sqlquery("INSERT INTO `dd_drafts` (`draft_id`, `draft_link`, `draft_des
 
 $global->sqlquery("TRUNCATE TABLE dd_users; ALTER TABLE dd_users AUTO_INCREMENT = 1;");
 foreach ($contents['lists']['users']['user'] as $item){
-$global->sqlquery("INSERT INTO `dd_users` (`user_id`, `user_username`, `user_realname`, `user_password`, `user_picture`, `user_description`, `user_subtext`, `user_location`, `user_isadmin`, `user_iscontributor`, `user_ismod`, `user_closedaccount`, `user_email`, `user_datejoined`) VALUES (NULL, '".$item['username']."', '".$item['userrealname']."', '".$item['userpassword']."', '".$item['userpicture']."', '".$item['userdescription']."', '".$item['usersubtext']."', '".$item['userlocation']."', '".$item['userisadmin']."', '".$item['useriscontributor']."', '".$item['userismod']."', '".$item['userclosedaccount']."', '".$item['useremail']."', '".$item['userdatejoined']."')");
+$global->sqlquery("INSERT INTO `dd_users` (`user_id`, `user_username`, `user_realname`, `user_password`, `user_picture`, `user_description`, `user_subtext`, `user_location`, `user_isadmin`, `user_iscontributor`, `user_ismod`, `user_closedaccount`, `user_email`, `user_datejoined`, `user_commentsnotify`, `user_reportsnotify`) VALUES (NULL, '".$item['username']."', '".$item['userrealname']."', '".$item['userpassword']."', '".$item['userpicture']."', '".$item['userdescription']."', '".$item['usersubtext']."', '".$item['userlocation']."', '".$item['userisadmin']."', '".$item['useriscontributor']."', '".$item['userismod']."', '".$item['userclosedaccount']."', '".$item['useremail']."', '".$item['userdatejoined']."', '".$item['usercommentsnotify']."', '".$item['userreportsnotify']."')");
 }
 $global->sqlquery("TRUNCATE TABLE dd_votes; ALTER TABLE dd_votes AUTO_INCREMENT = 1;");
 foreach ($contents['lists']['votes']['vote'] as $item){
@@ -86,7 +86,7 @@ $global->sqlquery("INSERT INTO `dd_mailtree` (`mailtree_id`, `mailtree_name`, `m
 }
 $global->sqlquery("TRUNCATE TABLE dd_banlist; ALTER TABLE dd_banlist AUTO_INCREMENT = 1;");
 foreach ($contents['lists']['banlist']['item'] as $item){
-$global->sqlquery("INSERT INTO `dd_banlist` (`banlist_no`, `banlist_ip`, `banlist_name`, `banlist_email`, `banlist_duration`, `banlist_reason`) VALUES (NULL, '".$item['banlistip']."', '".$item['banlistname']."', '".$item['banlistemail']."', '".$item['banlistduration']."', '".$item['banlistreason']."')");
+$global->sqlquery("INSERT INTO `dd_banlist` (`banlist_no`, `banlist_ip`, `banlist_name`, `banlist_email`, `banlist_duration`, `banlist_reason`, `banlist_moderation`) VALUES (NULL, '".$item['banlistip']."', '".$item['banlistname']."', '".$item['banlistemail']."', '".$item['banlistduration']."', '".$item['banlistreason']."', '".$item['banlistmoderation']."')");
 }
 $global->sqlquery("TRUNCATE TABLE dd_tags; ALTER TABLE dd_tags AUTO_INCREMENT = 1;");
 foreach ($contents['lists']['tags']['tag'] as $item){
