@@ -102,6 +102,7 @@ echo '					<contentauthor>'.$row['content_author'].'</contentauthor>';
 echo '					<contenttitle>'.htmlentities($row['content_title'], ENT_XML1).'</contenttitle>';
 echo '					<contentpinned>'.$row['content_pinned'].'</contentpinned>';
 echo '					<contentdate>'.$row['content_date'].'</contentdate>';
+echo '					<commentsmoderated>'.$row['comments_moderated'].'</commentsmoderated>';
 echo '				</post>';
 }
 echo '		</posts>';
@@ -144,6 +145,7 @@ echo '				<commentreported>'.$row['comment_reported'].'</commentreported>';
 echo '				<commentisfromadmin>'.$row['comment_isfromadmin'].'</commentisfromadmin>';
 echo '				<commentisfromcontributor>'.$row['comment_isfromcontributor'].'</commentisfromcontributor>';
 echo '				<commentuserid>'.$row['comment_userid'].'</commentuserid>';
+echo '				<commentapproved>'.$row['comment_approved'].'</commentapproved>';
 echo '			</comment>';
 }
 echo '		</comments>';
@@ -214,6 +216,8 @@ echo '				<userismod>'.$row['user_ismod'].'</userismod>';
 echo '				<userclosedaccount>'.$row['user_closedaccount'].'</userclosedaccount>';
 echo '				<useremail>'.$row['user_email'].'</useremail>';
 echo '				<userdatejoined>'.$row['user_datejoined'].'</userdatejoined>';
+echo '				<usercommentsnotify>'.$row['user_commentsnotify'].'</usercommentsnotify>';
+echo '				<userreportsnotify>'.$row['user_reportsnotify'].'</userreportsnotify>';
 echo '			</user>';
 }
 echo '		</users>';
@@ -263,6 +267,7 @@ echo '				<banlistname>'.$row['banlist_name'].'</banlistname>';
 }
 echo '				<banlistduration>'.$row['banlist_duration'].'</banlistduration>';
 echo '				<banlistreason>'.htmlentities($row['banlist_reason'], ENT_XML1).'</banlistreason>';
+echo '				<banlistmoderation>'.$row['banlist_moderation'].'</banlistmoderation>';
 echo '			</item>';
 }
 echo '		</banlist>';
