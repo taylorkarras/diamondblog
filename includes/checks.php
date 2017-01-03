@@ -19,7 +19,7 @@ public function ifbanned() {
 	
 	$global = new DB_global;
 	
-	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_banlist` WHERE banlist_ip = '".$_SERVER['REMOTE_ADDR']."'");
+	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_banlist` WHERE banlist_ip = '".$_SERVER['REMOTE_ADDR']."' AND banlist_moderation = '0'");
 	$ipcheck2 = $ipcheck1->fetch_assoc();
 	
 	if ($ipcheck2['banlist_ip'] === $_SERVER['REMOTE_ADDR']) {
@@ -57,7 +57,7 @@ public function ifnamebanned($name) {
 	
 	$global = new DB_global;
 	
-	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_banlist` WHERE banlist_name = '".$name."'");
+	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_banlist` WHERE banlist_name = '".$name."' AND banlist_moderation = '0'");
 	$ipcheck2 = $ipcheck1->fetch_assoc();
 	
 	if (strtolower($ipcheck2['banlist_name']) === strtolower($name)) {
@@ -82,7 +82,7 @@ public function ifemailbanned($email) {
 	
 	$global = new DB_global;
 	
-	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_banlist` WHERE banlist_email = '".$email."'");
+	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_banlist` WHERE banlist_email = '".$email."' AND banlist_moderation = '0'");
 	$ipcheck2 = $ipcheck1->fetch_assoc();
 	
 	if (strtolower($ipcheck2['banlist_email']) === ($email)) {
