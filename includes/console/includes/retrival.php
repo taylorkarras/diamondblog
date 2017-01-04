@@ -10,6 +10,8 @@ $usercheck2 = $usercheck1->fetch_assoc();
         return true; // the user is loged in
     } else
     {
+		unset($_COOKIE['userID']);
+		unset($_COOKIE['username']);
         return false; // not logged in
     }
 }
