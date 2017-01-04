@@ -6,7 +6,7 @@ $global = new DB_global;
 if (isset($_COOKIE['userID']) && isset($_COOKIE['username'])){
 $usercheck1 = $global->sqlquery("SELECT * FROM dd_users WHERE user_id = '".$_COOKIE['userID']."';");
 $usercheck2 = $usercheck1->fetch_assoc();
-    if ($_COOKIE['userID'] == $usercheck2['user_id'] && $_COOKIE['username'] == $usercheck2['user_username']){
+    if ($_COOKIE['userID'] == $usercheck2['user_id'] && $_COOKIE['username'] == $usercheck2['user_username'] && $usercheck2['user_closedaccount'] == '0'){
         return true; // the user is loged in
     } else
     {
