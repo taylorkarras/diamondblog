@@ -22,7 +22,7 @@ public function ifbanned() {
 	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_banlist` WHERE banlist_ip = '".$_SERVER['REMOTE_ADDR']."' AND banlist_moderation = '0'");
 	$ipcheck2 = $ipcheck1->fetch_assoc();
 	
-	if ($ipcheck2['banlist_ip'] === $_SERVER['REMOTE_ADDR']) {
+	if ($ipcheck2['banlist_ip'] === $_SERVER['REMOTE_ADDR'] && !isset($_COOKIE['userID'])) {
 	define ('BANREASON', $ipcheck2['banlist_reason']);
 	define ('BANEXPIRATION', $ipcheck2['banlist_duration']);
 	return true;
@@ -36,7 +36,7 @@ public function ifmoderated() {
 	$ipcheck1 = $global->sqlquery("SELECT * FROM `dd_banlist` WHERE banlist_ip = '".$_SERVER['REMOTE_ADDR']."' AND banlist_moderation = '1'");
 	$ipcheck2 = $ipcheck1->fetch_assoc();
 	
-	if ($ipcheck2['banlist_ip'] === $_SERVER['REMOTE_ADDR']) {
+	if ($ipcheck2['banlist_ip'] === $_SERVER['REMOTE_ADDR'] && !isset($_COOKIE['userID'])) {
 	return true;
 	}
 }
@@ -278,10 +278,12 @@ $global = new DB_global;
 if (isset($_COOKIE['userID']) && isset($_COOKIE['username'])){
 $usercheck1 = $global->sqlquery("SELECT * FROM dd_users WHERE user_id = '".$_COOKIE['userID']."';");
 $usercheck2 = $usercheck1->fetch_assoc();
-    if ($_COOKIE['userID'] == $usercheck2['user_id'] && $_COOKIE['username'] == $usercheck2['user_username']){
+    if ($_COOKIE['userID'] == $usercheck2['user_id'] && $_COOKIE['username'] == $usercheck2['user_username'] && $usercheck2['user_closedaccount'] == '0'){
         return true; // the user is loged in
     } else
     {
+		unset($_COOKIE['userID']);
+		unset($_COOKIE['username']);
         return false; // not logged in
     }
 }
