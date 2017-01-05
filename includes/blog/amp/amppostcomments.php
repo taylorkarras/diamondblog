@@ -19,6 +19,7 @@ echo'<script src="https://'.$_SERVER['HTTP_HOST'].'/scripts/jquery-2.2.3.min.js"
 echo '
 <style>
 body {
+background-image: none !important;
 width: auto !important;
 background-color: transparent !important;
 }
