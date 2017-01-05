@@ -101,11 +101,6 @@ $global->sqlquery("UPDATE `dd_settings` SET `default_theme` = '".$_GET['theme'].
 		$hasError = true;
 	} else {
 		$sitename = $_POST['sitename'];
-	}
-	if(trim($_POST['sitetitle']) === '')  {
-		$_SESSION['errors']['sitetitle'] = "You cannot leave the site title field blank.";
-		$hasError = true;
-	} else {
 		$sitetitle = $_POST['sitetitle'];
 	}
 	if(trim($_POST['adminemail']) === '')  {
