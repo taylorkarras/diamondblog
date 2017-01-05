@@ -1,5 +1,5 @@
 <head>
-<title><?php sitename() ?>: <?php sitetitle() ?></title>
+<title><?php sitename();sitetitle('colon') ?></title>
 <?php essentialhead()?>
 <?php amp()?>
 <?php
