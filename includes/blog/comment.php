@@ -89,7 +89,7 @@ if (isset($_POST['postid'])){
 	
 	if ($_POST['commentreply'] !== '0' & $_POST['commentreplyto'] !== '0'){
 	
-	$comment_id = $global->sqllastid("INSERT INTO `dd_comments` (`comment_id`, `comment_`, `comment_isreply`, `comment_replyto`, `comment_username`, `comment_email`, `comment_date`, `comment_content`, `comment_ip`, `comment_reported`, `comment_isfromadmin`, `comment_isfromcontributor`, `comment_userid`, `comment_approved`) VALUES (NULL, '".$comment_post_id."', '".$_POST['commentreply']."', '".$_POST['commentreplyto']."', '".$commentname."', '".$commentemail."', CURRENT_TIMESTAMP, '".$commentcontent."', '".$commentip."', '', ".$commentstatus." '".$userid."', '".$approval."')");
+	$comment_id = $global->sqllastid("INSERT INTO `dd_comments` (`comment_id`, `comment_postid`, `comment_isreply`, `comment_replyto`, `comment_username`, `comment_email`, `comment_date`, `comment_content`, `comment_ip`, `comment_reported`, `comment_isfromadmin`, `comment_isfromcontributor`, `comment_userid`, `comment_approved`) VALUES (NULL, '".$comment_post_id."', '".$_POST['commentreply']."', '".$_POST['commentreplyto']."', '".$commentname."', '".$commentemail."', CURRENT_TIMESTAMP, '".$commentcontent."', '".$commentip."', '', ".$commentstatus." '".$userid."', '".$approval."')");
 	
 	} else {
 		
