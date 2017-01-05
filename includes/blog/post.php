@@ -241,7 +241,7 @@ echo '<div class="contentpostscroll">';
 			
 			if ($rowcomments['comment_reported'] == '1'){
 			echo ' - <b>Comment Reported</b> | ';}
-			else {
+			else if (!$check->isLoggedIn()) {
 			echo
 		' - <a href="/reportcomment?commentid='.$rowcomments['comment_id'].'" rel="nofollow" alt="Report Comment" title="Report Comment">Report</a> | ';
 		} echo '<a href="#postcomment" rel="nofollow" onclick="document.getElementById(';echo "'"; echo 'cr-v'; echo"'"; echo').value = 1; document.getElementById(';echo "'"; echo 'crt-id'; echo"'"; echo').value = '.$rowcomments['comment_id'].';document.getElementById('; echo "'";echo '#postcomment';echo "'"; echo').scrollIntoView();" alt="Reply" title="Reply to this comment.">Reply</a></div>';
@@ -291,9 +291,9 @@ echo '<div class="contentpostscroll">';
 			
 			if ($rowcommentreplies['comment_reported'] == '1'){
 			echo ' - <b>Comment Reported</b></div>';}
-			else {
+			else if (!$check->isLoggedIn()) {
 			echo
-		' - <a href="/reportcomment?id='.$rowcommentreplies['comment_id'].'&ip='.$_SERVER['REMOTE_ADDR'].'" alt="Report Comment" title="Report Comment">Report</a></div>';
+		' - <a href="/reportcomment?id='.$rowcommentreplies['comment_id'].'" alt="Report Comment" title="Report Comment">Report</a></div>';
 		}
 		}
 		echo '<div class="commentcontent2">'.$rowcommentreplies['comment_content'].'</div>';
