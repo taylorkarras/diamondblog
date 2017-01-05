@@ -254,8 +254,6 @@ echo '<div class="contentpostscroll">';
 		} else {
 		$commentreplies = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_approved = '1' AND comment_isreply = '1' AND comment_replyto LIKE '".$rowcomments['comment_id']."' ORDER BY comment_date DESC;");
 		}
-		echo '<div class="commentreplies">';
-		echo '</div>';
 	if ($commentreplies->num_rows > 0) {
 		echo '<div class="commentreplies">';
 		echo '<h2>Replies to this comment:</h2>';
