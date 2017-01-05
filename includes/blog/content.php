@@ -39,7 +39,7 @@ echo '<h2>Pinned</h2>';
 		echo '<div class="contentpost">'; echo $row['content_embedcode'];
 		echo '<br />';
 		echo $row['content_summary'];
-		if (strpos($row['content_summary'], "...") xor str_word_count($row['content_summary']) > 55){
+		if (strpos($row['content_summary'], "...") or str_word_count($row['content_summary']) > 55){
 		echo '<p><a class="readmore" href="'.$row['content_permalink'].'" title="';echo $row['content_title']; echo '" alt="';echo $row['content_title']; echo '">(read more)</a></p>';
 		}
 		echo '</div>';
@@ -77,7 +77,7 @@ if ($result->num_rows > 0) {
 		echo '<div class="contentpost">'; echo $row['content_embedcode'];
 		echo '<br />';
 				echo $row['content_summary'];
-		if (strpos($row['content_summary'], "...") xor str_word_count($row['content_summary']) > 55){
+		if (strpos($row['content_summary'], "...") or str_word_count($row['content_summary']) > 55){
 		echo '<p><a class="readmore" href="'.$row['content_permalink'].'" title="';echo $row['content_title']; echo '" alt="';echo $row['content_title']; echo '">(read more)</a></p>';
 		}
 		echo '</div>';
