@@ -235,7 +235,8 @@ echo '<div class="contentpostscroll">';
 		} else {
 		echo '<div class="commentname">'.$rowcomments['comment_username'].'</div>';
 		}
-		echo '<div class="commentdate">'.$rowcomments['comment_date'];
+		$commentdate=date_create($rowcomments['comment_date']);
+		echo '<div class="commentdate">'.date_format($commentdate, $postsperpage['date_format']." ".$postsperpage['time_format']);
 		if ($check->ifbanned()){
 		}else{
 			
@@ -243,8 +244,8 @@ echo '<div class="contentpostscroll">';
 			echo ' - <b>Comment Reported</b> | ';}
 			else if (!$check->isLoggedIn()) {
 			echo
-		' - <a href="/reportcomment?commentid='.$rowcomments['comment_id'].'" rel="nofollow" alt="Report Comment" title="Report Comment">Report</a> | ';
-		} echo '<a href="#postcomment" rel="nofollow" onclick="document.getElementById(';echo "'"; echo 'cr-v'; echo"'"; echo').value = 1; document.getElementById(';echo "'"; echo 'crt-id'; echo"'"; echo').value = '.$rowcomments['comment_id'].';document.getElementById('; echo "'";echo '#postcomment';echo "'"; echo').scrollIntoView();" alt="Reply" title="Reply to this comment.">Reply</a></div>';
+		' - <a href="/reportcomment?commentid='.$rowcomments['comment_id'].'" rel="nofollow" alt="Report Comment" title="Report Comment">Report</a> |';
+		} echo ' <a href="#postcomment" rel="nofollow" onclick="document.getElementById(';echo "'"; echo 'cr-v'; echo"'"; echo').value = 1; document.getElementById(';echo "'"; echo 'crt-id'; echo"'"; echo').value = '.$rowcomments['comment_id'].';document.getElementById('; echo "'";echo '#postcomment';echo "'"; echo').scrollIntoView();" alt="Reply" title="Reply to this comment.">Reply</a></div>';
 		}
 		echo '<div class="commentcontent2">'.$rowcomments['comment_content'].'</div>';
 		echo '</div>';
@@ -285,7 +286,8 @@ echo '<div class="contentpostscroll">';
 		} else {
 		echo '<div class="commentname">'.$rowcommentreplies['comment_username'].'</div>';
 		}
-		echo '<div class="commentdate">'.$rowcommentreplies['comment_date'];
+		$commentreplydate=date_create($rowcommentreplies['comment_date']);
+		echo '<div class="commentdate">'.date_format($commentreplydate, $postsperpage['date_format']." ".$postsperpage['time_format']);
 		if ($check->ifbanned()){
 		}else{
 			
