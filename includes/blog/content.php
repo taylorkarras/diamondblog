@@ -77,7 +77,7 @@ if ($result->num_rows > 0) {
 		echo '<div class="contentpost">'; echo $row['content_embedcode'];
 		echo '<br />';
 				echo $row['content_summary'];
-		if (strpos($row['content_summary'], "...") xor str_word_count($row['content_summary']) == 56){
+		if (strpos($row['content_summary'], "...") xor str_word_count($row['content_summary']) < 56){
 		echo '<p><a class="readmore" href="'.$row['content_permalink'].'" title="';echo $row['content_title']; echo '" alt="';echo $row['content_title']; echo '">(read more)</a></p>';
 		}
 		echo '</div>';
