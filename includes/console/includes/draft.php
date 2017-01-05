@@ -14,7 +14,7 @@ unset($_SESSION["errors"]);
 		$_SESSION['errors']['posttitle'] = "Please enter a post title.";
 		$hasError = true;	
 	} else {
-		$posttitle = $_POST['posttitle'];
+		$posttitle = $global->real_escape_string($_POST['posttitle']);
 		$GLOBALS['posttitle'] = $posttitle;
 	}
 	
