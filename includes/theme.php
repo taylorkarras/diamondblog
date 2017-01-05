@@ -132,12 +132,18 @@ echo $title['site_name'];
 }
 }
 
-function sitetitle()
+function sitetitle($colon = NULL)
 {
 $global = new DB_global;
 $titleinit = $global->sqlquery("SELECT site_title FROM dd_settings LIMIT 1;");
 $title = $titleinit->fetch_assoc();
+if (!empty($title['site_title'])){
+if (!empty($colon)){
+echo ': '.$title['site_title'];
+} else {
 echo $title['site_title'];
+}
+}
 }
 
 function dbsearchbar()
