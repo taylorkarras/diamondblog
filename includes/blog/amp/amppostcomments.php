@@ -33,6 +33,7 @@ font-family: "Arial" !important;
 float:initial !important;
 }
 </style>';
+echo file_get_contents("https://".$_SERVER['HTTP_HOST']."/themes/".THEME."/styles/ampfont.php");
 echo '</head>';
 	if (isset($_GET["page"])) { $page  = $_GET["page"];
 $link = str_replace('?page='.$_GET["page"], '', $link);	} else { $page=1; }; 
