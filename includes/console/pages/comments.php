@@ -73,7 +73,7 @@ if ($result->num_rows > 0) {
 	$commentcount = '1';
 	$replyresult = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_isreply = '1' AND comment_replyto LIKE '".$row['comment_id']."' ORDER BY comment_date DESC;");
 	if ($replyresult->num_rows > 0) {
-	echo '<div id="postcommentreplies">';
+	echo '<div class="postcommentreplies">';
 	echo '<h2>Replies to this comment:</h2>';
 	    while($rowreplies = $replyresult->fetch_assoc()) {
 		echo '<div class="postbox">';
@@ -100,6 +100,7 @@ if ($result->num_rows > 0) {
 	echo '</div>';
 	$commentcount++;
 	}
+	echo '</div>';
 	}
 	
 	$count++;
