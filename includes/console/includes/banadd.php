@@ -50,7 +50,7 @@ header("Location: /console/ban");
 			if (filter_var($_POST['addthree'], FILTER_VALIDATE_IP) or $user->valid_email($_POST['addthree'])){
 			$banname = '';
 			} else {
-			$banname = $_POST['addthree'];}
+			$banname = $global->real_escape_string($_POST['addthree']);}
 		}
 		}
 
