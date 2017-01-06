@@ -81,7 +81,7 @@ if (isset($_POST['postid'])){
 	
 	$commentip = $_SERVER['REMOTE_ADDR'];
 
-	if ($check->ifemailmoderated($commentemail) or $check->ifnamemoderated($commentname) or $check->ifmoderated() or $check->ifarticlemoderated($comment_post_id)){
+	if (isset($commentemail) && $check->ifemailmoderated($commentemail) or isset($commentname) && $check->ifnamemoderated($commentname) or $check->ifmoderated() or $check->ifarticlemoderated($comment_post_id)){
 	$approval = '0';
 	} else {
 	$approval = '1';
