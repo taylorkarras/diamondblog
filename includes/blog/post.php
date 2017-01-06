@@ -292,13 +292,13 @@ echo '<div class="contentpostscroll">';
 		}else{
 			
 			if ($rowcommentreplies['comment_reported'] == '1'){
-			echo ' - <b>Comment Reported</b></div>';}
+			echo ' - <b>Comment Reported</b>';}
 			else if (!$check->isLoggedIn()) {
 			echo
-		' - <a href="/reportcomment?id='.$rowcommentreplies['comment_id'].'" alt="Report Comment" title="Report Comment">Report</a></div>';
+		' - <a href="/reportcomment?id='.$rowcommentreplies['comment_id'].'" alt="Report Comment" title="Report Comment">Report</a>';
 		}
 		}
-		echo '<div class="commentcontent2">'.$rowcommentreplies['comment_content'].'</div>';
+		echo '</div><div class="commentcontent2">'.$rowcommentreplies['comment_content'].'</div>';
 		echo '</div>';
 			$replycount++;}
 			if ($check->ispagingdynamic() && $commentreplies->num_rows == 5){
