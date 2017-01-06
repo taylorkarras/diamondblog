@@ -14,11 +14,14 @@ echo '<div id="page"><div class="center">You are not authorized to perform this 
 	if (!empty($_GET["draftid"])){
 		$editpost1 = $global->sqlquery("SELECT * FROM dd_drafts WHERE draft_id = '".$_GET["draftid"]."';");
 		$editpost2 = $editpost1->fetch_assoc();
-		define ('POSTPEND', 'Edit Post: '.$editpost2['content_title']);
+		define ('POSTPEND', 'Edit Post: '.$editpost2['draft_title']);
 	}
 echo consolemenu();
 echo '<div id="page"><div class="center">';
-	if (empty($_GET["postid"])){
+if (!empty($_GET["draftid"])){
+echo 'Edit Draft';
+$_SESSION['editid']['post'] = 'new';
+} else if (empty($_GET["postid"])){
 echo 'Create New Post';
 $_SESSION['editid']['post'] = 'new';
 	} else 
