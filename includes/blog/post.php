@@ -251,9 +251,9 @@ echo '<div class="contentpostscroll">';
 		echo '</div>';
 		// Replies //
 		if ($check->ispagingdynamic()){
-		$commentreplies = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_approved = '1' AND comment_isreply = '1' AND comment_replyto LIKE '".$rowcomments['comment_id']."' ORDER BY comment_date DESC LIMIT 0, 5;");
+		$commentreplies = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_approved = '1' AND comment_isreply = '1' AND comment_replyto LIKE '".$rowcomments['comment_id']."' ORDER BY comment_date ASC LIMIT 0, 5;");
 		} else {
-		$commentreplies = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_approved = '1' AND comment_isreply = '1' AND comment_replyto LIKE '".$rowcomments['comment_id']."' ORDER BY comment_date DESC;");
+		$commentreplies = $global->sqlquery("SELECT * FROM dd_comments WHERE comment_approved = '1' AND comment_isreply = '1' AND comment_replyto LIKE '".$rowcomments['comment_id']."' ORDER BY comment_date ASC;");
 		}
 	if ($commentreplies->num_rows > 0) {
 		echo '<div class="commentreplies">';
