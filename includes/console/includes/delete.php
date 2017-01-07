@@ -19,14 +19,17 @@ $global = new DB_global;
 	}
 
 	if (!empty($_GET['postid'])){
-		$postid1 = $global->sqlquery("SELECT content_id FROM dd_content WHERE content_id = '".$_GET['postid']."' LIMIT 1");
+		$postid1 = $global->sqlquery("SELECT * FROM dd_content WHERE content_id = '".$_GET['postid']."' LIMIT 1");
 		$postid2 = $postid1->fetch_assoc();
 		if (is_null($postid2['content_id'])) {
 			header("Location: ".$_SERVER['HTTP_REFERER']);
-	} else {
+	} else if($retrive->restrictpermissionlevel('1') && $_COOKIE['userID'] == $postid2['content_author']){
 		$global->sqlquery("DELETE FROM `dd_content` WHERE `content_id` = '".$_GET['postid']."'");
 		$global->sqlquery("DELETE FROM `dd_comments` WHERE `comment_postid` = '".$_GET['postid']."'");
 		header("Location: /console/posts");
+	} else {
+ header("HTTP/1.0 403 Forbidden");
+ die();
 	}
 	}
 	
