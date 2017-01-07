@@ -16,7 +16,10 @@ echo '<div id="page"><div class="center">You are not authorized to perform this 
 		$editpost2 = $editpost1->fetch_assoc();
 		define ('POSTPEND', 'Edit Post: '.$editpost2['draft_title']);
 	}
+if ($retrive->restrictpermissionlevel('1') && $_COOKIE['userID'] !== $editpost2['content_author'] && !empty($_GET["postid"]) or $retrive->restrictpermissionlevel('1') && $_COOKIE['userID'] !== $editpost2['draft_author'] && !empty($_GET["draftid"])){
 echo consolemenu();
+echo '<div id="page"><div class="center">You are not authorized to perform this action!</div></div>';
+} else { echo consolemenu();
 echo '<div id="page"><div class="center">';
 if (!empty($_GET["draftid"])){
 echo 'Edit Draft';
@@ -203,7 +206,7 @@ $('input, button, select, textarea').prop('disabled', false);
       });
       return false;
   };
-</script>";}}else {
+</script>";}}}else {
 	header('Location: https://'.$_SERVER['HTTP_HOST'].'/console');
 }
 ?>
