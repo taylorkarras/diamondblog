@@ -35,10 +35,13 @@ echo consolemenu();
 echo '<div id="page"><div class="center">The article you want to delete does not exist or has already been deleted.
 <br /><br /><a href="javascript:history.back()" alt="Go back" title="Go back">Go back</a>
 </div></div>';
-	} else {
+	} else if ($retrive->restrictpermissionlevel('1') && $_COOKIE['userID'] == $post_title['content_author']){ 
 echo consolemenu();
 echo '<div id="page"><div class="center">Are you sure you want to delete <i>"'.$post_title['content_title'].'"</i>?
 <br /><br /><a href="/console/posts/deleteconfirm?postid='.$_GET['postid'].'" alt="Delete this page" title="Delete this page">Yes, I am sure.</a> | <a href="javascript:history.back()" alt="Do not delete this page" title="Do not delete this page">No, do not delete.</a></div></div>';
+	} else {
+	echo consolemenu();
+echo '<div id="page"><div class="center">You are not authorized to perform this action!</div></div>';
 	}
 }
 	}
