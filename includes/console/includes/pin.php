@@ -2,7 +2,7 @@
 $retrive = new DB_retrival;
 if ($retrive->isLoggedIn() == true){
 $global = new DB_global;
-	if (!$retrive->restrictpermissionlevel('2')){
+	if (!$retrive->restrictpermissionlevel('3')){
 
 $firstpincheck = $global->sqlquery("SELECT * FROM `dd_content` WHERE `content_pinned` = '1' AND `content_id` = '".$_GET['postid']."';");
 $firstpincheck2 = $firstpincheck->fetch_assoc();
