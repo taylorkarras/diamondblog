@@ -43,7 +43,7 @@ Q. Isn't this a bit like tumblr?
 A. Sort of, this is like an open source tumblr except better, faster, more reliable and less likely to eat up your data.
 
 Q. Where are the plugins?
-A. http://github.com/taylorkarras/diamondblog-plugins, anybody looking to create their own can feel free to do so and create their own git repository?
+A. http://github.com/tpkarras/diamondblog-plugins, anybody looking to create their own can feel free to do so and create their own git repository?
 
 Q. Did you truly test this on a 96MB server?
 A. Yes I did, it consumes almost 80% - 95% of the memory depending on which apps are loaded.
