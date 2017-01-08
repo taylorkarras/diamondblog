@@ -120,7 +120,6 @@ echo '
  if(preg_grep('/gif/', $image[0]) or preg_match('/gif/', $resultpostint['content_link'])){
 echo '<script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script>';
  }
-echo '<script async custom-element="amp-font" src="https://cdn.ampproject.org/v0/amp-font-0.1.js"></script>';
  if(preg_grep('/instagram/', $oembedvalues[1]) or preg_match('/instagram/', $resultpostint['content_link'])){
 echo '<script async custom-element="amp-instagram" src="https://cdn.ampproject.org/v0/amp-instagram-0.1.js"></script>';
  }
