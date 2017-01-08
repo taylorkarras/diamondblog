@@ -18,7 +18,7 @@ $threedots = '';
 		$hasError = true;	
 	} else {
 		$posttitle = $global->real_escape_string($_POST['posttitle']);
-		$GLOBALS['posttitle'] = $posttitle;
+		$GLOBALS['posttitle'] = $_POST['posttitle'];
 	}
 		$plarray1 = array(',', '$', '#', '\\', '/', '!', "'", '@', '(', ')', '[', ']', '+', '#', '%', '/', ':', '*', ';', '&', '=', '?', '~', ':', '.', '-', '"');
 		$permalink1 = str_replace($plarray1, '', $posttitle);
