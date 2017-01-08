@@ -14,7 +14,7 @@ $ampembedcode = $resultpostint['content_embedcode'];
 $ampdescription = $resultpostint['content_description'];
 $ampsearcharray = array();
 $ampreplacementarray = array();
-preg_match('/[^< *img*src *= *>"\']?(http[^"\']*)+(png|jpg|gif)/' , $resultpostint['content_description'], $image);
+preg_match('/[^< *img*src *= *>"\']?(http[^"\']*)+(png|jpg|jpeg|gif)/' , $resultpostint['content_description'], $image);
 if($resultpostint['content_permalink'] == $link[1]){
 echo '<!doctype html>
 <html amp lang="en">
@@ -116,26 +116,43 @@ ul.meta li {
 echo file_get_contents("https://".$_SERVER['HTTP_HOST']."/themes/".THEME."/styles/ampfont.php");
 echo '
   <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
-  <script async custom-element="amp-dynamic-css-classes" src="https://cdn.ampproject.org/v0/amp-dynamic-css-classes-0.1.js"></script>
-  <script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script>
-  <script async custom-element="amp-fit-text" src="https://cdn.ampproject.org/v0/amp-fit-text-0.1.js"></script>
-  <script async custom-element="amp-font" src="https://cdn.ampproject.org/v0/amp-font-0.1.js"></script>
-  <script async custom-element="amp-instagram" src="https://cdn.ampproject.org/v0/amp-instagram-0.1.js"></script>
-  <script async custom-element="amp-image-lightbox" src="https://cdn.ampproject.org/v0/amp-image-lightbox-0.1.js"></script>
-  <script async custom-element="amp-lightbox" src="https://cdn.ampproject.org/v0/amp-lightbox-0.1.js"></script>';
+  <script async custom-element="amp-dynamic-css-classes" src="https://cdn.ampproject.org/v0/amp-dynamic-css-classes-0.1.js"></script>';
+ if(preg_grep('/gif/', $image[0]) or preg_match('/gif/', $resultpostint['content_link'])){
+echo '<script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script>';
+ }
+echo '<script async custom-element="amp-font" src="https://cdn.ampproject.org/v0/amp-font-0.1.js"></script>';
+ if(preg_grep('/instagram/', $oembedvalues[1]) or preg_match('/instagram/', $resultpostint['content_link'])){
+echo '<script async custom-element="amp-instagram" src="https://cdn.ampproject.org/v0/amp-instagram-0.1.js"></script>';
+ }
  if(preg_grep('/reddit/', $oembedvalues[1]) or preg_match('/reddit/', $resultpostint['content_link'])){
 echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/v0/amp-reddit-0.1.js"></script>';
  }
- echo '<script async custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js"></script>
-  <script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js"></script>
-  <script async custom-element="amp-dailymotion" src="https://cdn.ampproject.org/v0/amp-dailymotion-0.1.js"></script>
-  <script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>
-	  <script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-0.1.js"></script>
-	  <script async custom-element="amp-vimeo" src="https://cdn.ampproject.org/v0/amp-vimeo-0.1.js"></script>
-	  <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
-	  <script async custom-element="amp-soundcloud" src="https://cdn.ampproject.org/v0/amp-soundcloud-0.1.js"></script>
-	<script async custom-element="amp-pinterest" src="https://cdn.ampproject.org/v0/amp-pinterest-0.1.js"></script>
-	<script async custom-element="amp-facebook" src="https://cdn.ampproject.org/v0/amp-facebook-0.1.js"></script>
+ if(preg_grep('/twitter/', $oembedvalues[1]) or preg_match('/twitter/', $resultpostint['content_link'])){
+ echo '<script async custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js"></script>';
+ }
+ if(preg_grep('/youtube/', $oembedvalues[1]) or preg_match('/youtube/', $resultpostint['content_link'])){
+echo '<script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js"></script>';
+ }
+ if(preg_grep('/dailymotion/', $oembedvalues[1]) or preg_match('/youtube/', $resultpostint['content_link'])){
+echo '<script async custom-element="amp-dailymotion" src="https://cdn.ampproject.org/v0/amp-dailymotion-0.1.js"></script>';
+ }
+echo '<script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>';
+ if(preg_grep('/vine/', $oembedvalues[1]) or preg_match('/vine/', $resultpostint['content_link'])){
+echo '<script async custom-element="amp-vine" src="https://cdn.ampproject.org/v0/amp-vine-0.1.js"></script>';
+ }
+ if(preg_grep('/vimeo/', $oembedvalues[1]) or preg_match('/vimeo/', $resultpostint['content_link'])){
+echo '<script async custom-element="amp-vimeo" src="https://cdn.ampproject.org/v0/amp-vimeo-0.1.js"></script>';
+ }
+ if(preg_grep('/soundcloud/', $oembedvalues[1]) or preg_match('/soundcloud/', $resultpostint['content_link'])){
+echo '<script async custom-element="amp-soundcloud" src="https://cdn.ampproject.org/v0/amp-soundcloud-0.1.js"></script>';
+ }
+ if(preg_grep('/pinterest/', $oembedvalues[1]) or preg_match('/pinterest/', $resultpostint['content_link'])){
+echo '<script async custom-element="amp-pinterest" src="https://cdn.ampproject.org/v0/amp-pinterest-0.1.js"></script>';
+ }
+ if(preg_grep('/facebook/', $oembedvalues[1]) or preg_match('/facebook/', $resultpostint['content_link'])){
+echo '<script async custom-element="amp-facebook" src="https://cdn.ampproject.org/v0/amp-facebook-0.1.js"></script>';
+ }
+ echo '
     <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
 </head>
@@ -327,7 +344,7 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
 		}
 		}
 		}
-		$patternimg = '/img.*? \s*(src="(.*?)")/';
+		$patternimg = '/img.*? \s*(src="(.*?(jpg|png|jpeg))")/';
 		if(preg_match_all($patternimg, $resultpostint['content_description'], $imgsrcvalues)){
 		foreach ($imgsrcvalues[2] as $value){
 		$value2 = str_replace ('"', '', $value);
@@ -338,6 +355,21 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
       height="'.$imgsize[1].'"
       layout="responsive"
       alt=""></amp-img>';
+		array_push($ampsearcharray, $imgregex);
+		array_push($ampreplacementarray, $imageamp);
+		}
+		}
+		$patterngif = '/img.*? \s*(src="(.*?(gif))")/';
+		if(preg_match_all($patterngif, $resultpostint['content_description'], $gifsrcvalues)){
+		foreach ($gifsrcvalues[2] as $value){
+		$value2 = str_replace ('"', '', $value);
+		$imgsize = getimagesize($value2);
+		$imgregex = '/<img.*? \s*(src="(.*'.preg_quote($value2, '/').')").*? \/>/';
+		$imageamp = '<amp-anim src="'.$value2.'"
+      width="'.$imgsize[0].'"
+      height="'.$imgsize[1].'"
+      layout="responsive"
+      alt=""></amp-anim>';
 		array_push($ampsearcharray, $imgregex);
 		array_push($ampreplacementarray, $imageamp);
 		}
@@ -407,14 +439,21 @@ echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/
   data-src="'.$resultpostint['content_link'].'">
 </amp-reddit>';
 					}}
-			else if (preg_match('/jpg/', $resultpostint['content_link']) or preg_match('/gif/', $resultpostint['content_link']) or preg_match('/png/', $resultpostint['content_link']) or preg_match('/gif/', $resultpostint['content_link'])){
+			else if (preg_match('/jpg/', $resultpostint['content_link']) or preg_match('/png/', $resultpostint['content_link'])){
 				$imgsize = getimagesize($resultpostint['content_link']);
 				echo '<amp-img src="'.$resultpostint['content_link'].'"
       width="'.$imgsize[0].'"
       height="'.$imgsize[1].'"
       layout="responsive"
       alt=""></amp-img>';
-			} else if(preg_match('/imgur/', $resultpostint['content_link']) or preg_match('/tumblr/', $resultpostint['content_link']) or preg_match('/mixcloud/', $resultpostint['content_link']) or preg_match('/audiomack/', $resultpostint['content_link']) or preg_match('/bandcamp/', $resultpostint['content_link'])){
+			} else if (preg_match('/gif/', $resultpostint['content_link'])){
+				$imgsize = getimagesize($resultpostint['content_link']);
+				echo '<amp-anim src="'.$resultpostint['content_link'].'"
+      width="'.$imgsize[0].'"
+      height="'.$imgsize[1].'"
+      layout="responsive"
+      alt=""></amp-anim>';
+		} else if(preg_match('/imgur/', $resultpostint['content_link']) or preg_match('/tumblr/', $resultpostint['content_link']) or preg_match('/mixcloud/', $resultpostint['content_link']) or preg_match('/audiomack/', $resultpostint['content_link']) or preg_match('/bandcamp/', $resultpostint['content_link'])){
 		echo '<div class="unsupported">This type of embed is unsupported on AMP pages (not by us), please visit the page on the regular website to see the embed.)</div>';
 		}
 		}
