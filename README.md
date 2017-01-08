@@ -9,14 +9,14 @@ What you'll need is...
 1. PHP (version 7.0 and greater).
 2. A web server like nginx configured for permalinking.
 3. MySQL (if you're doing a 96MB config, make sure it's running in a MyISAM format as that takes up less memory, otherwise what you have will work fine.)
-4. A mailing server like Sendmail to send the emails.
+4. A mailing server or Sendmail to send the emails.
 5. A bit of inginuiety.
 
 ##Installation
 
 There are two ways you can install, way one is through git in linux...
 
-> git clone https://github.com/taylorkarras/diamondblog.git
+> git clone https://github.com/tpkarras/diamondblog.git
 
 Or you can download the ZIP and install it in a root or sub directory of your web hosting server. Please note that if your web server is limited you can push Storage (FTP) and mail (SMTP) to external servers.
 
