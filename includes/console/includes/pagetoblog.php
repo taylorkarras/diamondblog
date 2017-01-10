@@ -56,7 +56,7 @@ unset($_SESSION["errors"]);
 		if (empty($_POST['pagelink'])) {
 		
 		if (!empty($_SESSION['editid']['page']) && $_SESSION['editid']['page'] !== 'new'){
-			$global->sqlquery("UPDATE `dd_pages` SET `page_link` = '".$link2."', `page_content` = '".$postcontent."', `page_contactform` = '".$cf."', `page_title` = '".$pagetitle."', `page_menu_pos` = '".$_POST['pagemenupos']."' WHERE `dd_pages`.`page_number` = '".$_POST['pageidtoedit']."'");
+			$global->sqlquery("UPDATE `dd_pages` SET `page_link` = '".$link2."', `page_content` = '".$postcontent."', `page_contactform` = '".$cf."', `page_title` = '".$pagetitle."', `page_menu_pos` = '".$_POST['pagemenupos']."' WHERE `dd_pages`.`page_number` = '".$_SESSION['editid']['page']."'");
 						        		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			
 				$resp = array();
