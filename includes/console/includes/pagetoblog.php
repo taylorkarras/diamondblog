@@ -34,9 +34,6 @@ unset($_SESSION["errors"]);
 		} else if (!empty($_POST['pageidtoedit']) && $contactform2['page_number'] !== $_POST['pageidtoedit']){
                 $_SESSION['errors']['contactform'] = "You can only have one contact form at a time.";
                 $hasError = true;
-		} else if ($contactform2['page_contactform'] == '1' && empty($_POST['pageidtoedit'])){
-		$_SESSION['errors']['contactform'] = "You can only have one contact form at a time.";
-		$hasError = true;
 		} else {
 			$cf = $_POST['contactform'];
 		}
