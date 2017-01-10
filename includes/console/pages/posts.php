@@ -48,7 +48,7 @@ if ($retrive->restrictpermissionlevel('2')){
 } else {
 $pin1 = $global->sqlquery("SELECT content_pinned FROM dd_content WHERE content_id = '".$row['content_id']."'");
 $pin2 = $pin1->fetch_assoc();
-if ($retrive->restrictpermissionlevel('1') && $row['content_author'] == $_COOKIE['userID']){
+if ($retrive->restrictpermissionlevel('1') && $row['content_author'] == $_COOKIE['userID'] xor !$retrive->restrictpermissionlevel('3')){
 if ($retrive->restrictpermissionlevel('3')){
 } else {
 if ($pin2['content_pinned'] == '0') {
@@ -88,7 +88,7 @@ if ($retrive->restrictpermissionlevel('2')){
 } else {
 $pin1 = $global->sqlquery("SELECT content_pinned FROM dd_content WHERE content_id = '".$row['content_id']."'");
 $pin2 = $pin1->fetch_assoc(); 
-if ($retrive->restrictpermissionlevel('1') && $row['content_author'] == $_COOKIE['userID']){
+if ($retrive->restrictpermissionlevel('1') && $row['content_author'] == $_COOKIE['userID'] xor !$retrive->restrictpermissionlevel('3')){
 	if ($retrive->restrictpermissionlevel('3')){
 } else {
 if ($pin2['content_pinned'] == '0') {
