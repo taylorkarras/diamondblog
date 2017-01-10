@@ -14,11 +14,12 @@ echo consolemenu();
 if (!empty($_GET["pageid"])){
 define ('POSTPEND', 'Edit Page: '.$editpage2['page_title']);
 echo '<div id="page"><div class="center">Edit Page';
+$_SESSION['editid']['page'] = $_GET["pageid"];
 } else {
 define ('POSTPEND', 'New Page');
+echo '<div id="page"><div class="center">Create New Page';
 $_SESSION['editid']['page'] = 'new';
 }
-echo '<div id="page"><div class="center">Create New Page';
 echo '<form id="page" method="post">
 <label title="pagetitle"><b>Page title:</b></label>
 <br /><input type="text" name="pagetitle"';
